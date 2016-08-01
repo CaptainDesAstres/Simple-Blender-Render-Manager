@@ -40,97 +40,62 @@ class Output:
 	
 	
 	def menu(self, log):
-		'''method to see output path and access edition menu'''
-		change = False
+		'''method to see and edit output path'''
 		log.menuIn('Output')
 		
 		while True:
-			
 			log.print()
-			
 			print('\n')
-			self.print()
 			
-			print('''\n\n        \033[4mMenu :\033[0m
-1- Edit path
-2- Edit patterns
-3- Switch overwrite mode
-4- Change backup limit (only in «backup» overwriting mode)
-0- Save And Quit
-
-''')
-			choice = input().strip().lower()
+			print('Work Path :\n'+self.path+'\n\n new path? (empty to keep current)')
 			
-			if choice in ['0', 'q', 'quit', 'cancel']:
-				log.menuOut()
-				return change
-			elif choice == '1':
-				# edit output path
-				change = (self.editPath(log) or change)
-			elif choice == '2':
-				# edit output pattern
-				change = (self.editPattern(log) or change)
-			elif choice == '3':
-				# switch overwriting mode
-				change = (self.switchOverwrite(log) or change)
-			elif choice == '4':
-				# edit backup limit
-				change = (self.editBackupLimit(log) or change)
-			else:
-				log.error('Unvalid menu index!', False)
-	
-	
-	
-	
-	
-	def editPath(self, log):
-		'''method to manually edit output path'''
-		log.menuIn('Edit Path')
-		
-		while True:
+			new = input().strip()
 			
-			log.print()
-			
-			#print current path and ask the new one
-			print('\nCurrent output path : '+self.path)
-			choice = input('\n\nwhat\'s the path to use ?(absolute path required, surround path by \' or " if it contains space)').strip()
-			if choice == '':
+			if path in [ '', '0', 'q' ]:
 				log.menuOut()
 				return False
-			
-			
-			# remove ' and/or "
-			if choice[0] in ['\'', '"'] and choice[-1] == choice[0]:
-				choice  = choice[1:len(choice)-1]
-			
-			# check it's absolute path
-			if choice[0] != '/':
-				log.error('The path must be absolute (begin by «/»)!')
-				continue
-			
-			# check path exist 
-			if not os.path.exists(choice):
-				log.error('This path correspond to nothing!')
-				continue
-			
-			# check path is a directory
-			if not os.path.isdir(choice):
-				log.error('This path don\'t correspond to a directory!')
-				continue
-			
-			# check path is writable
-			if not os.access(choice, os.W_OK):
-				log.error('You don\'t have the permission to write in this directory!')
-				continue
-			
-			if choice[-1] != '/':
-				choice += '/'
-			
-			# apply path settings and confirm
-			self.path = choice
-			log.write('Output path set to : '+self.path)
-			log.menuOut()
-			return True
+			elif self.set(new, log) :
+				log.menuOut()
+				return True
+	
+	
+	
+	
+	
+	def set(self, path, log):
+		'''method to edit output path'''
+		
+		# remove ' and/or "
+		if path[0] in ['\'', '"'] and path[-1] == path[0]:
+			path  = path[1:len(path)-1]
+		
+		# check if it's absolute path
+		if path[0] != '/':
+			log.error('The path must be absolute (begin by «/»)!')
+			return False
+		
+		# check path exist 
+		if not os.path.exists(path):
+			log.error('This path correspond to nothing!')
+			return False
+		
+		# check path is a directory
+		if not os.path.isdir(path):
+			log.error('This path don\'t correspond to a directory!')
+			return False
+		
+		# check path is writable
+		if not os.access(path, os.W_OK):
+			log.error('You don\'t have the permission to write in this directory!')
+			return False
+		
+		if path[-1] != '/':
+			path += '/'
+		
+		# apply path settings and confirm
+		self.path = path
+		log.write('Work path set to : '+self.path)
+		return True
 	
 	
 	
