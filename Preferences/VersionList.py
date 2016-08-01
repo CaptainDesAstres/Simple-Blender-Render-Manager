@@ -30,77 +30,32 @@ class Blender:
 	
 	
 	def menu(self, log, preferences):
-		'''method to see Blender version list and access edition menu'''
-		change = False
-		log.menuIn('Blender Version List')
+		'''method to see and change Blender path'''
+		log.menuIn('Blender path')
 		
-		while True:
-			# print log and Blender versions list
-			
-			log.print()
-			
-			self.print()
-			
-			print('''\n    \033[4mMenu :\033[0m
-1- Add version
-2- Auto add version
-3- Rename version
-4- Remove version
-5- Change Default Version
-0- Save And Quit
-
-''')
-			
-			
 		
-			#treat available actions
-			choice= input('menu?').strip().lower()
-			if choice in ['0', 'q', 'quit', 'cancel']:
-				log.menuOut()# quit preferences menu
-				return change
-			elif choice == '1':
-				change = (self.add(log) or change)
-			elif choice == '2':
-				change = (self.addAuto(log) or change)
-			elif choice == '3':
-				change = (self.rename(log, preferences) or change)
-			elif choice == '4':
-				change = (self.remove(log, preferences) or change)
-			elif choice == '5':
-				change = (self.chooseDefault(log) or change)
-			else:
-				log.error('Unknow request', False)
-	
-	
-	
-	
-	
-	def print(self, index = False, std = True, default = False):
-		'''a method to display the Blender version list'''
-		print('\n            \033[4mBlender Version List :\033[0m\n')
+		# print log and actual Blender path
 		
-		keys = list(self.list.keys())
-		keys.sort(key = str.lower)
+		log.print()
 		
-		if not std:
-			# don't display Standard Blender version if std is False
-			keys.remove('Standard Blender')
 		
-		if index:
-			for i, k in enumerate(keys):
-				print(str(i)+'- '+k+' :\n    '+self.list[k]+'\n')
+		print('\n            \033[4mBlender Path :\033[0m\n')
+		print(self.path)
+		
+		print('''new path? (empty to keep actual)''')
+		
+		
+		# treat given path
+		new = input('menu?').strip().lower()
+		if new == '':
+			log.menuOut() # quit preferences menu
+			return False
 		else:
-			for k in keys:
-				print(k+' :\n    '+self.list[k]+'\n')
-		
-		if default and index:
-			print(str(i+1)+'- [default] \n')
-			keys.append('[default]')
-		
-		if not index:
-			print('\n\nDefault version : '+self.default)
-		
-		return keys
+			# check the path and save it
+			self.set(new)
+			log.menuOut() # quit preferences menu
+			log.write('Blender path set to '+new+'.')
+			return True
 	
 	
 	
