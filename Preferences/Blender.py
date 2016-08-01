@@ -31,27 +31,20 @@ class Blender:
 		'''method to see and change Blender path'''
 		log.menuIn('Blender path')
 		
-		
-		# print log and actual Blender path
-		
-		log.print()
-		
-		
-		print('\n            \033[4mBlender Path :\033[0m\n')
-		print(self.path)
-		
-		print('''new path? (empty to keep actual)''')
-		
-		
-		# treat given path
-		new = input('menu?').strip()
-		if new in [ '', 'q', '0' ]:
-			log.menuOut() # quit preferences menu
-			return False
-		else:
-			# check the path and save it
-			log.menuOut() # quit preferences menu
-			return self.set(new, log)
+		while True:
+			# print log and actual Blender path
+			log.print()
+			print('\n            \033[4mBlender Path :\033[0m\n'+self.path+'\n\n')
+			
+			# treat given path
+			new = input('New path? (empty to keep current)').strip()
+			if new in [ '', 'q', '0' ]:
+				log.menuOut() # quit preferences menu
+				return False
+			elif self.set(new, log):
+				# check the path and save it
+				log.menuOut() # quit preferences menu
+				return True
 	
 	
 	
