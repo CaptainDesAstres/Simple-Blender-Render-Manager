@@ -14,7 +14,7 @@ class Blender:
 		if xml is None:
 			self.path = 'blender'
 		else:
-			self.path = xml.find('blender').get('path')
+			self.path = xml.get('path')
 	
 	
 	
