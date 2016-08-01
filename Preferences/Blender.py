@@ -44,7 +44,7 @@ class Blender:
 		
 		
 		# treat given path
-		new = input('menu?').strip().lower()
+		new = input('menu?').strip()
 		if new == '':
 			log.menuOut() # quit preferences menu
 			return False
