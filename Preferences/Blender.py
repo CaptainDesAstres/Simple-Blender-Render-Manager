@@ -1,9 +1,7 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
 '''module to manage list of all know version of Blender in the system'''
-import xml.etree.ElementTree as xmlMod
-import re, os
-from usefullFunctions import XML
+import os
 
 class Blender:
 	'''class dedicated to manage Blender path'''
