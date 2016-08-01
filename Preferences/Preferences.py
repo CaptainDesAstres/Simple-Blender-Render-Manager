@@ -23,9 +23,6 @@ class Preferences:
 		'''initialize preferences object with default value'''
 		
 		self.blender = Blender()
-		self.output = Output()
-		self.tiles = Tiles()
-		self.presets = PresetList()
 		self.port = 55814
 		self.archiveLimit = 1000
 		self.logLimit = 100
@@ -38,10 +35,6 @@ class Preferences:
 		'''initialize preferences object with values extracted from an xml object'''
 		
 		self.blender = Blender( xml.find('blender') )
-		self.output = Output( xml.find('output') )
-		self.tiles = Tiles(xml.find('tilesSet'))
-		self.presets = PresetList(xml.find('presetList'))
-		
 		self.port = int(xml.find('port').get('value'))
 		self.archiveLimit = int(xml.get('archive'))
 		self.logLimit = int(xml.get('log'))
@@ -64,15 +57,6 @@ class Preferences:
 			# export blender path
 			xml += self.blender.toXml()
 		
-		# export output path
-		xml+= self.output.toXml()
-		
-		# export tiles sizes
-		xml+= self.tiles.toXml()
-		
-		# export preset settings
-		xml+= self.presets.toXml(preset)
-		
 		xml+= '<port value="'+str(self.port)+'" />'
 		
 		xml += '</preferences>\n'
@@ -94,18 +78,15 @@ class Preferences:
 			
 			print('''\n    \033[4mPreferences Menu :\033[0m
 1- Blender Path
-2- Output Path
-3- Tiles
-4- Presets
-7- Change Log Limit
-8- Change Archive Size Limit
-9- Change Socket Port
+2- Change Log Limit
+3- Change Archive Size Limit
+4- Change Socket Port
 0- Save and quit
 
 ''')
 			
 			
-		
+			
 			#treat available actions
 			choice= input('menu?').strip().lower()
 			if choice in ['0', 'q', 'quit', 'cancel']:
@@ -113,15 +94,9 @@ class Preferences:
 				return
 			elif choice == '1':
 				change = self.blender.menu(log, self)
-			elif choice == '2':
-				change = self.output.menu(log)
-			elif choice == '3':
-				change = self.tiles.menu(log)
+			elif choice in ['3', '2']:
+				change = self.editLimit(log, choice == '2' )
 			elif choice == '4':
-				change = self.presets.menu(log, self.blender, tasks)
-			elif choice in ['8', '7']:
-				change = self.editLimit(log, choice == '7' )
-			elif choice == '9':
 				change = self.editPort(log)
 			else:
 				log.error('Unknow request!', False)
