@@ -1,13 +1,8 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
 '''module to manage preferences of the script'''
-import xml.etree.ElementTree as xmlMod
 from save import *
 from Preferences.Blender import *
-from Preferences.Output import *
-from Preferences.Tiles import *
-from Preferences.PresetList.PresetList import *
-import os
 
 class Preferences:
 	'''class dedicated to script preferences settings'''
