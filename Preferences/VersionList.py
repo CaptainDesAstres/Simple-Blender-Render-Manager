@@ -22,10 +22,8 @@ class Blender:
 	
 	def fromXml(self, xml):
 		'''initialize Blender version list with values extracted from an xml object'''
-		self.list = {}
-		for version in xml.findall('version'):
-			self.list[version.get('alias')] = version.get('path')
-		self.default = xml.get('default')
+		self.path = xml.find('blender').get('path')
+		
 	
 	
 	
