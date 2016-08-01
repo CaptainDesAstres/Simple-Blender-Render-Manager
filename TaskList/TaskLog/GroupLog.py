@@ -3,8 +3,6 @@
 '''module to manage task renderlayer group log'''
 import xml.etree.ElementTree as xmlMod
 from TaskList.TaskLog.FrameLog import *
-from Preferences.PresetList.Preset.Preset import *
-from Preferences.PresetList.Preset.Metapreset import *
 from usefullFunctions import XML
 import os
 

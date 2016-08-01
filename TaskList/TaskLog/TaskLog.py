@@ -3,8 +3,6 @@
 '''module to manage task running log'''
 import xml.etree.ElementTree as xmlMod
 from TaskList.TaskLog.GroupLog import *
-from Preferences.PresetList.Preset.Preset import *
-from Preferences.PresetList.Preset.Metapreset import *
 from usefullFunctions import XML
 
 

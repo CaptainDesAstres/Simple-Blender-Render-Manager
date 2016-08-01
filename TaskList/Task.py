@@ -5,7 +5,6 @@ import xml.etree.ElementTree as xmlMod
 import os, uuid, subprocess, shlex, time, datetime, threading
 from save import *
 from usefullFunctions import *
-from Preferences.PresetList.Preset.Preset import *
 from TaskList.FileInfo.FileInfo import *
 from TaskList.TaskLog.TaskLog import *
 
