@@ -5,7 +5,6 @@ import xml.etree.ElementTree as xmlMod
 import os, re
 from shutil import rmtree as rmdir
 from usefullFunctions import indexPrintList, XML
-from Preferences.PresetList.Preset.Metapreset import *
 
 class Output:
 	'''class to manage rendering output path'''

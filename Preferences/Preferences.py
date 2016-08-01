@@ -3,6 +3,7 @@
 '''module to manage preferences of the script'''
 from save import *
 from Preferences.Blender import *
+from Preferences.Output import *
 
 class Preferences:
 	'''class dedicated to script preferences settings'''
@@ -23,6 +24,7 @@ class Preferences:
 		'''initialize preferences object with default value'''
 		
 		self.blender = Blender()
+		self.output = Output()
 		self.port = 55814
 		self.archiveLimit = 1000
 		self.logLimit = 100
@@ -35,6 +37,7 @@ class Preferences:
 		'''initialize preferences object with values extracted from an xml object'''
 		
 		self.blender = Blender( xml.find('blender') )
+		self.output = Output( xml.find('output') )
 		self.port = int(xml.find('port').get('value'))
 		self.archiveLimit = int(xml.get('archive'))
 		self.logLimit = int(xml.get('log'))
@@ -56,6 +59,9 @@ class Preferences:
 		if preset:
 			# export blender path
 			xml += self.blender.toXml()
+		
+		# export output path
+		xml+= self.output.toXml()
 		
 		xml+= '<port value="'+str(self.port)+'" />'
 		
