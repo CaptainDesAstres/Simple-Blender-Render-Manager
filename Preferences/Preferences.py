@@ -83,10 +83,11 @@ class Preferences:
 			self.print()
 			
 			print('''\n    \033[4mPreferences Menu :\033[0m
-1- Blender Path
-2- Change Log Limit
-3- Change Archive Size Limit
-4- Change Socket Port
+1- Edit Blender Path
+2- Edit Work Path
+3- Edit Log Limit
+4- Edit Archive Size Limit
+5- Edit Socket Port
 0- Save and quit
 
 ''')
@@ -100,9 +101,11 @@ class Preferences:
 				return
 			elif choice == '1':
 				change = self.blender.menu(log, self)
-			elif choice in ['3', '2']:
-				change = self.editLimit(log, choice == '2' )
-			elif choice == '4':
+			elif choice == '2':
+				change = self.output.menu(log, self)
+			elif choice in ['3', '4']:
+				change = self.editLimit(log, choice == '3' )
+			elif choice == '5':
 				change = self.editPort(log)
 			else:
 				log.error('Unknow request!', False)
@@ -118,6 +121,8 @@ class Preferences:
 	
 	def print(self):
 		'''a method to display preferences settings'''
+		print('Blender Path : '+self.blender.path)
+		print('Work Path : '+self.output.path)
 		print('Socket Port : '+str(self.port))
 		print('Session Log Limit : '+str(self.logLimit))
 		print('Archive Limit : '+str(self.archiveLimit))
