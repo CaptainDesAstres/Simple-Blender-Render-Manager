@@ -1,35 +1,23 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
-'''module to manage rendering output path'''
+'''module to manage working path'''
 import xml.etree.ElementTree as xmlMod
 import os, re
 from shutil import rmtree as rmdir
 from usefullFunctions import indexPrintList, XML
 
 class Output:
-	'''class to manage rendering output path'''
+	'''class to manage working path'''
 	
 	
 	def __init__(self, xml= None):
 		'''initialize output path with default value or values extracted from an xml object'''
 		if xml is None:
-			self.defaultInit()
+			if not os.path.exists('/home/'+os.getlogin()+'/.BlenderRenderManager/render'):
+				os.mkdir('/home/'+os.getlogin()+'/.BlenderRenderManager/work')
+			self.path = '/home/'+os.getlogin()+'/.BlenderRenderManager/work/'
 		else:
 			self.fromXml(xml)
-	
-	
-	
-	
-	
-	def defaultInit(self):
-		'''initialize output path with default value'''
-		
-		if not os.path.exists('/home/'+os.getlogin()+'/.BlenderRenderManager/render'):
-			os.mkdir('/home/'+os.getlogin()+'/.BlenderRenderManager/render')
-		self.path = '/home/'+os.getlogin()+'/.BlenderRenderManager/render/'
-		self.pattern = 'N/S/M/V/L/F'
-		self.overwrite = False
-		self.backupLimit = 5
 	
 	
 	
