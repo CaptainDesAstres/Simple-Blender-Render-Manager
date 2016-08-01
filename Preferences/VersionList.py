@@ -5,7 +5,7 @@ import xml.etree.ElementTree as xmlMod
 import re, os
 from usefullFunctions import XML
 
-class VersionList:
+class Blender:
 	'''class dedicated to manage Blender path'''
 	
 	
