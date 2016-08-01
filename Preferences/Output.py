@@ -24,11 +24,8 @@ class Output:
 	
 	
 	def fromXml(self, xml):
-		'''initialize output path with values extracted from an xml object'''
+		'''initialize output path with value extracted from an xml object'''
 		self.path = xml.get('path')
-		self.pattern = xml.get('pattern')
-		self.overwrite = {'True':True, 'False':False}[xml.get('overwrite')]
-		self.backupLimit = int(xml.get('backup'))
 	
 	
 	
@@ -36,8 +33,7 @@ class Output:
 	
 	def toXml(self):
 		'''export output path into xml syntaxed string'''
-		return '<output path="'+XML.encode(self.path)+'" pattern="'+self.pattern\
-			+'" overwrite="'+str(self.overwrite)+'" backup="'+str(self.backupLimit)+'" />\n'
+		return '<output path="'+XML.encode(self.path)+'" />\n'
 	
 	
 	
