@@ -81,12 +81,12 @@ class Blender:
 			return False
 		
 		# check path is a file
-		if not os.path.isfile(choice):
+		if not os.path.isfile(path):
 			log.error('This path is not a file!')
 			return False
 		
 		# check path is executable
-		if not os.access(choice, os.X_OK):
+		if not os.access(path, os.X_OK):
 			log.error('This file is not executable or you don\'t have the permission to do it!')
 			return False
 		
