@@ -27,7 +27,7 @@ class Blender:
 	
 	
 	
-	def menu(self, log, preferences):
+	def menu(self, log):
 		'''method to see and change Blender path'''
 		log.menuIn('Blender path')
 		

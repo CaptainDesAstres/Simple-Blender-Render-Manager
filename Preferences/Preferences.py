@@ -100,9 +100,9 @@ class Preferences:
 				log.menuOut()# quit preferences menu
 				return
 			elif choice == '1':
-				change = self.blender.menu(log, self)
+				change = self.blender.menu(log)
 			elif choice == '2':
-				change = self.output.menu(log, self)
+				change = self.output.menu(log)
 			elif choice in ['3', '4']:
 				change = self.editLimit(log, choice == '3' )
 			elif choice == '5':
