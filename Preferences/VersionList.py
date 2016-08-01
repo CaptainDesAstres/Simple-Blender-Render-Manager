@@ -52,103 +52,47 @@ class Blender:
 			return False
 		else:
 			# check the path and save it
-			self.set(new)
 			log.menuOut() # quit preferences menu
-			log.write('Blender path set to '+new+'.')
+			return self.set(new)
+	
+	
+	
+	
+	
+	def set(self, path):
+		'''a method to check and set a Blender path'''
+		if path=='blender':
+			self.path = 'blender'
+			log.write('Blender path set to «blender».')
 			return True
-	
-	
-	
-	
-	
-	def add(self, log):
-		'''a method to add a Blender version to the list'''
-		log.menuIn('Add A Version')
 		
-		while True:
-			# print log 
-			
-			log.print()
-			
-			# get new version path
-			choice= input('\nPath of the new version?').strip()
-			
-			if choice == '':# quit
-				log.menuOut()
-				return False
-			
-			#remove quote mark and apostrophe in first and last character
-			if choice[0] in ['\'', '"'] and choice[-1] == choice[0]:
-				choice  = choice[1:len(choice)-1]
-			
-			# check that the path is absolute: begin by '/'
-			if choice[0] != '/':
-				log.error('The path must be absolute (begin by «/»)!')
-				continue
-			
-			# check path exist 
-			if not os.path.exists(choice):
-				log.error('This path correspond to nothing!')
-				continue
-			
-			# check path is a file
-			if not os.path.isfile(choice):
-				log.error('This path is not a file!')
-				continue
-			
-			# check path is executable
-			if not os.access(choice, os.X_OK):
-				log.error('This file is not executable or you don\'t have the permission to do it!')
-				continue
-			
-			# get blender version from blender path
-			path = choice
-			version = os.popen('"'+path+'" -b -P "'+os.path.realpath(__file__+'/..')+'/getter/getBlenderVersion.py" ').read()
-			version = re.search(r'<\?xml(.|\n)*</root>',version).group(0)
-			version = xmlMod.fromstring(version).find('version').get('version')
-			alias = 'Blender ('+version+')'
-			
-			# recommand an unused alias
-			if alias in self.list.keys():
-				i = 0
-				while alias+'('+str(i)+')' in self.list.keys():
-					i+=1
-				alias = alias+'('+str(i)+')'
-			
-			
-			# get user alias confirmation
-			log.menuIn('Choose An Alias')
-			while True:
-				# print log 
-				
-				log.print()
-				print('\n\n\033[4mRecommanded alias :\033[0m '+alias)
-				
-				# get alias
-				choice= input('\nPress enter to use recommanded alias or type wanted alias :').strip()
-				
-				if choice == '':
-					log.menuOut()
-					break
-				elif re.search(r'^([-a-zA-Z0-9]| |\(|\)|\.){1,}$', choice) is None:
-					log.error('alias can only contain alphanumeric (unaccented) characters, spaces, parentheses points and -')
-					continue
-				elif choice in self.list.keys():
-					log.error('Alias already use for another version!')
-					continue
-				elif len(choice) < 7:
-					log.error('Too small alias name (7 characters minimal)!')
-					continue
-				else:
-					alias = choice
-					log.menuOut()
-					break
-			
-			# add version
-			self.list[alias] = path
-			log.write('('+alias+' : '+path+') Blender version added to list')
-			log.menuOut()
-			return True
+		# remove quote mark and apostrophe in first and last character
+		if path[0] in ['\'', '"'] and path[-1] == path[0]:
+			path  = path[1:len(path)-1]
+		
+		# check that the path is absolute: begin by '/'
+		if path[0] != '/':
+			log.error('The path must be absolute (begin by «/»)!')
+			return False
+		
+		# check path exist 
+		if not os.path.exists(path):
+			log.error('This path correspond to nothing!')
+			return False
+		
+		# check path is a file
+		if not os.path.isfile(choice):
+			log.error('This path is not a file!')
+			return False
+		
+		# check path is executable
+		if not os.access(choice, os.X_OK):
+			log.error('This file is not executable or you don\'t have the permission to do it!')
+			return False
+		
+		self.path = path
+		log.write('Blender path set to «'+self.path+'».')
+		return True
 	
 	
 	
