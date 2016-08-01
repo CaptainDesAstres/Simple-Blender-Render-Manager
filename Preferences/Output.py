@@ -51,7 +51,7 @@ class Output:
 			
 			new = input().strip()
 			
-			if path in [ '', '0', 'q' ]:
+			if new in [ '', '0', 'q' ]:
 				log.menuOut()
 				return False
 			elif self.set(new, log) :
