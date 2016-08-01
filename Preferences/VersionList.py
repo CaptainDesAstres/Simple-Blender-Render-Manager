@@ -14,16 +14,7 @@ class Blender:
 		if xml is None:
 			self.path = 'blender'
 		else:
-			self.fromXml(xml)
-	
-	
-	
-	
-	
-	def fromXml(self, xml):
-		'''initialize Blender version list with values extracted from an xml object'''
-		self.path = xml.find('blender').get('path')
-		
+			self.path = xml.find('blender').get('path')
 	
 	
 	
