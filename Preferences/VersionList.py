@@ -32,14 +32,9 @@ class VersionList:
 	
 	
 	def toXml(self):
-		'''export Blender version list into xml syntaxed string'''
+		'''export Blender path into xml syntaxed string'''
 		
-		xml = '  <versionsList default ="'+self.default+'" >\n'
-		for k, v in self.list.items():
-			xml += '    <version alias="'+k+'" path="'+XML.encode(v)+'" />\n'
-		xml += '  </versionsList>\n'
-		
-		return xml
+		return '  <blender path="'+self.path+'" />\n'
 	
 	
 	
