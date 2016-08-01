@@ -3,7 +3,7 @@
 '''module to manage preferences of the script'''
 import xml.etree.ElementTree as xmlMod
 from save import *
-from Preferences.VersionList import *
+from Preferences.Blender import *
 from Preferences.Output import *
 from Preferences.Tiles import *
 from Preferences.PresetList.PresetList import *
@@ -27,7 +27,7 @@ class Preferences:
 	def defaultInit(self):
 		'''initialize preferences object with default value'''
 		
-		self.blenderVersion = VersionList()
+		self.blender = Blender()
 		self.output = Output()
 		self.tiles = Tiles()
 		self.presets = PresetList()
@@ -42,7 +42,7 @@ class Preferences:
 	def fromXml(self, xml):
 		'''initialize preferences object with values extracted from an xml object'''
 		
-		self.blenderVersion = VersionList( xml.find('versionsList') )
+		self.blender = Blender( xml.find('blender') )
 		self.output = Output( xml.find('output') )
 		self.tiles = Tiles(xml.find('tilesSet'))
 		self.presets = PresetList(xml.find('presetList'))
@@ -66,8 +66,8 @@ class Preferences:
 				+'" log="'+str(self.logLimit)+'" >\n'
 		
 		if preset:
-			# export blender version list
-			xml += self.blenderVersion.toXml()
+			# export blender path
+			xml += self.blender.toXml()
 		
 		# export output path
 		xml+= self.output.toXml()
@@ -98,7 +98,7 @@ class Preferences:
 			self.print()
 			
 			print('''\n    \033[4mPreferences Menu :\033[0m
-1- Blender versions
+1- Blender Path
 2- Output Path
 3- Tiles
 4- Presets
@@ -117,13 +117,13 @@ class Preferences:
 				log.menuOut()# quit preferences menu
 				return
 			elif choice == '1':
-				change = self.blenderVersion.menu(log, self)
+				change = self.blender.menu(log, self)
 			elif choice == '2':
 				change = self.output.menu(log)
 			elif choice == '3':
 				change = self.tiles.menu(log)
 			elif choice == '4':
-				change = self.presets.menu(log, self.blenderVersion, tasks)
+				change = self.presets.menu(log, self.blender, tasks)
 			elif choice in ['8', '7']:
 				change = self.editLimit(log, choice == '7' )
 			elif choice == '9':
