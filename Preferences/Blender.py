@@ -53,13 +53,13 @@ class Blender:
 		else:
 			# check the path and save it
 			log.menuOut() # quit preferences menu
-			return self.set(new)
+			return self.set(new, log)
 	
 	
 	
 	
 	
-	def set(self, path):
+	def set(self, path, log):
 		'''a method to check and set a Blender path'''
 		if path=='blender':
 			self.path = 'blender'
