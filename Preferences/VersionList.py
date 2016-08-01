@@ -6,26 +6,15 @@ import re, os
 from usefullFunctions import XML
 
 class VersionList:
-	'''class dedicated to Blender version managing'''
+	'''class dedicated to manage Blender path'''
 	
 	
 	def __init__(self, xml= None):
-		'''initialize Blender version list with default value or values extracted from an xml object'''
+		'''initialize Blender path on loading'''
 		if xml is None:
-			self.defaultInit()
+			self.path = 'blender'
 		else:
 			self.fromXml(xml)
-	
-	
-	
-	
-	
-	def defaultInit(self):
-		'''initialize Blender version list with default value'''
-		
-		self.list = {'Standard Blender':'blender'}
-		self.default = 'Standard Blender'
-		
 	
 	
 	
