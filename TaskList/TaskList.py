@@ -233,9 +233,9 @@ Quit : q or quit
 		'''A method to print the list of the pending task or archive task or selected task'''
 		Psize = 25
 		print('''
-\033[4mID |  File Name              |  Scene                  |  Preset                 |\033[0m''')
+\033[4mID |  File Name              |  Scene?                 |\033[0m''')
 		if page > 0:
-			print('▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|')
+			print('▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|')
 		
 		if archive:
 			selected = self.archive[page*Psize:(page+1)*Psize]
