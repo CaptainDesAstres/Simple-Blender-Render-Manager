@@ -63,7 +63,7 @@ class TaskLog:
 	
 	
 	
-	def menu(self, log, index):
+#	def menu(self, log, index):
 #		'''a method to display and browse into task rendering log'''
 #		log.menuIn('Rendering Log')
 #		while True:
@@ -145,3 +145,4 @@ class TaskLog:
 	
 	
 	
+
