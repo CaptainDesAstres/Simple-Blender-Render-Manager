@@ -8,10 +8,10 @@ from usefullFunctions import XML
 class SceneLog:
 	'''class to manage task scene log'''
 	
-	def __init__(self, xml = None):
+	def __init__(self, xml = None, scene = None, task = None):
 		'''initialize scene log object'''
 		if xml is None:
-			self.defaultInit()
+			self.defaultInit(scene, task)
 		else:
 			self.fromXml(xml)
 	
@@ -20,7 +20,7 @@ class SceneLog:
 	
 	
 	
-	def defaultInit():
+	def defaultInit(self, scene, task):
 		'''initialize Scene log'''
 		self.name
 		self.path
@@ -33,7 +33,7 @@ class SceneLog:
 	
 	
 	
-	def fromXml():
+	def fromXml(self):
 		'''initialize Scene log object with saved log'''
 		self.name
 		self.path
@@ -46,11 +46,11 @@ class SceneLog:
 	
 	
 	
-	def toXml():
+	def toXml(self):
 		'''export scene log into xml syntaxed string'''
 	
 	
-	def menu():
+	def menu(self):
 		'''see detail of the Scene rendering'''
 		
 	
@@ -58,42 +58,42 @@ class SceneLog:
 	
 	
 	
-	def print():
+	def print(self):
 		'''A method to print Scene log'''
 	
 	
 	
 	
 	
-	def runMenuPrint():
+	def runMenuPrint(self):
 		'''display rendering progress during run mode '''
 	
 	
 	
 	
 	
-	def average():
+	def average(self):
 		'''return frame average rendering time'''
 	
 	
 	
 	
 	
-	def remaining():
+	def remaining(self):
 		'''return the count of frames that don't have been rendered yet'''
 	
 	
 	
 	
 	
-	def confirmFrame():
+	def confirmFrame(self):
 		'''add frame rendering log confirmation to the scene'''
 	
 	
 	
 	
 	
-	def checkFrames():
+	def checkFrames(self):
 		'''check for each frame that have been claimed as rendered if there is really a file corresponding to it'''
 	
 	
