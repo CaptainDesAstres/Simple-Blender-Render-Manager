@@ -1,23 +1,14 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
 '''program for manage blender rendering task'''
-import time, os, sys
+import os, sys
 import xml.etree.ElementTree as xmlMod
 from log import *
 from save import *
 from Preferences.Preferences import *
 from TaskList.TaskList import *
+from usefullFunctions import now
 
-
-
-
-
-def now(short = True):
-	'''return short (HH:MM:SS) or long (DD.MM.AAAA-HH:MM:SS) formated current date strings'''
-	if short == True:
-		return time.strftime('%H:%M:%S')
-	else:
-		return time.strftime('%d.%m.%Y-%H:%M:%S')
 
 
 

@@ -1,5 +1,17 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
+import time
+
+
+
+def now(short = True):
+	'''return short (HH:MM:SS) or long (DD.MM.AAAA-HH:MM:SS) formated current date strings'''
+	if short == True:
+		return time.strftime('%H:%M:%S')
+	else:
+		return time.strftime('%d.%m.%Y-%H:%M:%S')
+
+
 
 def columnLimit(value, limit, begin = True, sep = '|'):
 	'''function to make sure to have a good column size'''
