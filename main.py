@@ -18,13 +18,15 @@ def now(short = True):
 		return time.strftime('%H:%M:%S')
 	else:
 		return time.strftime('%d.%m.%Y-%H:%M:%S')
+
+
+
+# init log string and get script path
 start = now(False)
-
-
-
-
 log = 'openning of Blender Render Manager\n'+start+' session\n'
 scriptPath = os.path.realpath(__file__+'/..')
+
+
 
 # check if configuration directorie exist, otherwise create it 
 if not os.path.exists('/home/'+os.getlogin()+'/.BlenderRenderManager/'):
