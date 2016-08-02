@@ -85,6 +85,7 @@ class SceneLog:
 	
 	def print(self):
 		'''A method to print Scene log'''
+		
 	
 	
 	
@@ -111,15 +112,15 @@ class SceneLog:
 	
 	
 	
-	def confirmFrame(self):
+	def confirmFrame(self, frame, date, computingTime):
 		'''add frame rendering log confirmation to the scene'''
-	
-	
-	
-	
-	
-	def checkFrames(self):
-		'''check for each frame that have been claimed as rendered if there is really a file corresponding to it'''
+		self.frames.append(
+							FrameLog(
+									frame = frame,
+									date = date,
+									computingTime = computingTime
+									) 
+							)
 	
 	
 	
