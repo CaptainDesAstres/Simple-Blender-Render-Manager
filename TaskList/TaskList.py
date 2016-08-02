@@ -332,10 +332,6 @@ Quit : q or quit
 			log.menuOut()
 			return False
 		
-		
-		# preset choice
-		preset = Task.presetChoice(log, preferences)
-		
 		if preset is None:
 			log.menuOut()
 			log.write('  No preset choose, abort')

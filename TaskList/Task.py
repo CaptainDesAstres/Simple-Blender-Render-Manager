@@ -299,28 +299,6 @@ action : ''').strip().lower()
 	
 	
 	
-	def presetChoice(log, preferences):
-		'''A method to choose a preset'''
-		# preset choice
-		log.menuIn('Preset Choice')
-		log.print()
-		print('\n\n        \033[4mPreset Choice :\033[0m\n\n')
-		confirm = input('Use «'+preferences.presets.default+'» default preset? (type anything else that y or yes to choose another one)')
-		
-		
-		if confirm in ['', 'y', 'yes']:
-			log.menuOut()
-			return '[default]'
-		else:
-			preset = preferences.presets.choose(log)
-			log.menuOut()
-			return preset
-	
-	
-	
-	
-	
-	
 	def editPreset(self, log, preferences):
 		'''A method to edit the preset used by the task'''
 		log.error('Warning : all change made to the preset will be effective for all task that use it…')
