@@ -236,10 +236,7 @@ action : ''').strip().lower()
 		print('\n\nStatus :        '+self.status)
 		print('Path :          '+self.path)
 		print('File Name :     '+self.path.split('/').pop())
-		print('Scene :         '+self.scene)
-		print('Preset :        '+self.preset+'\n')
-		print('\033[4mActive Renderlayer :\033[0m')
-		self.info.scenes[self.scene].printActiveRenderlayer()
+		print('Scene :         '+str(self.scene))
 		print('\n')
 	
 	
