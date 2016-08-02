@@ -90,24 +90,26 @@ if not os.path.exists(preferences.output.path):
 
 
 
-# check if log directorie exist, otherwise create it and create a log file anyway
+# check if log directorie exist, otherwise create it
 if not os.path.exists(os.getcwd()+'/log/'):
 	log += 'No log directorie, create it: fail'
 	os.mkdir(os.getcwd()+'/log')
 	log = log[:len(log)-4]+'done\n'
+
+# create a log file
 log = Log(start,log)
 
 
 
 # check task list file exist: create it if necessary and open it
-if not os.path.exists(os.getcwd()+'/Tasks'):
-	log.write('no task list file, create default file empty file : ', '')
+if not os.path.exists(preferences.output.path+'/Tasks'):
+	log.write('no task list file, create default empty file : ', '')
 	tasks = TaskList()
-	saveTasks(tasks)
+	saveTasks(preferences.output.path, tasks)
 	log.write('done')
 else:
 	log.write('get saved tasks list : ', '')
-	with open(os.getcwd()+'/Tasks','r') as tasksFile:
+	with open(preferences.output.path+'/Tasks','r') as tasksFile:
 		tasks = TaskList( xmlMod.fromstring( (tasksFile.read( ) ) ) )
 	log.write('done')
 

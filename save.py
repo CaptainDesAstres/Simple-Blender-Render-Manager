@@ -9,9 +9,9 @@ def savePreferences(s):
 	with open(os.getcwd()+'/preferences','w') as prefFile:
 		prefFile.write(s.toXml())
 
-def saveTasks(t):
+def saveTasks(output, t):
 	'''function that save Tasks List in xml file'''
-	with open(os.getcwd()+'/Tasks','w') as tasksFile:
+	with open(output+'/Tasks','w') as tasksFile:
 		tasksFile.write(t.toXml())
 
 def createLockFile(processInfo):
@@ -24,7 +24,7 @@ def eraseLockFile():
 	os.remove(os.getcwd()+'/lock')
 
 def checkLogLimit(limit):
-	'''a function tou limit the session log number'''
+	'''a function to limit the session log number'''
 	content = os.listdir(os.getcwd()+'/log/')
 	
 	if len(content) > limit:
