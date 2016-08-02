@@ -93,8 +93,8 @@ class TaskLog:
 	
 	
 	
-	def print(self, index = False):
-		'''A method to print task log'''
+#	def print(self, index = False):
+#		'''A method to print task log'''
 #		print('The task have '+str(len(self.groups))+' group(s):')
 #		ended, total = 0, 0
 #		for i, group in enumerate(self.groups):
