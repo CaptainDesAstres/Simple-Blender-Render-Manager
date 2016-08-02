@@ -77,9 +77,71 @@ class SceneLog:
 	
 	
 	
-	def menu(self):
+	def menu(self, log ):
 		'''see detail of the Scene rendering'''
+		log.menuIn('«'+self.name+'» scene details')
 		
+		page = 0
+		count = len(self.frames)
+		pageMax = round(count/self.pageSize)
+		if count - pageMax * self.pageSize <=0:
+			pageMax -= 1
+		
+		while True:
+			log.print()
+			
+			print('\n\n        «'+self.name+'» group details :\n')
+			self.print(page, path)
+			
+			choice = input('\n\nh for help').strip().lower()
+			
+			if choice in ['cancel', 'q', 'quit']:
+				log.menuOut()
+				return
+			elif choice in ['h', 'help']:
+				log.menuIn('Help')
+				input('''
++ and -          scroll to see more frame
+u and d          same
+up and down      same
+t and b          scroll to Top or Bottom of frame list
+a frame number   scroll to see the frame of this number
+q                quit group log
+press enter to continu''')
+				log.menuOut()
+				
+			elif choice in ['', '+', 'down', 'd']:
+				page += 1 
+				if page > pageMax:
+					if choice != '':
+						page = pageMax
+					else:
+						page = 0
+				
+			elif choice in ['-', 'up', 'u']:
+				page -= 1 
+				if page < 0:
+					page = 0
+				
+			elif choice in ['t', 'top']:
+				page = 0
+				
+			elif choice in ['b', 'bottom']:
+				page = pageMax
+				
+			else:
+				try:
+					choice = int(choice)
+				except:
+					log.error('Unvalid action «'+choice+'» !', False)
+					continue
+				
+				choice -= self.start
+				if choice < 0 :
+					choice = 0
+				elif choice > count:
+					choice = count
+				page = int(choice / self.pageSize)
 	
 	
 	
