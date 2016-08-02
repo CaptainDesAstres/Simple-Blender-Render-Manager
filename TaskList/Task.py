@@ -323,11 +323,7 @@ action : ''').strip().lower()
 			results += result[0].decode()+result[1].decode()+'\n\n\n'
 		except FileNotFoundError:
 			log.write('\033[31mTask n°'+str(index)+' : Blender call error! Try to verify the path of blender!\033[0m')
-		if taskList.runningMode in [taskList.UNTIL_GROUP_END,\
-									taskList.UNTIL_FRAME_END,\
-									taskList.STOP_NOW,\
-									taskList.STOP_FORCED]:
-			break
+		
 		self.eraseTaskScript(script)
 		
 		log.menuOut()
@@ -422,7 +418,7 @@ from TaskList.Task import *
 preferences = Preferences( xml = xmlMod.fromstring(''\''''+preferences.toXml(False)+'''''\') )
 task = Task( xml = xmlMod.fromstring(''\'<?xml version="1.0" encoding="UTF-8"?>\n'''+self.toXml()+'''''\'))
 
-RenderingTask(task, preferences)''''
+RenderingTask(task, preferences)'''
 		
 		path = scriptPath+'/TaskList/RenderingTask/TaskScripts/'+self.uid+'.py'
 		with open(path,'w') as taskScriptFile:
