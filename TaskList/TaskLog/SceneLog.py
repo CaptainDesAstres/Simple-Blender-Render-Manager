@@ -83,9 +83,8 @@ class SceneLog:
 	
 	
 	
-	def print(self):
+	def print(self, index = None):
 		'''A method to print Scene log'''
-		
 	
 	
 	
@@ -93,6 +92,18 @@ class SceneLog:
 	
 	def runMenuPrint(self):
 		'''display rendering progress during run mode '''
+		total = self.end - self.start + 1
+		
+		if index is not None:
+			index = str(index)+'-  '
+		else:
+			index = '╚═ '
+		
+		print(index+'«'+self.name+'» scene : '+str(len(self.frames))+'/'+str(total)\
+					+' frames, '+str(total - len(self.frames))\
+					+' remaining frames,\n     Average time by frame : '\
+					+str(self.average())\
+					)
 	
 	
 	
