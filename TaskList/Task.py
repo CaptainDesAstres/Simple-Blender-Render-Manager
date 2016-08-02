@@ -247,7 +247,8 @@ action : ''').strip().lower()
 		'''A method to get row to print task list'''
 		name = self.path.split('/').pop()
 		return columnLimit('  '+name, 25, 5)\
-				+columnLimit('  '+str(self.scene), 25, 5)
+				+columnLimit('  '+str(self.scene), 25, 5)\
+				+columnLimit('  '+self.status, 25, 5)
 	
 	
 	

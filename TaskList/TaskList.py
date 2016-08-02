@@ -233,7 +233,7 @@ Quit : q or quit
 		'''A method to print the list of the pending task or archive task or selected task'''
 		Psize = 25
 		print('''
-\033[4mID |  File Name              |  Rendering All Scene?   |\033[0m''')
+\033[4mID |  File Name              |  Rendering All Scene?   |  Status                 |\033[0m''')
 		if page > 0:
 			print('▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|')
 		
@@ -600,7 +600,7 @@ Press enter to continue
 				task.status = 'pause'
 				modified.append(i)
 			elif task.status == 'lock':
-				task.status = 'wait'
+				task.status = 'waiting'
 				modified.append(i)
 			else:
 				unmodified.append(i)
