@@ -312,7 +312,7 @@ Quit : q or quit
 		log.write('Try to add "'+path+'" task:')
 		
 		# try to open file and get infos
-		info = os.popen('('+preferences.blenderVersion.getDefaultPath()\
+		info = os.popen('('+preferences.blender.path\
 			+' -b "'+path+'" -P "'\
 			+os.path.realpath(__file__+'/..')+'/getter/getFileTaskInfos.py") || echo \'BlenderVersionError\' ').read()
 		
