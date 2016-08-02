@@ -243,53 +243,11 @@ action : ''').strip().lower()
 	
 	
 	
-	def renamePreset(self, old, new):
-		'''a method to rename used preset'''
-		if self.preset == old:
-			self.preset = new
-	
-	
-	
-	
-	
-	
-	def erasePreset(self, preset):
-		'''a method to stop using preset'''
-		if self.preset == preset:
-			self.preset = '[default]'
-	
-	
-	
-	
-	
 	def getRow(self):
 		'''A method to get row to print task list'''
 		name = self.path.split('/').pop()
 		return columnLimit('  '+name, 25, 5)\
 				+columnLimit('  '+self.scene, 25, 5)
-	
-	
-	
-	
-	
-	def editPreset(self, log, preferences):
-		'''A method to edit the preset used by the task'''
-		log.error('Warning : all change made to the preset will be effective for all task that use it…')
-		
-		if self.preset == '[default]' :
-			name = preferences.presets.default
-			preset = preferences.presets.presets[name]
-		else:
-			name = self.preset
-			preset = preferences.presets.presets[name]
-		
-		if type(preset) is Preset:
-			confirm = preset.menu(log, name, preferences.blenderVersion)
-		else:
-			confirm = preset.menu(log, name, preferences.presets)
-		
-		if confirm:
-			savePreferences(preferences)
 	
 	
 	
