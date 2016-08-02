@@ -84,6 +84,7 @@ class Task:
 		log.menuIn('Task n°'+str(index))
 		change = False
 		started = self.log is not None
+		
 		if started:
 			menu = '''
     Menu :
@@ -100,9 +101,6 @@ class Task:
 			menu = '''
     Menu :
 1- Change scene
-2- Change preset
-3- Edit preset
-4- Active/desactive Renderlayer
 5- Change list row
 6- Lock/Unlock task
 7- Erase task
