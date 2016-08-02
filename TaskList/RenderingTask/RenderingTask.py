@@ -33,7 +33,7 @@ def RenderingTask(task, preferences):
 	listen.start()
 	
 	try:
-		run(task, bpy, connexion)
+		run(task, bpy, connexion, preferences )
 	except Exception as e:
 		connexion.sendall( (task.uid+' debugMsg('+str(e)+') EOS').encode() )
 	
@@ -74,18 +74,19 @@ def socketListener(soc, task):
 
 
 
-def run(task, bpy, socket):
+def run(task, bpy, socket, preferences ):
 	'''Function to manage task rendering'''
 		scene = bpy.context.screen.scene
+		fileName = task.path.split('/').pop().split('.')
+		fileName.pop()
+		fileName = fileName.join('.')
 		
 		while scene.frame_current <= scene.frame_end \
 					and task.running != 'until next frame':
 			
 			start = time.time()
 			
-			scene.render.filepath = task.log.getMainPath()\
-									+logGroup.subpath\
-									+(logGroup.naming.replace('####', str(scene.frame_current)))
+			scene.render.filepath = preferences.output.path+'render/'+fileName+'/'+scene.name+'/####'
 			bpy.ops.render.render( write_still=True )
 			
 			endDate = datetime.datetime.today()
