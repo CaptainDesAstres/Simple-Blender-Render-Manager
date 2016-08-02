@@ -408,37 +408,29 @@ action : ''').strip().lower()
 	
 	
 	
-	def createTaskScript(self, scriptPath, preferences, versions, preset):
-		'''create a script for each blender versions to run tfhe task'''
+	def createTaskScript(self, scriptPath, preferences):
+		'''create a script for each blender versions to run the task'''
 		
-		start = '''#!/usr/bin/python3.4
+		script = '''#!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
 ''\'module to manage metapreset''\'
 import sys
 sys.path.append("'''+scriptPath+'''")
 import xml.etree.ElementTree as xmlMod
 from Preferences.Preferences import *
-from Preferences.PresetList.Preset.Preset import *
-from Preferences.PresetList.Preset.Metapreset import *
 from TaskList.RenderingTask.RenderingTask import *
 from TaskList.Task import *
 
 preferences = Preferences( xml = xmlMod.fromstring(''\''''+preferences.toXml(False)+'''''\') )
 task = Task( xml = xmlMod.fromstring(''\'<?xml version="1.0" encoding="UTF-8"?>\n'''+self.toXml()+'''''\'))
-'''
+
+RenderingTask(task, preferences)''''
 		
-		end = '\nRenderingTask(task, preferences, groups)'
+		path = scriptPath+'/TaskList/RenderingTask/TaskScripts/'+self.uid+'.py'
+		with open(path,'w') as taskScriptFile:
+			taskScriptFile.write( script )
 		
-		paths = {}
-		for v, g in versions.items():
-			script = start\
-					+'groups = ["'+('", "'.join(g) )+'"]\n'\
-					+end
-			paths[v] = scriptPath+'/TaskList/RenderingTask/TaskScripts/'+self.uid+'-'+v+'.py'
-			with open(paths[v],'w') as taskScriptFile:
-				taskScriptFile.write( script )
-		
-		return paths
+		return path
 	
 	
 	
