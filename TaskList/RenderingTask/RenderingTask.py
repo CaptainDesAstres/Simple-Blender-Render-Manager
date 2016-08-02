@@ -74,8 +74,7 @@ def socketListener(soc, task):
 
 
 
-def run(self, task, bpy,\
-			 preferences, logGroup, socket):
+def run(task, bpy, socket):
 	'''Function to manage task rendering'''
 		scene = bpy.context.screen.scene
 		
