@@ -10,7 +10,11 @@ class SceneLog:
 	
 	def __init__(self, xml = None):
 		'''initialize scene log object'''
-		
+		if xml is None:
+			self.defaultInit()
+		else:
+			self.fromXml(xml)
+	
 	
 	
 	
