@@ -496,7 +496,7 @@ Press enter to continue
 		elif row >= len(selection) + len(self.tasks):
 			self.tasks += selection
 			log.write('Task n°«'+','.join(str(x) for x in selected)+'» moved on bottom of the list')
-			selected = list(range(len(self.tasks)-len(selected)-1 , len(self.tasks)))
+			selected = list(range(len(self.tasks)-len(selected) , len(self.tasks)))
 		else:
 			self.tasks = self.tasks[0:row]+selection+self.tasks[row:]
 			log.write('Task n°«'+','.join(str(x) for x in selected)+'» moved on row '+str(row)+' of the list')
