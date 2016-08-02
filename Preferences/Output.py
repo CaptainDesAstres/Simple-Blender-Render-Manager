@@ -4,6 +4,7 @@
 import xml.etree.ElementTree as xmlMod
 import os, re
 from shutil import rmtree as rmdir
+from shutil import move as movedir
 from usefullFunctions import indexPrintList, XML
 
 class Output:
@@ -93,8 +94,18 @@ class Output:
 			path += '/'
 		
 		# apply path settings and confirm
+		old = self.path
 		self.path = path
 		log.write('Work path set to : '+self.path)
+		
+		confirm = input('move old working directorie contert into the new one? (empty or y to confirm)').strip()
+		if confirm in [ '', 'y' ]:
+			for f in os.listdir(old):
+				movedir(old+f, path)
+			log.write('«'+old+'» content have been moved to «'+self.path+'»')
+		else:
+			log.write('«'+old+'» content haven\'t been moved!')
+		
 		return True
 	
 	
