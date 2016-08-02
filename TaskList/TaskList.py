@@ -327,24 +327,19 @@ Quit : q or quit
 		info = FileInfo(info)
 		
 		# scene choice
-		scenes = info.sceneChoice(log)
-		if scenes is None:
+		scene = info.sceneChoice(log)
+		if scene is None:
 			log.menuOut()
 			return False
 		
 		
-		# add the task(s)
-		for scene in scenes:
-			self.tasks.append( Task(
-								path = path,
-								scene = scene,
-								preset = preset,
-								fileInfo = info
-								) )
-		if len(scenes) == 1:
-			log.write('  Task added')
-		else:
-			log.write('  '+str(len(scenes))+' tasks added')
+		# add the task
+		self.tasks.append( Task(
+							path = path,
+							scene = scene,
+							fileInfo = info
+							) )
+		log.write('  Task added')
 		
 		log.menuOut()
 		return True
