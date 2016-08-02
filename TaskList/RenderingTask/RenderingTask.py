@@ -3,11 +3,11 @@ import bpy, sys, os, socket, time, threading
 sys.path.append(os.path.abspath(sys.argv[4]+'/../../../..'))
 from Preferences.PresetList.Preset.Preset import *
 
-def RenderingTask(task, preferences, groups):
+def RenderingTask(task, preferences):
 	task.running = True
 	
-	scene = bpy.data.scenes[task.scene]
-	bpy.context.screen.scene = scene
+	#scene = bpy.data.scenes[task.scene]
+	#bpy.context.screen.scene = scene
 	
 	scene.render.use_stamp_time = True
 	scene.render.use_stamp_date = True
