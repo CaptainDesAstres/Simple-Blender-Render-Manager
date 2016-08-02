@@ -300,37 +300,35 @@ action : ''').strip().lower()
 					else:
 						versions[group.preset.engine.version] = [group.name]
 		
-		scripts = self.createTaskScript(scriptPath, preferences, versions, metapreset)
+		script = self.createTaskScript(scriptPath, preferences)
 		
 		results = ''
-		for version in versions.keys():
-			try:
-				l = threading.Thread(target = self.socketAcceptClient,
-									args=(taskList, index, log))
-				l.start()
-				taskList.listenerThreads.append(l)
-				
-				sub = subprocess.Popen(\
-							shlex.split(\
-								preferences.blenderVersion.getVersionPath(version)\
-								+' -b "'+self.path+'" -P "'\
-								+scripts[version]+'"'),\
-							stdout = subprocess.PIPE,\
-							stdin = subprocess.PIPE,\
-							stderr = subprocess.PIPE)
-				taskList.renderingSubprocess.append(sub)
-				
-				result = sub.communicate()
-				taskList.renderingSubprocess.remove(sub)
-				results += result[0].decode()+result[1].decode()+'\n\n\n'
-			except FileNotFoundError:
-				log.write('\033[31mTask n°'+str(index)+' : Blender version call error! Try to verify the path of «'+version+'» blender version!\033[0m')
-			if taskList.runningMode in [taskList.UNTIL_GROUP_END,\
-										taskList.UNTIL_FRAME_END,\
-										taskList.STOP_NOW,\
-										taskList.STOP_FORCED]:
-				break
-		self.eraseTaskScript(scripts)
+		try:
+			l = threading.Thread(target = self.socketAcceptClient,
+								args=(taskList, index, log))
+			l.start()
+			taskList.listenerThreads.append(l)
+			
+			sub = subprocess.Popen(\
+						shlex.split(\
+							preferences.blender.path+' -b "'+self.path+'" -P "'\
+							+script+'"'),\
+						stdout = subprocess.PIPE,\
+						stdin = subprocess.PIPE,\
+						stderr = subprocess.PIPE)
+			taskList.renderingSubprocess.append(sub)
+			
+			result = sub.communicate()
+			taskList.renderingSubprocess.remove(sub)
+			results += result[0].decode()+result[1].decode()+'\n\n\n'
+		except FileNotFoundError:
+			log.write('\033[31mTask n°'+str(index)+' : Blender call error! Try to verify the path of blender!\033[0m')
+		if taskList.runningMode in [taskList.UNTIL_GROUP_END,\
+									taskList.UNTIL_FRAME_END,\
+									taskList.STOP_NOW,\
+									taskList.STOP_FORCED]:
+			break
+		self.eraseTaskScript(script)
 		
 		log.menuOut()
 		return True
@@ -436,11 +434,10 @@ RenderingTask(task, preferences)''''
 	
 	
 	
-	def eraseTaskScript(self, scripts):
+	def eraseTaskScript(self, path):
 		'''erase Task Script files'''
 		
-		for path in scripts.values():
-			os.remove(path)
+		os.remove(path)
 	
 	
 	
