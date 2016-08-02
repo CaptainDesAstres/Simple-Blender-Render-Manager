@@ -112,7 +112,7 @@ class TaskList:
 				preferences.menu(log, self)
 			elif choice in ['r', 'run']:
 				self.run(scriptPath, log, preferences)
-				saveTasks(self)
+				saveTasks(preferences.output.path, self)
 			elif choice in ['a', 'add', '+']:
 				if (self.add(log, preferences)):
 					saveTasks(preferences.output.path, self)
@@ -126,7 +126,7 @@ class TaskList:
 					page -= 1
 			elif choice in ['b', 'batch']:
 				if(self.batchEdit(log, preferences)):
-					self.save()
+					self.save(preferences.output.path)
 			elif choice in ['l', 'log']:
 				self.menuArchive(log)
 			elif choice in ['h', 'help']:
@@ -164,7 +164,7 @@ Quit : q or quit
 					continue
 				
 				if(self.tasks[choice].menu(log, choice, self, preferences)):
-					self.save()
+					self.save(preferences.output.path)
 	
 	
 	
@@ -223,7 +223,7 @@ Quit : q or quit
 					continue
 				
 				if(self.archive[choice].menuArchive(log, choice, self)):
-					self.save()
+					self.save(preferences.output.path)
 	
 	
 	
@@ -369,9 +369,9 @@ Quit : q or quit
 	
 	
 	
-	def save(self):
+	def save(self, preferences.output.path):
 		'''A method to save Tasks list'''
-		saveTasks(self)
+		saveTasks(preferences.output.path, self)
 		
 	
 	
@@ -938,13 +938,13 @@ What do you want to do? (type h for help)'''
 		for task in self.archive:
 			if task.uid == uid:
 				task.log.backup += 1
-				self.save()
+				self.save(preferences.output.path)
 				return True
 		
 		for task in self.tasks:
 			if task.uid == uid:
 				task.log.backup += 1
-				self.save()
+				self.save(preferences.output.path)
 				return True
 		
 		return False
@@ -958,7 +958,7 @@ What do you want to do? (type h for help)'''
 		for task in self.archive:
 			if task.uid == uid:
 				task.log.status = 'erased'
-				self.save()
+				self.save(preferences.output.path)
 				return True
 		
 		for task in self.tasks:
@@ -966,7 +966,7 @@ What do you want to do? (type h for help)'''
 				self.tasks.remove(task)
 				self.archive.append(task)
 				task.log.status = 'erased'
-				self.save()
+				self.save(preferences.output.path)
 				return True
 		
 		return False
