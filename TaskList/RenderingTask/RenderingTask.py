@@ -1,7 +1,6 @@
 '''A module to manage task rendering in blender'''
 import bpy, sys, os, socket, time, threading
 sys.path.append(os.path.abspath(sys.argv[4]+'/../../../..'))
-from Preferences.PresetList.Preset.Preset import *
 
 def RenderingTask(task, preferences):
 	task.running = True
@@ -24,8 +23,6 @@ def RenderingTask(task, preferences):
 	scene.render.use_file_extension = True
 	scene.render.use_placeholder = True
 	
-	preset = task.log.preset
-	
 	connexion = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	connexion.connect(('localhost', preferences.port))
 	
@@ -36,15 +33,7 @@ def RenderingTask(task, preferences):
 	listen.start()
 	
 	try:
-		if type(preset) is Preset:
-			sceneInfo = task.info.scenes[task.scene]
-			scene.frame_start = sceneInfo.start
-			scene.frame_end = sceneInfo.end
-			scene.render.fps = sceneInfo.fps
-		
-			preset.applyAndRun(bpy, preferences, task.log.groups[0], connexion, task)
-		else:
-			preset.applyAndRun(bpy, task, preferences, groups, connexion)
+		run()
 	except Exception as e:
 		connexion.sendall( (task.uid+' debugMsg('+str(e)+') EOS').encode() )
 	
