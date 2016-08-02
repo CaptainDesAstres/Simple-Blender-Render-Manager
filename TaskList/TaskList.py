@@ -369,9 +369,9 @@ Quit : q or quit
 	
 	
 	
-	def save(self, preferences.output.path):
+	def save(self, output):
 		'''A method to save Tasks list'''
-		saveTasks(preferences.output.path, self)
+		saveTasks(output, self)
 		
 	
 	
