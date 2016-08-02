@@ -524,7 +524,7 @@ Press enter to continue
 			
 			self.print(0, select)
 			choice = input('''\nMenu :
-2- Copy And Apply A Preset
+2- Copy
 3- Regroup And Move
 4- Remove
 5- Lock
@@ -762,10 +762,6 @@ Quit : q or quit
 				continue
 		log.menuOut()
 		
-		preset = Task.presetChoice(log, preferences)
-		if preset is None :
-			log.menuOut()
-			return select, False
 		
 		copies = []
 		select.sort()
@@ -773,14 +769,13 @@ Quit : q or quit
 			copies.append(self.tasks[i].copy())
 		
 		for t in copies:
-			t.preset = preset
 			t.status = 'waiting'
 			t.log = None
 		
 		if row == 2:
 			newSelect = list(range(len(self.tasks),len(self.tasks) + len(copies)))
 			self.tasks += copies
-			log.write('Task n°«'+','.join(str(x) for x in select)+'» copied to row n°'+str(newSelect[0])+' to '+str(newSelect[-1])+' with «'+preset+'» preset')
+			log.write('Task n°«'+','.join(str(x) for x in select)+'» copied to row n°'+str(newSelect[0])+' to '+str(newSelect[-1])+'.')
 			log.menuOut()
 			return newSelect, True
 		else:
@@ -790,7 +785,7 @@ Quit : q or quit
 				newSelect.append(i+1+gap)
 				gap += 1
 				self.tasks.insert(newSelect[-1], copies.pop(0))
-			log.write('Task n°«'+','.join(str(x) for x in select)+'» copied to row n°'+','.join(str(x) for x in newSelect)+' with «'+preset+'» preset')
+			log.write('Task n°«'+','.join(str(x) for x in select)+'» copied to row n°'+','.join(str(x) for x in newSelect)+'.')
 			log.menuOut()
 			return newSelect, True
 	
