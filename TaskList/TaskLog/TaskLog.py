@@ -2,7 +2,6 @@
 # -*-coding:Utf-8 -*
 '''module to manage task running log'''
 import xml.etree.ElementTree as xmlMod
-from TaskList.TaskLog.GroupLog import *
 from usefullFunctions import XML
 
 
