@@ -9,6 +9,8 @@ from usefullFunctions import XML
 class SceneLog:
 	'''class to manage task scene log'''
 	
+	pageSize = 15
+	
 	def __init__(self, xml = None, scene = None, task = None, pref):
 		'''initialize scene log object'''
 		if xml is None:
@@ -83,14 +85,32 @@ class SceneLog:
 	
 	
 	
-	def print(self, index = None):
+	def print(self, page = 0):
 		'''A method to print Scene log'''
+		total = self.end - self.start + 1
+		remain = total - len(self.frames)
+		
+		print('Status          : '+self.status)
+		print('Output path  : '+self.path)
+		
+		print('\nRendered / total (remaining) : '+str(len(self.frames))+' / '\
+				+str(total)+'     ( remain '+str(remain)+' frames )')
+		print('Average rendering time : '+str(self.average())+' sec')
+		
+		if len(self.frames) > 0:
+			print('Extract ('+str(page*self.pageSize+1)+' to '\
+				+str((page+1)*self.pageSize)+' of '+str(len(self.frames))+') : ')
+			print('Frame n°     rendering Date                 rendering time in seconds')
+			for fr in self.frames[page*self.pageSize:(page+1)*self.pageSize]:
+				fr.print()
+		else:
+			print('\n        No rendered frame')
 	
 	
 	
 	
 	
-	def runMenuPrint(self):
+	def runMenuPrint(self, index = None):
 		'''display rendering progress during run mode '''
 		total = self.end - self.start + 1
 		
