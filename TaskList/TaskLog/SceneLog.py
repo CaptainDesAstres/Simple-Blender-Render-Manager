@@ -2,6 +2,7 @@
 # -*-coding:Utf-8 -*
 '''module to manage task scene  log'''
 import xml.etree.ElementTree as xmlMod
+from TaskList.TaskLog.FrameLog import *
 from usefullFunctions import XML
 
 
@@ -38,14 +39,19 @@ class SceneLog:
 	
 	
 	
-	def fromXml(self):
+	def fromXml(self, xml):
 		'''initialize Scene log object with saved log'''
-		self.name
-		self.path
-		self.start
-		self.end
-		self.frames
-		self.status
+		self.name = XML.decode(xml.get('name'))
+		self.path = XML.decode(xml.get('path'))
+		self.start = int(xml.get('start'))
+		self.end = int(xml.get('end'))
+		self.status = xml.get('status')
+		
+		self.frames = []
+		for node in xml.findall('frame'):
+			self.frames.append(\
+					FrameLog( xml = node )\
+					)
 	
 	
 	
