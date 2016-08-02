@@ -100,6 +100,16 @@ class SceneLog:
 	
 	def average(self):
 		'''return frame average rendering time'''
+		if len(self.frames)>0:
+			count = 0
+			time = 0
+			for f in self.frames:
+				count += 1
+				time += f.computingTime
+			average = time / count
+			return average
+		else:
+			return 0.0
 	
 	
 	
