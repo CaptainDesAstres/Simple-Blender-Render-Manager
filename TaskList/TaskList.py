@@ -115,7 +115,7 @@ class TaskList:
 				saveTasks(self)
 			elif choice in ['a', 'add', '+']:
 				if (self.add(log, preferences)):
-					saveTasks(self)
+					saveTasks(preferences.output.path, self)
 			elif choice in ['d', '>', '']:
 				if page < math.floor((len(self.tasks)-1)/25):
 					page += 1
@@ -233,7 +233,7 @@ Quit : q or quit
 		'''A method to print the list of the pending task or archive task or selected task'''
 		Psize = 25
 		print('''
-\033[4mID |  File Name              |  Scene?                 |\033[0m''')
+\033[4mID |  File Name              |  Rendering All Scene?   |\033[0m''')
 		if page > 0:
 			print('▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|')
 		
