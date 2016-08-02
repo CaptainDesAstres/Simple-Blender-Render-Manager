@@ -70,22 +70,22 @@ createLockFile(str(os.getpid())+'\n'+scriptPath)
 
 # check Preferences file exist: create it if necessary and open it
 if not os.path.exists(os.getcwd()+'/preferences'):
-	log.write('no preferences file, create default file : ', '')
+	log += 'no preferences file, create default file : '
 	preferences = Preferences()
 	savePreferences(preferences)
-	log.write('done')
+	log+='done\n'
 else:
-	log.write('get saved preferences : ', '')
+	log += 'get saved preferences : '
 	with open(os.getcwd()+'/preferences','r') as prefFile:
 		preferences = Preferences( xmlMod.fromstring( (prefFile.read( ) ) ) )
-	log.write('done')
+	log += 'done\n'
 
 
 
-# check if render directorie exist
-if not os.path.exists(os.getcwd()+'/render/'):
-	log += 'No render directorie, create it: fail'
-	os.mkdir(os.getcwd()+'/render')
+# check if working directorie exist
+if not os.path.exists(preferences.output.path):
+	log += 'The working directorie didn\'t exist, create it: fail'
+	os.makedirs(preferences.output.path)
 	log = log[:len(log)-4]+'done\n'
 
 
