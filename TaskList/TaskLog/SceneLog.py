@@ -53,6 +53,20 @@ class SceneLog:
 	
 	def toXml(self):
 		'''export scene log into xml syntaxed string'''
+		xml = '<scene name="'+XML.encode(self.name)\
+				+'" path="'+XML.encode(self.path)\
+				+'" start="'+str(self.start)\
+				+'" end="'+str(self.end)\
+				+'" status="'+self.status+'" >\n'
+		
+		for f in self.frames:
+			xml += f.toXml()
+		
+		xml += '</scene>\n'
+		return xml
+	
+	
+	
 	
 	
 	def menu(self):
