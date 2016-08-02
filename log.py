@@ -118,7 +118,7 @@ there is to log:
 	
 	
 	def runPrint(self):
-		'''print th running menu'''
+		'''print the current menu'''
 		if self.runMenu is not None:
 			print(self.runMenu)
 
