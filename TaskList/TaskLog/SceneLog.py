@@ -8,10 +8,10 @@ from usefullFunctions import XML
 class SceneLog:
 	'''class to manage task scene log'''
 	
-	def __init__(self, xml = None, scene = None, task = None):
+	def __init__(self, xml = None, scene = None, task = None, pref):
 		'''initialize scene log object'''
 		if xml is None:
-			self.defaultInit(scene, task)
+			self.defaultInit(scene, task, pref)
 		else:
 			self.fromXml(xml)
 	
@@ -20,14 +20,19 @@ class SceneLog:
 	
 	
 	
-	def defaultInit(self, scene, task):
+	def defaultInit(self, scene, task, pref):
 		'''initialize Scene log'''
-		self.name
-		self.path
-		self.start
-		self.end
-		self.frames
-		self.status
+		self.name = scene
+		
+		fileName = task.path.split('/').pop().split('.')
+		fileName.pop()
+		fileName = fileName.join('.')
+		self.path = pref.output.path+'render/'+fileName+'/'+scene+'/'
+		
+		self.start = task.info.scene[scene].start
+		self.end = task.info.scene[scene].end
+		self.frames = []
+		self.status = 'ready to start'
 	
 	
 	
