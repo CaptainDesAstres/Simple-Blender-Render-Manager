@@ -51,46 +51,31 @@ class FileInfo:
 			return None
 		
 		if len(scenes) == 1:
-			log.write('  Only one scene in file. Use «'+scenes[0]+'» scene.')
-			return [ scenes[0] ]
-		
-		if allChoice:
-			allChoice = '\nA- All scene (a task will be create with each scene)'
-		else:
-			allChoice = ''
+			log.write('  Only one scene in file. All scene will be rendered.')
+			return True
 		
 		log.menuIn('Scene Choice')
 		while True:
-			log.print()
-			print('\n\n        \033[4mScene Choice :\033[0m\n\nChoice :'+allChoice)
-			for i, scene in enumerate(scenes):
-				print(str(i)+'- '+scene)
+			choice = input('''there is '+str(len(scenes))+' scenes in this file. Do you want to:
+	1- Render all scenes
+	2- Render active scene
+	0- Abort''').strip().lower()
 			
-			choice = input('\nscene choice?').strip().lower()
-			
-			if choice in ['', 'q', 'quit', 'cancel']:
+			if choice in [ '', 'q', '0' ]:
 				log.menuOut()
-				log.write('  Abort at scene choice')
+				log.write('  Abort task adding')
 				return None
-			
-			if choice == 'a' and allChoice != '':
+			elif choice == '1':
 				log.menuOut()
-				log.write('  Add all scenes')
-				return scenes
+				log.write('  Set to render all task scene')
+				return True
+			elif choice == '2':
+				log.menuOut()
+				log.write('  Set to render task active scene only')
+				return False
+			else:
+				log.error('unvalid choice')
 			
-			try:
-				choice = int(choice)
-			except ValueError:
-				log.error('Expect a integer value or "a" or "q"', False)
-				continue
-			
-			if choice < 0 or choice >= len(scenes):
-				log.error('Your scene choice correspond to nothing', False)
-				continue
-			
-			log.menuOut()
-			log.write('  Add «'+scenes[choice]+'» scenes')
-			return [ scenes[choice] ]
 		
 	
 	
