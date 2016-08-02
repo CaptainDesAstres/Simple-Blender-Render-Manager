@@ -12,12 +12,11 @@ class Task:
 	'''class to manage task settings'''
 	
 	
-	def __init__(self, path = None, scene = None, preset = None,\
-					fileInfo = None, xml= None):
+	def __init__(self, path = None, scene = None, fileInfo = None, xml= None):
 		'''initialize task object with default settings or saved settings'''
 		self.running = False
 		if xml is None:
-			self.defaultInit(path, scene, preset, fileInfo)
+			self.defaultInit( path, scene, fileInfo )
 		else:
 			self.fromXml(xml)
 	
@@ -25,11 +24,10 @@ class Task:
 	
 	
 	
-	def defaultInit(self, path, scene, preset, fileInfo):
+	def defaultInit(self, path, scene, fileInfo):
 		'''initialize Task object with default settings'''
 		self.path = path
 		self.scene = scene
-		self.preset = preset
 		self.info = fileInfo
 		self.uid = uuid.uuid4().hex
 		self.log = None
@@ -52,7 +50,6 @@ class Task:
 		'''initialize Task object with savedd settings'''
 		self.path = xml.get('path')
 		self.scene = xml.get('scene')
-		self.preset = xml.get('preset')
 		self.uid = xml.get('uid', uuid.uuid4().hex)
 		self.status = xml.get('status')
 		self.info = FileInfo(xml.find('fileInfo'))
@@ -69,9 +66,8 @@ class Task:
 	
 	def toXml(self):
 		'''export task settings into xml syntaxed string'''
-		xml = '<task path="'+XML.encode(self.path)+'" scene="'+XML.encode(self.scene)\
-				+'" preset="'+self.preset+'" uid="'+self.uid\
-				+'" status="'+self.status+'" >\n'\
+		xml = '<task path="'+XML.encode(self.path)+'" scene="'+str(self.scene)\
+				+'" uid="'+self.uid+'" status="'+self.status+'" >\n'\
 				+self.info.toXml()
 		if self.log is not None:
 			xml += self.log.toXml()
