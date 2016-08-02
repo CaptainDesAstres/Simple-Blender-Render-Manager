@@ -453,20 +453,4 @@ task = Task( xml = xmlMod.fromstring(''\'<?xml version="1.0" encoding="UTF-8"?>\
 	
 	
 	
-	def getUsefullGroup(self, groups, preferences):
-		'''return only usefull group from the list, excluding those who have no renderlayer in this task'''
-		renderlayers = self.info.scenes[self.scene].getActiveRenderlayers()
-		confirmed = []
-		for group in groups:
-			for RL in renderlayers:
-				if preferences.presets.renderlayers.groups[group].belongTo(RL.name):
-					confirmed.append(group)
-					break
-		return confirmed
-	
-	
-	
-	
-	
-	
 	
