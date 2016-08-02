@@ -332,12 +332,6 @@ Quit : q or quit
 			log.menuOut()
 			return False
 		
-		if preset is None:
-			log.menuOut()
-			log.write('  No preset choose, abort')
-			return False
-		
-		log.write('  Use «'+preset+'» preset')
 		
 		# add the task(s)
 		for scene in scenes:
