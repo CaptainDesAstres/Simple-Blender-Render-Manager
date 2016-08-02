@@ -33,7 +33,7 @@ def RenderingTask(task, preferences):
 	listen.start()
 	
 	try:
-		run()
+		run(task, bpy, connexion)
 	except Exception as e:
 		connexion.sendall( (task.uid+' debugMsg('+str(e)+') EOS').encode() )
 	
