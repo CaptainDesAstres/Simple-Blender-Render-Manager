@@ -123,30 +123,12 @@ class Task:
 				return change
 			elif choice == '1' and not started:
 				
-				scene = self.info.sceneChoice(log, allChoice = False)
-				if scene is not None:
-					self.scene = scene[0]
-					log.write('Task n°'+str(index)+' : Scene set to «'+self.scene+'»')
-					change = True
-				
-			elif choice == '2' and not started:
-				
-				preset = Task.presetChoice(log, preferences)
-				if preset is not None :
-					self.preset = preset
-					log.write('Task n°'+str(index)+' : Preset set to «'+self.preset+'»')
-					change = True
-				
-			elif choice == '3' and not started:
-				
-				self.editPreset(log, preferences)
-				
-			elif choice == '4' and not started:
-				
-				confirm = self.info.scenes[self.scene].renderlayerActivator(log)
-				if confirm:
-					log.write('change task n°'+str(index)+' active renderlayer')
-					change = True
+				self.scene = not self.scene
+				if self.scene:
+					log.write('  all scene of task n°'+str(index)+' will be rendered.')
+				else:
+					log.write('  only active scene of task n°'+str(index)+' will be rendered.')
+				change = True
 				
 			elif choice == '5':
 				
