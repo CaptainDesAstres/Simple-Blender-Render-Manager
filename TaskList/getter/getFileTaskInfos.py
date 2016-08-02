@@ -12,11 +12,6 @@ for name in bpy.data.scenes.keys():
 	scene = bpy.data.scenes[name]
 	
 	print('  <scene name="'+XML.encode(name)+'" start="'+str(scene.frame_start)\
-			+'" end="'+str(scene.frame_end)+'" fps="'+str(scene.render.fps)+'" >')
-	
-	for renderlayer in scene.render.layers.keys():
-		print('    <renderlayer name="'+XML.encode(renderlayer)+'" use="'+str(scene.render.layers[renderlayer].use)+'" />')
-	
-	print('  </scene>')
+			+'" end="'+str(scene.frame_end)+'" fps="'+str(scene.render.fps)+'" />')
 
 print('</fileInfo>')
