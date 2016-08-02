@@ -80,13 +80,12 @@ def run(task, bpy, socket, preferences ):
 		fileName = task.path.split('/').pop().split('.')
 		fileName.pop()
 		fileName = fileName.join('.')
+		scene.render.filepath = preferences.output.path+'render/'+fileName+'/'+scene.name+'/####'
 		
 		while scene.frame_current <= scene.frame_end \
 					and task.running != 'until next frame':
 			
 			start = time.time()
-			
-			scene.render.filepath = preferences.output.path+'render/'+fileName+'/'+scene.name+'/####'
 			bpy.ops.render.render( write_still=True )
 			
 			endDate = datetime.datetime.today()
