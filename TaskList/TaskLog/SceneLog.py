@@ -11,7 +11,7 @@ class SceneLog:
 	
 	pageSize = 15
 	
-	def __init__(self, xml = None, scene = None, task = None, pref):
+	def __init__(self, xml = None, scene = None, task = None, pref = None):
 		'''initialize scene log object'''
 		if xml is None:
 			self.defaultInit(scene, task, pref)
