@@ -15,9 +15,9 @@ def RenderingTask(task, preferences):
 	listen.start()
 	
 	scenes = task.log.scenes
-	for scene in scenes:
+	for sceneLog in scenes:
 		# select scene as active
-		scene = bpy.data.scenes[scene.name]
+		scene = bpy.data.scenes[sceneLog.name]
 		bpy.context.screen.scene = scene
 		
 		# active all stamp info
@@ -39,7 +39,7 @@ def RenderingTask(task, preferences):
 		
 		# render scene
 		try:
-			run(task, bpy, connexion, preferences )
+			run(task, sceneLog, bpy, connexion, preferences )
 		except Exception as e:
 			connexion.sendall( (task.uid+' debugMsg('+str(e)+') EOS').encode() )
 	
@@ -81,29 +81,37 @@ def socketListener(soc, task):
 
 
 
-def run(task, bpy, socket, preferences ):
+def run(task, sceneLog, bpy, socket, preferences ):
 	'''Function to manage task rendering'''
+	# set output path
 	scene = bpy.context.screen.scene
-	fileName = task.path.split('/').pop().split('.')
-	fileName.pop()
-	fileName = fileName.join('.')
-	scene.render.filepath = preferences.output.path+'render/'+fileName+'/'+scene.name+'/####'
+	scene.render.filepath = preferences.output.path+'render/'\
+								+task.info.name+'/'\
+								+scene.name+'/####'
 	
-	while scene.frame_current <= scene.frame_end \
-				and task.running != 'until next frame':
+	for scene.frame_current in range(scene.frame_start, scene.frame_end+1):
+		
+		if task.running != 'until next frame':
+			break
+		
+		# check if frame have already been rendered
+		if sceneLog.frameDone(scene.frame_current):
+			continue
 		
 		start = time.time()
+		
+		# render the frame
 		bpy.ops.render.render( write_still=True )
 		
 		endDate = datetime.datetime.today()
 		computeTime = time.time() - start
 		
+		# report frame rendering to Blender Render Manager thread
 		msg = task.uid+' ConfirmFrame('+logGroup.name\
 				+','+str(scene.frame_current)+','+endDate.strftime('%d:%m:%Y:%H:%M:%S')\
 				+','+str(computeTime)+') EOS'
 		socket.sendall(msg.encode())
 		
-		scene.frame_current += 1
 
 
 
