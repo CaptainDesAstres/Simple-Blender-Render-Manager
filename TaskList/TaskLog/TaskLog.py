@@ -20,13 +20,22 @@ class TaskLog:
 	
 	
 	
-	def defaultInit(self, preferences, task):
+	def defaultInit(self, pref, task):
 		'''initialize Task log object by generating from the task settings'''
+		self.name = task
 		self.backup = 0
 		
-		
-		###CODE NEEDED
-		
+		self.scenes = []
+		if task.scene :
+			for scene in task.info.scenes:
+				self.scenes.append(\
+								SceneLog(scene = scene.name, task = task, pref = pref)\
+								)
+		else:
+			self.scenes.append(\
+								SceneLog(scene = task.info.active,\
+									task = task, pref = pref)\
+								)
 		
 		self.status = 'ready'
 	
