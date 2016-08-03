@@ -86,7 +86,7 @@ def run(task, sceneLog, bpy, socket, preferences ):
 	# set output path
 	scene = bpy.context.screen.scene
 	scene.render.filepath = preferences.output.path+'render/'\
-								+task.info.name+'/'\
+								+task.log.name+'/'\
 								+scene.name+'/####'
 	
 	for scene.frame_current in range(scene.frame_start, scene.frame_end+1):
