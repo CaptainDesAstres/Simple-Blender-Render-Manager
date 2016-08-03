@@ -304,7 +304,7 @@ action : ''').strip().lower()
 			
 			sub = subprocess.Popen(\
 						shlex.split(\
-							preferences.blender.path+' -b "'+self.path+'" -P "'\
+							'\''+preferences.blender.path+'\' -b "'+self.path+'" -P "'\
 							+script+'"'),\
 						stdout = subprocess.PIPE,\
 						stdin = subprocess.PIPE,\
@@ -318,7 +318,7 @@ action : ''').strip().lower()
 			log.write('\033[31mTask n°'+str(index)+' : Blender call error! Try to verify the path of blender!\033[0m')
 		
 		self.eraseTaskScript(script)
-		
+		#log.write(results)
 		log.menuOut()
 		return True
 	
