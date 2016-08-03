@@ -26,12 +26,6 @@ class SceneLog:
 	def defaultInit(self, scene, task, pref):
 		'''initialize Scene log'''
 		self.name = scene
-		
-		fileName = task.path.split('/').pop().split('.')
-		fileName.pop()
-		fileName = fileName.join('.')
-		self.path = pref.output.path+'render/'+fileName+'/'+scene+'/'
-		
 		self.start = task.info.scene[scene].start
 		self.end = task.info.scene[scene].end
 		self.frames = []
@@ -44,7 +38,6 @@ class SceneLog:
 	def fromXml(self, xml):
 		'''initialize Scene log object with saved log'''
 		self.name = XML.decode(xml.get('name'))
-		self.path = XML.decode(xml.get('path'))
 		self.start = int(xml.get('start'))
 		self.end = int(xml.get('end'))
 		self.status = xml.get('status')
@@ -62,7 +55,6 @@ class SceneLog:
 	def toXml(self):
 		'''export scene log into xml syntaxed string'''
 		xml = '<scene name="'+XML.encode(self.name)\
-				+'" path="'+XML.encode(self.path)\
 				+'" start="'+str(self.start)\
 				+'" end="'+str(self.end)\
 				+'" status="'+self.status+'" >\n'
@@ -91,7 +83,7 @@ class SceneLog:
 			log.print()
 			
 			print('\n\n        «'+self.name+'» group details :\n')
-			self.print(page, path)
+			self.print(page)
 			
 			choice = input('\n\nh for help').strip().lower()
 			
@@ -153,7 +145,6 @@ press enter to continu''')
 		remain = total - len(self.frames)
 		
 		print('Status          : '+self.status)
-		print('Output path  : '+self.path)
 		
 		print('\nRendered / total (remaining) : '+str(len(self.frames))+' / '\
 				+str(total)+'     ( remain '+str(remain)+' frames )')
