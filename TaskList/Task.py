@@ -284,7 +284,9 @@ action : ''').strip().lower()
 		if self.log is None:
 			# task never have been run before
 			self.log = TaskLog(pref = preferences, task = self)
-			preferences.output.checkAndCreate(self, preferences, taskList)
+		
+		self.checkOutput(preferences)
+		log.write('IT\'S OK NOW!!!!!!!!!!')
 		
 		self.printRunMenu(index, len(taskList.tasks), log)
 		
@@ -398,6 +400,25 @@ action : ''').strip().lower()
 			return messages[-1]+' EOS'
 		else:
 			return ''
+	
+	
+	
+	
+	
+	def checkOutput(self, pref):
+		'''create output path if needed'''
+		path = pref.output.path+'render/'
+		
+		name = self.path.split('/').pop().split('.')
+		name.pop()
+		name = '.'.join(name)
+		path += name+'/'
+		
+		scenes = self.log.scenes
+		
+		for s in scenes:
+			p = path+s.name+'/'
+			os.makedirs(p)
 	
 	
 	
