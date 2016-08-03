@@ -73,31 +73,32 @@ class TaskLog:
 	
 	
 	
-#	def menu(self, log, index):
-#		'''a method to display and browse into task rendering log'''
-#		log.menuIn('Rendering Log')
-#		while True:
-#			log.print()
-#			print('\n\n        Rendering Log of task n°'+str(index)+' :\n')
-#			self.print(True)
-#			
-#			choice = input('\n\ntype the index of a group to see more or q to quit :').strip().lower()
-#			
-#			if choice in ['0', 'q', 'quit', 'cancel']:
-#				log.menuOut()
-#				return
-#			
-#			try:
-#				choice = int(choice)-1
-#			except:
-#				log.error('Integer value expected!', False)
-#				continue
-#			
-#			if choice >= 0 and choice < len(self.groups):
-#				self.groups[choice].menu(log, self.getMainPath())
-#			else:
-#				log.error('There is no group with this index!', False)
-#			
+	def menu(self, log, index):
+		'''a method to display and browse into task rendering log'''
+		log.menuIn('Rendering Log')
+		while True:
+			log.print()
+			print('\n\n        Rendering Log of task n°'+str(index)+' :\n')
+			
+			self.print(True)
+			
+			choice = input('\n\ntype the index of a scene to see more or q to quit :').strip().lower()
+			
+			if choice in ['0', 'q', 'quit', 'cancel']:
+				log.menuOut()
+				return
+			
+			try:
+				choice = int(choice)-1
+			except:
+				log.error('Integer value expected!', False)
+				continue
+			
+			if choice >= 0 and choice < len(self.scenes):
+				self.scenes[choice].menu(log)
+			else:
+				log.error('There is no scene with this index!', False)
+			
 	
 	
 	
