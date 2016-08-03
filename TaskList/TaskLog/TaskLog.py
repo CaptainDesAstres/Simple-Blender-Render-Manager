@@ -123,35 +123,12 @@ class TaskLog:
 	
 	
 	
-#	def getMainPath(self):
-#		'''return the task main path'''
-#		if self.backup == 0:
-#			return self.path
-#		else:
-#			return self.path+'previous rendering '+str(self.backup)+'/'
-	
-	
-	
-	
-	
-#	def isComplete(self):
-#		'''check if there is still frame waiting to be rendered'''
-#		for group in self.groups:
-#			if group.remaining()>0:
-#				return False
-#		return True
-	
-	
-	
-	
-	
-#	def checkFrames(self):
-#		'''check for each frame that have been claimed as rendered if there is really a file corresponding to it'''
-#		path = self.getMainPath()
-#		for group in self.groups:
-#			group.checkFrames(path)
-#		
-#		return self.isComplete()
+	def isComplete(self):
+		'''check if there is still frame waiting to be rendered'''
+		for group in self.groups:
+			if group.remaining()>0:
+				return False
+		return True
 	
 	
 	
