@@ -6,7 +6,7 @@ sys.path.append(os.path.abspath(sys.argv[4]+'/../../..'))
 from usefullFunctions import XML
 
 print('<?xml version="1.0" encoding="UTF-8"?>')
-print('<fileInfo>')
+print('<fileInfo active="'+XML.encode(bpy.context.screen.scene.name)+'">')
 
 for name in bpy.data.scenes.keys():
 	scene = bpy.data.scenes[name]

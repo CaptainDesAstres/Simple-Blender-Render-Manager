@@ -3,6 +3,7 @@
 '''module to manage blender file info'''
 import xml.etree.ElementTree as xmlMod
 from TaskList.FileInfo.Scene import *
+from usefullFunctions import XML
 import os
 
 class FileInfo:
@@ -19,6 +20,7 @@ class FileInfo:
 	
 	def fromXml(self, xml):
 		'''initialize blender file info with savedd settings'''
+		self.active = XML.decode(xml.get('active'))
 		self.scenes = {}
 		for scene in xml.findall('scene'):
 			self.scenes[scene.get('name')] = Scene(scene)
@@ -29,7 +31,7 @@ class FileInfo:
 	
 	def toXml(self):
 		'''export blender file info into xml syntaxed string'''
-		xml = '  <fileInfo>\n'
+		xml = '  <fileInfo active="'+XML.encode(self.active)+'">\n'
 		
 		for scene in self.scenes.values():
 			xml += scene.toXml()
@@ -58,7 +60,7 @@ class FileInfo:
 		while True:
 			choice = input('''there is '+str(len(scenes))+' scenes in this file. Do you want to:
 	1- Render all scenes
-	2- Render active scene
+	2- Render active scene «'''+self.active+'''»
 	0- Abort''').strip().lower()
 			
 			if choice in [ '', 'q', '0' ]:
