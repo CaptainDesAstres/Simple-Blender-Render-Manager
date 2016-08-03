@@ -285,8 +285,11 @@ action : ''').strip().lower()
 			# task never have been run before
 			self.log = TaskLog(pref = preferences, task = self)
 		
-		self.checkOutput(preferences)
-		log.write('IT\'S OK NOW!!!!!!!!!!')
+		writable = self.checkOutput(preferences)
+		if not writable:
+			log.error('You don\'t have the right to write in output path of the task')
+			log.menuOut()
+			return True
 		
 		self.printRunMenu(index, len(taskList.tasks), log)
 		
@@ -405,7 +408,11 @@ action : ''').strip().lower()
 		
 		for s in scenes:
 			p = path+s.name+'/'
-			os.makedirs(p)
+			if not os.path.exists(p):
+				os.makedirs(p)
+			if not os.access( p, os.W_OK ):
+				return False
+		return True
 	
 	
 	
