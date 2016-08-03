@@ -45,13 +45,14 @@ class TaskLog:
 	
 	def fromXml(self, xml):
 		'''initialize Task log object with saved log'''
-		
-		
-		
-		###CODE NEEDED
-		
-		
-		
+		self.name = XML.decode(xml.get('name'))
+		self.backup = int(xml.get('backup'))
+		self.status = XML.decode(xml.get('status'))
+		self.scenes = []
+		for scene in xml.findall('scene'):
+			self.scene.append(\
+					SceneLog(xml = scene)\
+								)
 	
 	
 	
