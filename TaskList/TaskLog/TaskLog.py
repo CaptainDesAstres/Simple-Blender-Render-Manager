@@ -13,7 +13,6 @@ class TaskLog:
 	def __init__(self, xml = None, pref = None, task = None):
 		'''initialize task log object'''
 		if xml is None:
-			print('1111')
 			self.defaultInit(pref, task)
 		else:
 			self.fromXml(xml)
