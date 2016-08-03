@@ -221,6 +221,16 @@ press enter to continu''')
 	
 	
 	
+	def frameDone(self, fr ):
+		'''a method to check if a frame have been rendered'''
+		for frame in self.frames:
+			if frame.frame == fr :
+				return True
+		return False
+	
+	
+	
+	
 	
 	
 	
