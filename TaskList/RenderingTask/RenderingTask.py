@@ -76,27 +76,27 @@ def socketListener(soc, task):
 
 def run(task, bpy, socket, preferences ):
 	'''Function to manage task rendering'''
-		scene = bpy.context.screen.scene
-		fileName = task.path.split('/').pop().split('.')
-		fileName.pop()
-		fileName = fileName.join('.')
-		scene.render.filepath = preferences.output.path+'render/'+fileName+'/'+scene.name+'/####'
+	scene = bpy.context.screen.scene
+	fileName = task.path.split('/').pop().split('.')
+	fileName.pop()
+	fileName = fileName.join('.')
+	scene.render.filepath = preferences.output.path+'render/'+fileName+'/'+scene.name+'/####'
+	
+	while scene.frame_current <= scene.frame_end \
+				and task.running != 'until next frame':
 		
-		while scene.frame_current <= scene.frame_end \
-					and task.running != 'until next frame':
-			
-			start = time.time()
-			bpy.ops.render.render( write_still=True )
-			
-			endDate = datetime.datetime.today()
-			computeTime = time.time() - start
-			
-			msg = task.uid+' ConfirmFrame('+logGroup.name\
-					+','+str(scene.frame_current)+','+endDate.strftime('%d:%m:%Y:%H:%M:%S')\
-					+','+str(computeTime)+') EOS'
-			socket.sendall(msg.encode())
-			
-			scene.frame_current += 1
+		start = time.time()
+		bpy.ops.render.render( write_still=True )
+		
+		endDate = datetime.datetime.today()
+		computeTime = time.time() - start
+		
+		msg = task.uid+' ConfirmFrame('+logGroup.name\
+				+','+str(scene.frame_current)+','+endDate.strftime('%d:%m:%Y:%H:%M:%S')\
+				+','+str(computeTime)+') EOS'
+		socket.sendall(msg.encode())
+		
+		scene.frame_current += 1
 
 
 
