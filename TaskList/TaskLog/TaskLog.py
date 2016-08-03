@@ -24,7 +24,9 @@ class TaskLog:
 	
 	def defaultInit(self, pref, task):
 		'''initialize Task log object by generating from the task settings'''
-		self.name = task
+		self.name = task.path.split('/').pop().split('.')
+		self.name.pop()
+		self.name = '.'.join(self.name)
 		self.backup = 0
 		
 		self.scenes = []
