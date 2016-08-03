@@ -104,20 +104,20 @@ class TaskLog:
 	
 	
 	
-#	def print(self, index = False):
-#		'''A method to print task log'''
-#		print('The task have '+str(len(self.groups))+' group(s):')
-#		ended, total = 0, 0
-#		for i, group in enumerate(self.groups):
-#			if index:
-#				group.runMenuPrint(i+1)
-#			else:
-#				group.runMenuPrint()
-#			
-#			total += (group.end - group.start + 1)
-#			ended += len(group.frames)
-#		print('\n\n                  '+str(ended)+'/'+str(total)\
-#							+'('+str(total-ended)+' remaining)')
+	def print(self, index = False):
+		'''A method to print task log'''
+		print('The task have '+str(len(self.scenes))+' scene(s):')
+		ended, total = 0, 0
+		for i, scene in enumerate(self.scenes):
+			if index:
+				scene.runMenuPrint(i+1)
+			else:
+				scene.runMenuPrint()
+			
+			total += (scene.end - scene.start + 1)
+			ended += len(scene.frames)
+		print('\n\n                  '+str(ended)+'/'+str(total)\
+							+'('+str(total-ended)+' remaining)')
 	
 	
 	
