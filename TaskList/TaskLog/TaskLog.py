@@ -69,7 +69,7 @@ class TaskLog:
 		for scene in self.scenes:
 			xml += scene.toXml()
 		
-		xml = '</log >'
+		xml += '</log >'
 		return xml
 	
 	
