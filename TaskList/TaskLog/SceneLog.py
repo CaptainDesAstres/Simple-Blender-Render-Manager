@@ -26,8 +26,8 @@ class SceneLog:
 	def defaultInit(self, scene, task, pref):
 		'''initialize Scene log'''
 		self.name = scene
-		self.start = task.info.scene[scene].start
-		self.end = task.info.scene[scene].end
+		self.start = task.info.scenes[scene].start
+		self.end = task.info.scenes[scene].end
 		self.frames = []
 		self.status = 'ready to start'
 	
