@@ -2,6 +2,7 @@
 # -*-coding:Utf-8 -*
 '''module to manage task running log'''
 import xml.etree.ElementTree as xmlMod
+from TaskList.TaskLog.SceneLog import *
 from usefullFunctions import XML
 
 
