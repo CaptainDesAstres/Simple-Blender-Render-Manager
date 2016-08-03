@@ -53,7 +53,7 @@ class TaskLog:
 		self.status = XML.decode(xml.get('status'))
 		self.scenes = []
 		for scene in xml.findall('scene'):
-			self.scene.append(\
+			self.scenes.append(\
 					SceneLog(xml = scene)\
 								)
 	
