@@ -3,6 +3,7 @@ import bpy, sys, os, socket, time, threading
 sys.path.append(os.path.abspath(sys.argv[4]+'/../../../..'))
 
 def RenderingTask(task, preferences):
+	
 	task.running = True
 	
 	# create a socket to communicate with blender-render-manager
@@ -91,7 +92,7 @@ def run(task, sceneLog, bpy, socket, preferences ):
 	
 	for scene.frame_current in range(scene.frame_start, scene.frame_end+1):
 		
-		if task.running != 'until next frame':
+		if task.running == 'until next frame':
 			break
 		
 		# check if frame have already been rendered
