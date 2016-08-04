@@ -86,9 +86,9 @@ def run(task, sceneLog, bpy, socket, preferences ):
 	'''Function to manage task rendering'''
 	# set output path
 	scene = bpy.context.screen.scene
-	scene.render.filepath = preferences.output.path+'render/'\
+	path = preferences.output.path+'render/'\
 								+task.log.name+'/'\
-								+scene.name+'/####'
+								+scene.name+'/'
 	
 	for scene.frame_current in range(scene.frame_start, scene.frame_end+1):
 		
@@ -98,6 +98,8 @@ def run(task, sceneLog, bpy, socket, preferences ):
 		# check if frame have already been rendered
 		if sceneLog.frameDone(scene.frame_current):
 			continue
+		
+		scene.render.filepath = path+str(scene.frame_current).rjust(4,'0')
 		
 		start = time.time()
 		
