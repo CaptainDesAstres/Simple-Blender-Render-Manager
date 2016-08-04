@@ -369,7 +369,7 @@ action : ''').strip().lower()
 				log.write(info)
 			elif uid == self.uid and action == 'ConfirmFrame':
 				info = info.split(',')
-				group = info[0]
+				scene = info[0]
 				frame = int(info[1])
 				computingTime = float(info[3])
 				
@@ -383,7 +383,9 @@ action : ''').strip().lower()
 							second = int(date[5])
 										)
 				
-				self.log.getGroup(group).confirmFrame(frame, date, computingTime)
+				for s in self.log.scenes:
+					if s.name = scene:
+						s.confirmFrame(frame, date, computingTime)
 				self.printRunMenu(index, len(taskList.tasks), log)
 		
 		if messages[-1] == self.uid+' VersionEnded':
