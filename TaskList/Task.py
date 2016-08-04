@@ -318,7 +318,7 @@ action : ''').strip().lower()
 			log.write('\033[31mTask n°'+str(index)+' : Blender call error! Try to verify the path of blender!\033[0m')
 		
 		self.eraseTaskScript(script)
-		#log.write(results)
+		log.write('###\n'+results+'###\n')
 		log.menuOut()
 		return True
 	
