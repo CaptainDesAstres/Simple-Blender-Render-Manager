@@ -1,5 +1,5 @@
 '''A module to manage task rendering in blender'''
-import bpy, sys, os, socket, time, threading
+import bpy, sys, os, socket, time, datetime, threading
 sys.path.append(os.path.abspath(sys.argv[4]+'/../../../..'))
 
 def RenderingTask(task, preferences):
@@ -108,7 +108,7 @@ def run(task, sceneLog, bpy, socket, preferences ):
 		computeTime = time.time() - start
 		
 		# report frame rendering to Blender Render Manager thread
-		msg = task.uid+' ConfirmFrame('+logGroup.name\
+		msg = task.uid+' ConfirmFrame('+scene.name\
 				+','+str(scene.frame_current)+','+endDate.strftime('%d:%m:%Y:%H:%M:%S')\
 				+','+str(computeTime)+') EOS'
 		socket.sendall(msg.encode())
