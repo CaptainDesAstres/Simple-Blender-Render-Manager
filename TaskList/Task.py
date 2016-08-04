@@ -384,7 +384,7 @@ action : ''').strip().lower()
 										)
 				
 				for s in self.log.scenes:
-					if s.name = scene:
+					if s.name == scene:
 						s.confirmFrame(frame, date, computingTime)
 				self.printRunMenu(index, len(taskList.tasks), log)
 		
