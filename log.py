@@ -31,7 +31,7 @@ class Log:
 	
 	
 	def __str__(self):
-		'''return string log'''
+		'''return all log in a string form'''
 		return self.log
 	
 	
@@ -71,7 +71,7 @@ class Log:
 	
 	
 	def __iadd__(self,txt):
-		'''redirect '+=' operator to the write() method'''
+		'''overload '+=' operator toredirect it to write() method'''
 		self.write(txt);
 		return self
 	

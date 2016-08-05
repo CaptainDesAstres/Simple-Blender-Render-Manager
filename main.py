@@ -64,7 +64,8 @@ try:
 	
 	# create a lock file to prevent multiple call to the script
 	log += '  Create a lock file.'
-	createLockFile(str(os.getpid())+'\n'+scriptPath)
+	with open(os.getcwd()+'/lock','w') as lockFile:
+		lockFile.write(str(os.getpid())+'\n'+scriptPath)
 	
 	
 	
