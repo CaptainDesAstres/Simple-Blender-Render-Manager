@@ -28,7 +28,7 @@ try:
 		log += 'Log and configuration directorie finded.\n'
 	
 	# use configuration directorie as command working directory
-	os.chdir('/home/'+os.getlogin()+'/.BlenderRenderManager')
+	os.chdir('/home/'+os.getlogin()+'/.BlenderRenderManager/')
 	
 	# create a log file
 	log = Log(start,log)
