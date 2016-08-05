@@ -39,25 +39,26 @@ except Exception as e :
 
 try:
 	# check if lock file exist
+	log += 'Check lock file :'
 	if os.path.exists(os.getcwd()+'/lock'):
-		log += 'Check lock file :'
+		log += '  lock file exist :'
 		
 		# get info about the last blender manager session (PID and PWD)
 		with open(os.getcwd()+'/lock','r') as lockFile:
 			processInfo = lockFile.read( ).split('\n')
 		PID = processInfo[0]
 		PWD = processInfo[1]
-		log += '  Last session PID : '+PID+''
+		log += '    Last session PID : '+PID+''
 		
 		# check if there is still a Blender-Render-Manager process with this PID
 		if os.path.exists('/proc/'+PID+'/'):
 			with open('/proc/'+PID+'/environ','r') as lockFile:
 				PWDCount = lockFile.read( ).count('PWD='+PWD)
 			if PWDCount > 0:
-				log.error('  Another session of Blender-Render-Manager is still working! check '+PID+' PID process and stop it!')
+				log.error('    Another session of Blender-Render-Manager is still working! check '+PID+' PID process and stop it!')
 				quit()
 		else:
-			log += '  No old remaining Blender-Render-Manager session detected.'
+			log += '    No old remaining Blender-Render-Manager session detected.'
 	else:
 		log += '  No lock file detected.'
 	
