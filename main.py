@@ -11,27 +11,30 @@ from usefullFunctions import now
 
 
 
+try:
+	# init log string and get script path
+	start = now(False)
+	log = 'openning of Blender Render Manager\n'+start+' session\n'
+	scriptPath = os.path.realpath(__file__+'/..')
 
-# init log string and get script path
-start = now(False)
-log = 'openning of Blender Render Manager\n'+start+' session\n'
-scriptPath = os.path.realpath(__file__+'/..')
 
 
+	# check if configuration and log directories exist, otherwise create it 
+	if not os.path.exists('/home/'+os.getlogin()+'/.BlenderRenderManager/log'):
+		log += 'No configuration or log directory, create it: fail'
+		os.makedirs('/home/'+os.getlogin()+'/.BlenderRenderManager/log/')
+		log = log[:len(log)-4]+'done\n'
+	else:
+		log += 'Log and configuration directorie finded\n'
 
-# check if configuration and log directories exist, otherwise create it 
-if not os.path.exists('/home/'+os.getlogin()+'/.BlenderRenderManager/log'):
-	log += 'No configuration or log directory, create it: fail'
-	os.makedirs('/home/'+os.getlogin()+'/.BlenderRenderManager/log/')
-	log = log[:len(log)-4]+'done\n'
-else:
-	log += 'Log and configuration directorie finded\n'
+	# use configuration directorie as command working directory
+	os.chdir('/home/'+os.getlogin()+'/.BlenderRenderManager')
 
-# use configuration directorie as command working directory
-os.chdir('/home/'+os.getlogin()+'/.BlenderRenderManager')
-
-# create a log file
-log = Log(start,log)
+	# create a log file
+	log = Log(start,log)
+except Exception as e :
+	print(log)
+	print(e)
 
 
 
