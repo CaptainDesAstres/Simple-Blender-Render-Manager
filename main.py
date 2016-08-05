@@ -14,18 +14,18 @@ from usefullFunctions import now
 try:
 	# init log string and get script path
 	start = now(False)
-	log = 'openning of Blender Render Manager\n'+start+' session\n'
+	log = 'Openning of Blender Render Manager\n'+start+' session.\n'
 	scriptPath = os.path.realpath(__file__+'/..')
 	
 	
 	
 	# check if configuration and log directories exist, otherwise create it 
 	if not os.path.exists('/home/'+os.getlogin()+'/.BlenderRenderManager/log'):
-		log += 'No configuration or log directory, create it: fail'
+		log += 'No configuration or log directory, create it: fail.'
 		os.makedirs('/home/'+os.getlogin()+'/.BlenderRenderManager/log/')
-		log = log[:len(log)-4]+'done\n'
+		log = log[:len(log)-5]+'done.\n'
 	else:
-		log += 'Log and configuration directorie finded\n'
+		log += 'Log and configuration directorie finded.\n'
 	
 	# use configuration directorie as command working directory
 	os.chdir('/home/'+os.getlogin()+'/.BlenderRenderManager')
@@ -47,22 +47,22 @@ try:
 			processInfo = lockFile.read( ).split('\n')
 		PID = processInfo[0]
 		PWD = processInfo[1]
-		log += 'last session PID : '+PID+''
+		log += '  Last session PID : '+PID+''
 		
 		# check if there is still a BlenderRenderManager process with this PID
 		if os.path.exists('/proc/'+PID+'/'):
 			with open('/proc/'+PID+'/environ','r') as lockFile:
 				PWDCount = lockFile.read( ).count('PWD='+PWD)
 			if PWDCount > 0:
-				log.error('another session of Blender-Render-Manager is still working! check '+PID+' PID process and stop it!')
+				log.error('  Another session of Blender-Render-Manager is still working! check '+PID+' PID process and stop it!')
 				quit()
 		else:
-			log += 'No old remaining Blender-Render-Manager session detected.'
+			log += '  No old remaining Blender-Render-Manager session detected.'
 	else:
-		log += 'No lock file detected.'
+		log += '  No lock file detected.'
 	
 	# create a lock file to prevent multiple call to the script
-	log += 'create a lock file'
+	log += '  Create a lock file.'
 	createLockFile(str(os.getpid())+'\n'+scriptPath)
 	
 	
@@ -71,12 +71,12 @@ try:
 		log += 'no preferences file, create default file : '
 		preferences = Preferences()
 		savePreferences(preferences)
-		log+='done\n'
+		log+='done'
 	else:
 		log += 'get saved preferences : '
 		with open(os.getcwd()+'/preferences','r') as prefFile:
 			preferences = Preferences( xmlMod.fromstring( (prefFile.read( ) ) ) )
-		log += 'done\n'
+		log += 'done'
 	
 	
 	
@@ -84,7 +84,7 @@ try:
 	if not os.path.exists(preferences.output.path):
 		log += 'The working directorie didn\'t exist, create it: fail'
 		os.makedirs(preferences.output.path)
-		log = log[:len(log)-4]+'done\n'
+		log = log[:len(log)-4]+'done'
 	
 	
 	
