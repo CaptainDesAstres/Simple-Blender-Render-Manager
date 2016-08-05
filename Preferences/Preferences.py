@@ -80,7 +80,7 @@ class Preferences:
 			log.print()
 			self.print()
 			
-			print('''\n    \033[4mPreferences Menu :\033[0m
+			choice = input('''\n    \033[4mPreferences Menu :\033[0m
 1- Edit Blender Path
 2- Edit Work Path
 3- Edit Log Limit
@@ -88,12 +88,9 @@ class Preferences:
 5- Edit Socket Port
 0- Save and quit
 
-''')
-			
-			
+menu choice?''').strip().lower()
 			
 			#treat available actions
-			choice= input('menu?').strip().lower()
 			if choice in ['0', 'q', 'quit', 'cancel']:
 				log.menuOut()# quit preferences menu
 				return
