@@ -38,7 +38,7 @@ class Preferences:
 		
 		self.blender = Blender( xml.find('blender') )
 		self.output = Output( xml.find('output') )
-		self.port = int(xml.find('port').get('value'))
+		self.port = int(xml.get('port'))
 		self.archiveLimit = int(xml.get('archive'))
 		self.logLimit = int(xml.get('log'))
 	
@@ -54,7 +54,7 @@ class Preferences:
 			xml += '<?xml version="1.0" encoding="UTF-8"?>\n'
 		
 		xml += '<preferences archive="'+str(self.archiveLimit)\
-				+'" log="'+str(self.logLimit)+'" >\n'
+				+'" log="'+str(self.logLimit)+'" port="'+str(self.port)+'">\n'
 		
 		if preset:
 			# export blender path
@@ -62,8 +62,6 @@ class Preferences:
 		
 		# export output path
 		xml+= self.output.toXml()
-		
-		xml+= '<port value="'+str(self.port)+'" />'
 		
 		xml += '</preferences>\n'
 		
