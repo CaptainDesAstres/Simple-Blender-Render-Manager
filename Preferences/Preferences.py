@@ -187,7 +187,8 @@ enter to continue
 	
 	
 	def editLimit(self, log, logLim):
-		'''edit log or archive limite'''
+		'''edit log or archive limit'''
+		# get gurrent limit and set good menu
 		if logLim:
 			log.menuIn('Edit Log Limit')
 			current = self.logLimit
@@ -197,30 +198,32 @@ enter to continue
 		
 		while True:
 			log.print()
-			
 			choice = input('\n\nCurrent limit : '+str(current)+'\n\nNew limit (0 for unlimited, q to quit) : ').strip().lower()
 			
-			if choice in ['q', 'quit', 'cancel']:
+			if choice in ['q', 'quit', 'cancel']:# quit mithout change anything
 				log.menuOut()
 				return False
 			
 			try:
-				choice = int(choice)
+				choice = int(choice)#try to get Int value
 			except ValueError:
 				log.error('Integer value expected!',False)
 				continue
 			
 			if choice >= 0:
-				if logLim:
+				if logLim:#set Log Limit
 					self.logLimit = choice
 					log.write('Log limit set to '+str(self.logLimit))
-				else:
+					
+				else:# set Archive Limit
 					self.archiveLimit = choice
-					log.write('Max archive size set to '+str(self.archiveLimit))
+					log.write('Archive size set to '+str(self.archiveLimit))
+					
 				log.menuOut()
-				return True
+				return True# quit menu and confirm change
+				
 			else:
-				log.error('Expect a positive value!')
+				log.error('Expect a positive Integer value!')
 	
 	
 	

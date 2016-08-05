@@ -62,7 +62,7 @@ class Output:
 	
 	
 	def set(self, path, log):
-		'''check and edit output path'''
+		'''check and save new output path'''
 		# remove first and last ' and/or "
 		if path[0] in ['\'', '"'] and path[-1] == path[0]:
 			path  = path[1:len(path)-1]
