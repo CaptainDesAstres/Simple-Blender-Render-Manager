@@ -58,7 +58,7 @@ class FileInfo:
 		
 		log.menuIn('Scene Choice')
 		while True:
-			choice = input('''there is '+str(len(scenes))+' scenes in this file. Do you want to:
+			choice = input('there is '+str(len(scenes))+''' scenes in this file. Do you want to:
 	1- Render all scenes
 	2- Render active scene «'''+self.active+'''»
 	0- Abort''').strip().lower()
