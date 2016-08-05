@@ -313,7 +313,7 @@ Quit : q or quit
 			log.menuOut()
 			log.write('  Blender Version Error : abort task adding')
 			return False
-		print(info)
+		#print(info)# print debug info
 		info = re.search(r'<\?xml(.|\n)*</fileInfo>',info).group(0)
 		info = xmlMod.fromstring(info)
 		info = FileInfo(info)
