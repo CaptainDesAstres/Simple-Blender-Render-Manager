@@ -1,7 +1,7 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
 '''program for manage blender rendering task'''
-import os, sys
+import os
 import xml.etree.ElementTree as xmlMod
 from log import *
 from save import *
