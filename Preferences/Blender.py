@@ -28,22 +28,22 @@ class Blender:
 	
 	
 	def menu(self, log):
-		'''method to see and change Blender path'''
+		'''edit Blender path'''
 		log.menuIn('Blender path')
 		
 		while True:
-			# print log and actual Blender path
+			# print log and current Blender path and get a new one
 			log.print()
-			print('\n            \033[4mBlender Path :\033[0m\n'+self.path+'\n\n')
+			new = input('\n            \033[4mBlender Path :\033[0m\n'\
+					+self.path+'\n\n\nNew path? (empty to keep current)'
+					).strip()
 			
 			# treat given path
-			new = input('New path? (empty to keep current)').strip()
 			if new in [ '', 'q', '0' ]:
 				log.menuOut() # quit preferences menu
 				return False
-			elif self.set(new, log):
-				# check the path and save it
-				log.menuOut() # quit preferences menu
+			elif self.set(new, log):# check the path and save it
+				log.menuOut() # return to preferences menu
 				return True
 	
 	
@@ -51,36 +51,37 @@ class Blender:
 	
 	
 	def set(self, path, log):
-		'''a method to check and set a Blender path'''
-		if path=='blender':
+		'''confirm Blender path and save it'''
+		if path=='blender':# auto accept «blender» default command
 			self.path = 'blender'
 			log.write('Blender path set to «blender».')
 			return True
 		
-		# remove quote mark and apostrophe in first and last character
+		# remove first and last quote mark or apostrophe
 		if path[0] in ['\'', '"'] and path[-1] == path[0]:
 			path  = path[1:len(path)-1]
 		
-		# check that the path is absolute: begin by '/'
+		# ensure it's an absolute path
 		if path[0] != '/':
-			log.error('The path must be absolute (begin by «/»)!')
+			log.error('It must be an absolute path (begining by «/»)!')
 			return False
 		
-		# check path exist 
+		# ensure path exist 
 		if not os.path.exists(path):
 			log.error('This path correspond to nothing!')
 			return False
 		
-		# check path is a file
+		# ensure path is a file
 		if not os.path.isfile(path):
 			log.error('This path is not a file!')
 			return False
 		
-		# check path is executable
+		# ensure the file is executable
 		if not os.access(path, os.X_OK):
-			log.error('This file is not executable or you don\'t have the permission to do it!')
+			log.error('This file is not an executable (or you don\'t have the permission to execute it)!')
 			return False
 		
+		# save as new blender path
 		self.path = path
 		log.write('Blender path set to «'+self.path+'».')
 		return True
