@@ -16,7 +16,6 @@ class Log:
 		self.write('Log file created.\n')
 		
 		self.menu = []
-		
 		self.runMenu = None
 	
 	
@@ -49,7 +48,7 @@ class Log:
 	
 	
 	def write(self, txt, sep = '\n'):
-		'''add lines to the log'''
+		'''add lines to the log text and the log file'''
 		self.logFile.write(txt+sep)
 		self.log += txt+sep
 	
