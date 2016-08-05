@@ -3,7 +3,6 @@
 '''module to manage task settings'''
 import xml.etree.ElementTree as xmlMod
 import os, uuid, subprocess, shlex, time, datetime, threading
-from save import *
 from usefullFunctions import *
 from TaskList.FileInfo.FileInfo import *
 from TaskList.TaskLog.TaskLog import *
@@ -13,7 +12,7 @@ class Task:
 	
 	
 	def __init__(self, path = None, scene = None, fileInfo = None, xml= None):
-		'''initialize task object with default settings or saved settings'''
+		'''load task info'''
 		self.running = False
 		if xml is None:
 			self.defaultInit( path, scene, fileInfo )
@@ -47,7 +46,7 @@ class Task:
 	
 	
 	def fromXml(self, xml):
-		'''initialize Task object with savedd settings'''
+		'''initialize Task object with saved settings'''
 		self.path = xml.get('path')
 		self.scene = xml.get('scene')
 		self.uid = xml.get('uid', uuid.uuid4().hex)
