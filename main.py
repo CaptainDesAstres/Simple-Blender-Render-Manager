@@ -49,7 +49,7 @@ try:
 		PWD = processInfo[1]
 		log += '  Last session PID : '+PID+''
 		
-		# check if there is still a BlenderRenderManager process with this PID
+		# check if there is still a Blender-Render-Manager process with this PID
 		if os.path.exists('/proc/'+PID+'/'):
 			with open('/proc/'+PID+'/environ','r') as lockFile:
 				PWDCount = lockFile.read( ).count('PWD='+PWD)
@@ -66,14 +66,16 @@ try:
 	createLockFile(str(os.getpid())+'\n'+scriptPath)
 	
 	
-	# check Preferences file exist: create it if necessary and open it
+	
+	
+	# load or create Preferences file
 	if not os.path.exists(os.getcwd()+'/preferences'):
-		log += 'no preferences file, create default file : '
+		log.write('Create a default preferences file : ','')
 		preferences = Preferences()
 		savePreferences(preferences)
-		log+='done'
+		log += 'done'
 	else:
-		log += 'get saved preferences : '
+		log.write('Load saved preferences : ','')
 		with open(os.getcwd()+'/preferences','r') as prefFile:
 			preferences = Preferences( xmlMod.fromstring( (prefFile.read( ) ) ) )
 		log += 'done'
