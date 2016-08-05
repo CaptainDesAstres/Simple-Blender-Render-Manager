@@ -5,7 +5,7 @@ import time
 
 
 def now(short = True):
-	'''return short (HH:MM:SS) or long (DD.MM.AAAA-HH:MM:SS) formated current date strings'''
+	'''return current date in short or long form (HH:MM:SS or DD.MM.AAAA-HH:MM:SS)'''
 	if short == True:
 		return time.strftime('%H:%M:%S')
 	else:
