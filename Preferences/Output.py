@@ -41,18 +41,16 @@ class Output:
 	
 	
 	def menu(self, log):
-		'''method to see and edit output path'''
-		log.menuIn('Output')
+		'''edit output path'''
+		log.menuIn('Output Path')
 		
 		while True:
 			log.print()
-			print('\n')
+			new = input('\nWork Path :\n'+self.path\
+							+'\n\n new path? (empty to keep current)'
+						).strip()
 			
-			print('Work Path :\n'+self.path+'\n\n new path? (empty to keep current)')
-			
-			new = input().strip()
-			
-			if new in [ '', '0', 'q' ]:
+			if new in [ '', '0', 'q' ]:# quit output path editing menu
 				log.menuOut()
 				return False
 			elif self.set(new, log) :
@@ -64,30 +62,32 @@ class Output:
 	
 	
 	def set(self, path, log):
-		'''method to edit output path'''
-		
-		# remove ' and/or "
+		'''check and edit output path'''
+		# remove first and last ' and/or "
 		if path[0] in ['\'', '"'] and path[-1] == path[0]:
 			path  = path[1:len(path)-1]
 		
 		# check if it's absolute path
 		if path[0] != '/':
-			log.error('The path must be absolute (begin by «/»)!')
+			log.error('It must be an absolute path!')
 			return False
 		
 		# check path exist 
 		if not os.path.exists(path):
-			log.error('This path correspond to nothing!')
-			return False
+			try:
+				os.makedirs(path)
+			except Exception as e:
+				log.error('Unable to find or create a disectory with this path!')
+				return False
 		
 		# check path is a directory
 		if not os.path.isdir(path):
-			log.error('This path don\'t correspond to a directory!')
+			log.error('It must be a directory!')
 			return False
 		
 		# check path is writable
 		if not os.access(path, os.W_OK):
-			log.error('You don\'t have the permission to write in this directory!')
+			log.error('You must have writing access permission!')
 			return False
 		
 		if path[-1] != '/':
@@ -96,17 +96,20 @@ class Output:
 		# apply path settings and confirm
 		old = self.path
 		self.path = path
-		log.write('Work path set to : '+self.path)
+		log.write('Working directory set to : '+self.path)
 		
-		confirm = input('move old working directorie contert into the new one? (empty or y to confirm)').strip()
-		if confirm in [ '', 'y' ]:
+		# manage old path content
+		confirm = input('move old working directory content into the new one (!!!overwriting risk!!!)? (empty or y = confirm)').strip()
+		
+		if confirm in [ '', 'y' ]:# content moved to the new path
 			for f in os.listdir(old):
 				movedir(old+f, path)
-			log.write('«'+old+'» content have been moved to «'+self.path+'»')
-		else:
+			log.write('«'+old+'» content have been moved into «'+self.path+'»')
+			
+		else:# content ignore
 			log.write('«'+old+'» content haven\'t been moved!')
 		
-		return True
+		return True# confirm change
 	
 	
 	
