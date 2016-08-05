@@ -130,7 +130,7 @@ class TaskList:
 				log.menuIn('Help')
 				log.print()
 				
-				print('''\n\n        \033[4mHELP :\033[0m
+				input('''\n\n        \033[4mHELP :\033[0m
 
 Scroll up the list : u or <
 Scroll down the list : d or > or just type enter
@@ -138,15 +138,15 @@ Scroll down the list : d or > or just type enter
 Add task : a or add or +
 Edit/inspect a task : type the index of the task
 Batch editing : b or batch
-Run tasks : r or run
-See archived ended task : l or log
+Render tasks : r or run
+See archived rendered task : l or log
 
 Preferences access : p or pref or preferences
 Help : h or help
 Quit : q or quit
 
-''')
-				input('Press enter to continue')
+
+Press enter to continue''')
 				log.menuOut()
 				
 			else:
