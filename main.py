@@ -40,38 +40,29 @@ except Exception as e :
 try:
 	# check if lock file exist
 	if os.path.exists(os.getcwd()+'/lock'):
-		log += 'Lock file exist, check it:\n'
+		log += 'Check lock file :'
+		
+		# get info about the last blender manager session (PID and PWD)
 		with open(os.getcwd()+'/lock','r') as lockFile:
 			processInfo = lockFile.read( ).split('\n')
 		PID = processInfo[0]
 		PWD = processInfo[1]
-		log += 'Lock PID : '+PID+'\n'
-	
-		# check there is a process with corresponding PID and check this process corespond to the script:
-		if os.path.exists('/proc/'+PID+'/'):
-			log += 'There is a process for this PID, check it:\n'
+		log += 'last session PID : '+PID+''
 		
+		# check if there is still a BlenderRenderManager process with this PID
+		if os.path.exists('/proc/'+PID+'/'):
 			with open('/proc/'+PID+'/environ','r') as lockFile:
 				PWDCount = lockFile.read( ).count('PWD='+PWD)
 			if PWDCount > 0:
-				log += '''The process seem to correspond to a Blender-Render-Manager session! Quit this new Session!
-
-	\033[31mBlender-Render-Manager is already running : check the process with '''+PID+''' PID and stop it!\033[0m
-
-
-	'''
-				print(log)
+				log.error('another session of Blender-Render-Manager is still working! check '+PID+' PID process and stop it!')
 				quit()
-			else:
-				log += 'the process don\'t correspond apparently to a Blender-Render-Manager, lock file ignored.\n'
-		
 		else:
-			log += 'there is no process corresponding to this PID, lock file ignored.\n'
+			log += 'No old remaining Blender-Render-Manager session detected.'
 	else:
-		log += 'No lock file exist, check it:\n'
+		log += 'No lock file detected.'
 	
 	# create a lock file to prevent multiple call to the script
-	log += 'create lock file'
+	log += 'create a lock file'
 	createLockFile(str(os.getpid())+'\n'+scriptPath)
 	
 	
