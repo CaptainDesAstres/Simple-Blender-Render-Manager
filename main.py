@@ -27,7 +27,6 @@ if not os.path.exists('/home/'+os.getlogin()+'/.BlenderRenderManager/'):
 else:
 	log += 'Find configuration directorie\n'
 os.chdir('/home/'+os.getlogin()+'/.BlenderRenderManager')
-settingPath = os.getcwd()
 
 
 
