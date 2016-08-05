@@ -104,7 +104,14 @@ def run(task, sceneLog, bpy, socket, preferences ):
 		start = time.time()
 		
 		# render the frame
-		bpy.ops.render.render( write_still=True )
+		try:
+			bpy.ops.render.render( write_still=True )
+		except Exception as e:
+			socket.sendall( (task.uid+' debugMsg('+str(e)+'[file «'+task.log.name\
+						+'» scene «'+scene.name+'»  frame '\
+						+str(scene.frame_current)+']) EOS').encode() )
+			break
+		
 		
 		endDate = datetime.datetime.today()
 		computeTime = time.time() - start
