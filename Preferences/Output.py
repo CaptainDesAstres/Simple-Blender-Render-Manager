@@ -14,9 +14,9 @@ class Output:
 	def __init__(self, xml= None):
 		'''load (or initialize default) output path preferences'''
 		if xml is None:
-			if not os.path.exists('/home/'+os.getlogin()+'/.BlenderRenderManager/render'):
-				os.mkdir('/home/'+os.getlogin()+'/.BlenderRenderManager/work')
-			self.path = '/home/'+os.getlogin()+'/.BlenderRenderManager/work/'
+			self.path = '/home/'+os.getlogin()+'/.BlenderRenderManager/work'
+			if not os.path.exists(self.path):
+				os.mkdir(self.path)
 		else:
 			self.fromXml(xml)
 	
