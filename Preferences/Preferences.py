@@ -46,24 +46,16 @@ class Preferences:
 	
 	
 	
-	def toXml(self, preset = True, head = True):
-		'''export preferences settings into xml syntaxed string'''
-		xml = ''
+	def toXml(self):
+		'''export to xml'''
+		xml= '<?xml version="1.0" encoding="UTF-8"?>\n'
 		
-		if head:
-			xml += '<?xml version="1.0" encoding="UTF-8"?>\n'
-		
-		xml += '<preferences archive="'+str(self.archiveLimit)\
+		#export limit and socket port settings
+		xml+= '<preferences archive="'+str(self.archiveLimit)\
 				+'" log="'+str(self.logLimit)+'" port="'+str(self.port)+'">\n'
 		
-		if preset:
-			# export blender path
-			xml += self.blender.toXml()
-		
-		# export output path
-		xml+= self.output.toXml()
-		
-		xml += '</preferences>\n'
+		# export blender and output path
+		xml+= self.blender.toXml() + self.output.toXml() +'</preferences>\n'
 		
 		return xml
 	
@@ -107,7 +99,7 @@ menu choice?''').strip().lower()
 			elif choice == '5':# edit socket port for blender thread communication
 				change = self.editPort(log)
 				
-			else:
+			else:# bad choice
 				log.error('Unknow request!', False)
 			
 			if change:# save when preferences have been changed
