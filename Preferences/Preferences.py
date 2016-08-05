@@ -134,53 +134,41 @@ menu choice?''').strip().lower()
 	
 	
 	def editPort(self, log):
-		'''A method to change the net port to communicate with blender instance'''
+		'''Set blender communication socket port'''
 		log.menuIn('Edit Net Port')
+		
 		while True:
 			log.print()
+			choice = input('\n\n        Edit Net Port :\n\nCurrent port :'\
+						+str(self.port)\
+						+'\n\nType a number from 1024 to 65535 or h or q'\
+							).strip().lower()# get a new port choice
 			
-			choice = input('''
-
-        Edit Net Port :
-
-Current port :'''+str(self.port)+'''
-
-Type the wanted port between 1024 and 65535 or q to quit or h for help :''').strip().lower()
-			
-			if choice in ['q', 'quit', 'cancel']:
+			if choice in ['q', 'quit', 'cancel']:# quit port setting
 				log.menuOut()
 				return False
 			
-			if choice in ['h', 'help']:
+			if choice in ['h', 'help']:# display help information
 				log.menuIn('Help')
 				log.print()
-				input('''
-
-        Help :
-When Blender Render Manager is running blender to render a picture, it communicate with Blender via a web socket to stay informed of the status. This setting is the port that the script use for the socket. be sure to use a port who is not used by another process.
-
-enter to continue
-''')
+				input('\n\n        Help :\nWhen Blender Render Manager is running blender to render a picture, it communicate with Blender via a web socket to stay informed of the status. This setting is the port that the script use for the socket. be sure to use a port who is not used by another process.\n\nenter to continue\n')
 				log.menuOut()
 				continue
 			
 			try:
-				choice = int(choice)
+				choice = int(choice)# try to get an integer
 			except ValueError:
 				log.error('integer value expected!',False)
 				continue
 			
-			if choice < 1024 or choice > 65535:
-				log.error('the port value must be between 1024 and 65535!',False)
+			if choice < 1024 or choice > 65535:# ensure it's a valid port
+				log.error('the port must be between 1024 (exclude) and 65535 (exclude)!',False)
 				continue
 			
-			self.port = choice
+			self.port = choice # set the new port
 			log.write('the socket port is set to '+str(self.port))
 			log.menuOut()
-			return True
-			
-			
-			
+			return True# confirm change
 	
 	
 	
