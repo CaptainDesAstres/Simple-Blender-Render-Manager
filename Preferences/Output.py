@@ -12,7 +12,7 @@ class Output:
 	
 	
 	def __init__(self, xml= None):
-		'''initialize output path with default value or values extracted from an xml object'''
+		'''load (or initialize default) output path preferences'''
 		if xml is None:
 			if not os.path.exists('/home/'+os.getlogin()+'/.BlenderRenderManager/render'):
 				os.mkdir('/home/'+os.getlogin()+'/.BlenderRenderManager/work')
@@ -25,7 +25,7 @@ class Output:
 	
 	
 	def fromXml(self, xml):
-		'''initialize output path with value extracted from an xml object'''
+		'''Load output path from xml'''
 		self.path = xml.get('path')
 	
 	

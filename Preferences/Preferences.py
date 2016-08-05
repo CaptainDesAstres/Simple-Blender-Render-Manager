@@ -1,16 +1,16 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
-'''module to manage preferences of the script'''
+'''module to manage preferences of Blender-Render-Manager'''
 from save import *
 from Preferences.Blender import *
 from Preferences.Output import *
 
 class Preferences:
-	'''class dedicated to script preferences settings'''
+	'''class to manage Blender-Render-Manager preferences'''
 	
 	
 	def __init__(self, xml= None):
-		'''initialize preferences object with default value or values extracted from an xml object'''
+		'''load preferences object from XML or initialize default one'''
 		if xml is None:
 			self.defaultInit()
 		else:
@@ -21,20 +21,20 @@ class Preferences:
 	
 	
 	def defaultInit(self):
-		'''initialize preferences object with default value'''
+		'''initialize default preferences object'''
 		
-		self.blender = Blender()
-		self.output = Output()
-		self.port = 55814
-		self.archiveLimit = 1000
-		self.logLimit = 100
+		self.blender = Blender() # blender application path
+		self.output = Output() # working directory path
+		self.port = 55814 # socket port to communicate with blender thread
+		self.archiveLimit = 1000 # max number of task to keep in archive list
+		self.logLimit = 100 # max number of session log file to keep
 	
 	
 	
 	
 	
 	def fromXml(self, xml):
-		'''initialize preferences object with values extracted from an xml object'''
+		'''Load preferences from xml'''
 		
 		self.blender = Blender( xml.find('blender') )
 		self.output = Output( xml.find('output') )

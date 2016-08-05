@@ -1,6 +1,6 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
-'''module to manage list of all know version of Blender in the system'''
+'''module to manage Blender application path'''
 import os
 
 class Blender:
@@ -8,7 +8,7 @@ class Blender:
 	
 	
 	def __init__(self, xml= None):
-		'''initialize Blender path on loading'''
+		'''load or initialize Blender path'''
 		if xml is None:
 			self.path = 'blender'
 		else:
