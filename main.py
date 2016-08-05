@@ -26,6 +26,7 @@ if not os.path.exists('/home/'+os.getlogin()+'/.BlenderRenderManager/'):
 	log = log[:len(log)-4]+'done\n'
 else:
 	log += 'Find configuration directorie\n'
+# use configuration directorie as command working directory
 os.chdir('/home/'+os.getlogin()+'/.BlenderRenderManager')
 
 
