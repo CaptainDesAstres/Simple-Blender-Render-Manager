@@ -318,7 +318,7 @@ action : ''').strip().lower()
 			log.write('\033[31mTask n°'+str(index)+' : Blender call error! Try to verify the path of blender!\033[0m')
 		
 		self.eraseTaskScript(script)
-		log.write('###\n'+results+'###\n')
+		#log.write('###\n'+results+'###\n')
 		log.menuOut()
 		return True
 	
@@ -366,7 +366,7 @@ action : ''').strip().lower()
 			action = m[33:m.find('(')]
 			info = m[46:-1]
 			if uid == self.uid and action == 'debugMsg':
-				log.write(info)
+				log.write( m[m.find('(')+1 : -1] )
 			elif uid == self.uid and action == 'ConfirmFrame':
 				info = info.split(',')
 				scene = info[0]
