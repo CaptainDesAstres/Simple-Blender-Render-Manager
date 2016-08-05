@@ -12,26 +12,28 @@ class TaskList:
 	'''class to manage task list'''
 	
 	# constante value for runningMode
-	OFF = 0
-	UNTIL_LIST_END = 1
-	UNTIL_FRAME_END = 2
-	UNTIL_GROUP_END = 3
-	UNTIL_TASK_END = 4
-	STOP_NOW = 5
-	STOP_FORCED = 6
+	OFF = 0 # not running
+	UNTIL_LIST_END = 1 # running until all task have been rendered
+	UNTIL_FRAME_END = 2 # running until end of rendering of the current frame
+	UNTIL_GROUP_END = 3 # running until end of rendering of the current group
+	UNTIL_TASK_END = 4 # running until end of rendering of the current task
+	STOP_NOW = 5 # stop as soon as possible
+	STOP_FORCED = 6 # stop by forcing blender to stop
 	
 	def __init__(self, xml= None):
-		'''initialize task list object, empty or with saved task'''
-		self.status = 'stop'
-		self.current = None
-		self.runningMode = self.OFF
-		self.socket = None
-		self.listenerThreads = None
-		self.listenerSockets = None
-		self.renderingSubprocess = None
-		if xml is None:
-			self.defaultInit()
-		else:
+		'''load task list'''
+		self.status = 'stop' # Blender-Render-Manager status: stop or run
+		self.current = None # current running task in running mode
+		self.runningMode = self.OFF # running mode (see constant values)
+		self.socket = None # socket to communicate with blender in running mode
+		self.listenerThreads = None # same thing
+		self.listenerSockets = None # same thing
+		self.renderingSubprocess = None # contain blender subprocess in running mode
+		
+		self.tasks = [] # pending task list
+		self.archive = [] # archived task list
+		
+		if xml is not None:
 			self.fromXml(xml)
 	
 	
@@ -48,23 +50,11 @@ class TaskList:
 	
 	
 	
-	def defaultInit(self):
-		'''initialize empty task list object'''
-		
-		self.tasks = []
-		self.archive = []
-	
-	
-	
-	
-	
 	def fromXml(self, xml):
-		'''initialize task list object with saved task'''
-		self.tasks = []
+		'''load pending and archived task list from xml'''
 		for node in xml.find('tasks').findall('task'):
 			self.tasks.append(Task(xml = node))
 		
-		self.archive = []
 		for node in xml.find('archive').findall('task'):
 			self.archive.append(Task(xml = node))
 	
