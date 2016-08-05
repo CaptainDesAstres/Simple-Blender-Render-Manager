@@ -118,12 +118,14 @@ class Preferences:
 	
 	
 	def print(self):
-		'''a method to display preferences settings'''
-		print('Blender Path : '+self.blender.path)
-		print('Work Path : '+self.output.path)
-		print('Socket Port : '+str(self.port))
-		print('Session Log Limit : '+str(self.logLimit))
-		print('Archive Limit : '+str(self.archiveLimit))
+		'''display preference settings'''
+		print('Blender Path : '+self.blender.path,\
+				'Work Path : '+self.output.path,\
+				'Socket Port : '+str(self.port),\
+				'Session Log Limit : '+str(self.logLimit),\
+				'Archive Limit : '+str(self.archiveLimit),\
+				sep='\n'
+			)
 	
 	
 	
