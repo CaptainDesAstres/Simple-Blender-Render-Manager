@@ -92,17 +92,16 @@ try:
 	
 	
 	
-	
-	# check task list file exist: create it if necessary and open it
-	if not os.path.exists(preferences.output.path+'/Tasks'):
-		log.write('no task list file, create default empty file : ', '')
+	# load or create task list file
+	if not os.path.exists(preferences.output.path+'Tasks'):
+		log.write('Create empty task list file : ', '')
 		tasks = TaskList()
 		saveTasks(preferences.output.path, tasks)
 		log.write('done')
 	else:
-		log.write('get saved tasks list : ', '')
-		with open(preferences.output.path+'/Tasks','r') as tasksFile:
-			tasks = TaskList( xmlMod.fromstring( (tasksFile.read( ) ) ) )
+		log.write('Load saved task list : ', '')
+		with open(preferences.output.path+'Tasks','r') as taskFile:
+			tasks = TaskList( xmlMod.fromstring( (taskFile.read( ) ) ) )
 		log.write('done')
 	
 	
