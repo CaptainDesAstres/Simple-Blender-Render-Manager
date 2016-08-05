@@ -26,8 +26,21 @@ if not os.path.exists('/home/'+os.getlogin()+'/.BlenderRenderManager/'):
 	log = log[:len(log)-4]+'done\n'
 else:
 	log += 'Find configuration directorie\n'
+
 # use configuration directorie as command working directory
 os.chdir('/home/'+os.getlogin()+'/.BlenderRenderManager')
+
+
+
+
+# check if log directorie exist, otherwise create it
+if not os.path.exists(os.getcwd()+'/log/'):
+	log += 'No log directorie, create it: fail'
+	os.mkdir(os.getcwd()+'/log')
+	log = log[:len(log)-4]+'done\n'
+
+# create a log file
+log = Log(start,log)
 
 
 
@@ -89,15 +102,6 @@ if not os.path.exists(preferences.output.path):
 	log = log[:len(log)-4]+'done\n'
 
 
-
-# check if log directorie exist, otherwise create it
-if not os.path.exists(os.getcwd()+'/log/'):
-	log += 'No log directorie, create it: fail'
-	os.mkdir(os.getcwd()+'/log')
-	log = log[:len(log)-4]+'done\n'
-
-# create a log file
-log = Log(start,log)
 
 
 
