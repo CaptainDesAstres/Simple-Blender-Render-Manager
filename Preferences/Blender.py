@@ -2,6 +2,7 @@
 # -*-coding:Utf-8 -*
 '''module to manage Blender application path'''
 import os
+from usefullFunctions import XML
 
 class Blender:
 	'''class dedicated to manage Blender path'''
@@ -12,16 +13,15 @@ class Blender:
 		if xml is None:
 			self.path = 'blender'
 		else:
-			self.path = xml.get('path')
+			self.path = XML.decode(xml.get('path'))
 	
 	
 	
 	
 	
 	def toXml(self):
-		'''export Blender path into xml syntaxed string'''
-		
-		return '  <blender path="'+self.path+'" />\n'
+		'''xml export'''
+		return '  <blender path="'+XML.encode(self.path)+'" />\n'
 	
 	
 	

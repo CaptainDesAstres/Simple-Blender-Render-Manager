@@ -26,14 +26,14 @@ class Output:
 	
 	def fromXml(self, xml):
 		'''Load output path from xml'''
-		self.path = xml.get('path')
+		self.path = XML.decode(xml.get('path'))
 	
 	
 	
 	
 	
 	def toXml(self):
-		'''export output path into xml syntaxed string'''
+		'''xml export'''
 		return '<output path="'+XML.encode(self.path)+'" />\n'
 	
 	
