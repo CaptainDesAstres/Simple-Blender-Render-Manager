@@ -91,15 +91,16 @@ class TaskList:
 		
 		while True:
 			log.print()
-			
 			self.print(page)
+			choice= input('action ? (h for help):').strip().lower()
 			
-			choice= input('action (h for help):').strip().lower()
-			if choice in ['q', 'quit']:
+			if choice in ['q', 'quit']:# quit Blender-Render-Manager
 				log.menuOut()
 				return
+				
 			elif choice in ['p', 'pref', 'preferences']:
-				preferences.menu(log, self)
+				preferences.menu(log, self)# access preferences menu
+				
 			elif choice in ['r', 'run']:
 				self.run(scriptPath, log, preferences)
 				saveTasks(preferences.output.path, self)

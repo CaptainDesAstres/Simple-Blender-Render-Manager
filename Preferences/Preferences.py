@@ -72,7 +72,7 @@ class Preferences:
 	
 	
 	def menu(self, log, tasks):
-		'''method to see preferences settings and access edition menu'''
+		'''access function to set preferences'''
 		log.menuIn('Preferences')
 		change = False
 		
