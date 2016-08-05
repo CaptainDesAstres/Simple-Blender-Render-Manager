@@ -106,19 +106,13 @@ try:
 	
 	
 	
-	
-	
-	
 	tasks.menu(scriptPath, log, preferences)
-	
 	checkLogLimit(preferences.logLimit)
+	
 except Exception as e:
 	log.print(False)
-	print('the script crash here : ')
+	print('Blender-Render-Manager crash in menu : ')
 	log.printMenu()
-	print('the script exception : '+str(e))
-
-
-
+	print('Blender-Render-Manager encounter the exception : '+str(e))
 
 
