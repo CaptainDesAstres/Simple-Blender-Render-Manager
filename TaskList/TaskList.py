@@ -220,35 +220,38 @@ Quit : q or quit
 	
 	
 	def print(self, page, selection = None, whole = False, archive = False):
-		'''A method to print the list of the pending task or archive task or selected task'''
-		Psize = 25
+		'''Display pending or selected or archived task list'''
+		Psize = 25 # task by page
+		
+		# print page header
 		print('''
 \033[4mID |  File Name              |  Rendering All Scene?   |  Status                 |\033[0m''')
 		if page > 0:
-			print('▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|')
+			print('▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|')
 		
-		if archive:
+		if archive:# get archived task to display
 			selected = self.archive[page*Psize:(page+1)*Psize]
 			index = list(range(page*Psize, (page+1)*Psize))
-		elif selection is None or whole:
+		elif selection is None or whole:# get pending task to display
 			selected = self.tasks[page*Psize:(page+1)*Psize]
 			index = list(range(page*Psize, (page+1)*Psize))
-		else:
+		else:# get selected pending task to display
 			selection.sort()
 			index = selection
 			selected = []
-			for i in selection:
+			for i in index:
 				selected.append(self.tasks[i])
 		
 		
 		for i,task in enumerate(selected):
+			# get and print row content to display
 			row = columnLimit( index[i], 3, 0)
 			row += task.getRow()
 			if whole and index[i] in selection:
-				row = '\033[7m'+row+'\033[0m'
+				row = '\033[7m'+row+'\033[0m' # colorize selected task
 			print(row)
 		
-		
+		# print footer
 		if selection is not None and (page+1)*Psize <= len(selected)\
 			or selection is None and (\
 					( not archive and (page+1)*Psize <= len(self.tasks) )\
