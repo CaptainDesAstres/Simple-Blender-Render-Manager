@@ -1,11 +1,9 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
 '''module to manage working path'''
-import xml.etree.ElementTree as xmlMod
-import os, re
-from shutil import rmtree as rmdir
+import os
 from shutil import move as movedir
-from usefullFunctions import indexPrintList, XML
+from usefullFunctions import XML
 
 class Output:
 	'''class to manage working path'''
