@@ -85,7 +85,7 @@ class TaskList:
 	
 	
 	def menu(self, scriptPath, log, preferences):
-		'''method to see task list and manage it'''
+		'''display Blender-Render-Manager main menu'''
 		log.menuIn('Task List')
 		page = 0
 		

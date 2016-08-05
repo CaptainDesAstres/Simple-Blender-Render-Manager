@@ -39,10 +39,10 @@ class Log:
 	
 	def print(self, menu = True):
 		'''print the log'''
-		os.system('clear')
-		print(self.log)
+		os.system('clear')# clear terminal output
+		print(self.log)# print log content
 		if menu :
-			self.printMenu()
+			self.printMenu()# print current menu location
 	
 	
 	
@@ -93,20 +93,22 @@ class Log:
 	
 	
 	def printMenu(self):
-		'''print three structure to current menu position'''
+		'''print three to the current menu position'''
 		bar = '=========================='
 		print(bar)
-		if len(self.menu) == 0 :
+		
+		if len(self.menu) == 0 :# undefine position!
 			print('⁻⁼=####MENU ERROR####=⁼⁻\n'+bar)
+			
 		else:
-			for i,m in enumerate(self.menu):
-				if i == 0:
-					prefix = ''
-				else:
+			prefix = ''
+			for i,m in enumerate(self.menu):# print each menu
+				if i!= 0:
 					i -= 1
 					prefix = '╚═ '
 				print(('  '*i)+prefix+m+' :')
-			print(bar)
+		
+		print(bar)
 	
 	
 	
