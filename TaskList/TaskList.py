@@ -101,26 +101,32 @@ class TaskList:
 			elif choice in ['p', 'pref', 'preferences']:
 				preferences.menu(log, self)# access preferences menu
 				
-			elif choice in ['r', 'run']:
+			elif choice in ['r', 'run']:# Start task rendering
 				self.run(scriptPath, log, preferences)
 				saveTasks(preferences.output.path, self)
-			elif choice in ['a', 'add', '+']:
-				if (self.add(log, preferences)):
-					saveTasks(preferences.output.path, self)
-			elif choice in ['d', '>', '']:
+				
+			elif choice in ['a', 'add', '+'] \
+					and self.add(log, preferences):# add task to the list
+				saveTasks( preferences.output.path, self )
+				
+			elif choice in ['d', '>', '']:# display next task page
 				if page < math.floor((len(self.tasks)-1)/25):
 					page += 1
+					
 				elif choice == '':
 					page = 0
-			elif choice in ['u', '<']:
-				if page > 0:
-					page -= 1
-			elif choice in ['b', 'batch']:
-				if(self.batchEdit(log, preferences)):
-					self.save(preferences.output.path)
-			elif choice in ['l', 'log']:
+				
+			elif choice in ['u', '<'] and page > 0:# display previous task page
+				page -= 1
+				
+			elif choice in ['b', 'batch'] \
+					and self.batchEdit(log, preferences):# edit task by batch
+				self.save(preferences.output.path)
+				
+			elif choice in ['l', 'log']:# display archived task
 				self.menuArchive(log)
-			elif choice in ['h', 'help']:
+				
+			elif choice in ['h', 'help']:# display menu help
 				log.menuIn('Help')
 				log.print()
 				
@@ -140,10 +146,11 @@ Help : h or help
 Quit : q or quit
 
 ''')
-				
 				input('Press enter to continue')
 				log.menuOut()
+				
 			else:
+				# determine targeted task
 				try:
 					choice = int(choice)
 				except:
@@ -154,6 +161,7 @@ Quit : q or quit
 					log.error('There is no task n°'+str(choice)+'!', False)
 					continue
 				
+				# edit selected task
 				if(self.tasks[choice].menu(log, choice, self, preferences)):
 					self.save(preferences.output.path)
 	
