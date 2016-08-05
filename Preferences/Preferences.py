@@ -91,21 +91,26 @@ class Preferences:
 menu choice?''').strip().lower()
 			
 			#treat available actions
-			if choice in ['0', 'q', 'quit', 'cancel']:
-				log.menuOut()# quit preferences menu
+			if choice in ['0', 'q', 'quit', 'cancel']:# quit preferences menu
+				log.menuOut()
 				return
-			elif choice == '1':
+				
+			elif choice == '1':# edit blender application path
 				change = self.blender.menu(log)
-			elif choice == '2':
+				
+			elif choice == '2':# edit working directory path
 				change = self.output.menu(log)
-			elif choice in ['3', '4']:
+				
+			elif choice in ['3', '4']:# edit log or archive limit
 				change = self.editLimit(log, choice == '3' )
-			elif choice == '5':
+				
+			elif choice == '5':# edit socket port for blender thread communication
 				change = self.editPort(log)
+				
 			else:
 				log.error('Unknow request!', False)
 			
-			if change:
+			if change:# save when preferences have been changed
 				change = False
 				savePreferences(self)
 				log.write('New preferences saved')

@@ -14,17 +14,19 @@ def now(short = True):
 
 
 def columnLimit(value, limit, begin = True, sep = '|'):
-	'''function to make sure to have a good column size'''
+	'''make fix sized text column'''
 	if type(value) is not str:
 		value = str(value)
 	
 	if begin is True:
-		begin = limit
+		begin = limit# number of first caracter to display
 	
 	if len(value) > limit:
-		return value[0:begin-1]+'…'+value[len(value)-(limit-begin):]+sep
+		return (value[0:begin-1]+'…'# first caracter\
+				+value[len(value)-(limit-begin):]# last caracter\
+				+sep) # column seperator
 	else:
-		return value+(' '*(limit-len(value)))+sep
+		return value +  (' '*(limit-len(value)))  +sep# add space to match needed size
 
 
 
