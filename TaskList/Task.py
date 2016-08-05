@@ -13,6 +13,8 @@ class Task:
 	
 	def __init__(self, path = None, scene = None, fileInfo = None, xml= None):
 		'''load task settings'''
+		self.log = None # task rendering log
+		
 		if xml is None:
 			self.defaultInit( path, scene, fileInfo )
 		else:
@@ -23,12 +25,11 @@ class Task:
 	
 	
 	def defaultInit(self, path, scene, fileInfo):
-		'''initialize Task object with default settings'''
-		self.path = path
-		self.scene = scene
-		self.info = fileInfo
-		self.uid = uuid.uuid4().hex
-		self.log = None
+		'''load new Task settings'''
+		self.path = path # path to the blender file
+		self.scene = scene # False = render only active scene, True = render all scene
+		self.info = fileInfo # FileInfo object, contain blender file information
+		self.uid = uuid.uuid4().hex # unique ident
 		self.status = 'waiting'
 #		self.status possible values:
 #		waiting    > the task have been set and is waiting to be run
@@ -38,25 +39,22 @@ class Task:
 #		running    > the task is running
 #		pause      > the task have been started but is now waiting to be continued
 #		ended      > the task have been totaly rendered
-#		erased     > the task have been erased
 	
 	
 	
 	
 	
 	def fromXml(self, xml):
-		'''initialize Task object with saved settings'''
+		'''Load Task settings from xml'''
 		self.path = xml.get('path')
 		self.scene = xml.get('scene')
 		self.uid = xml.get('uid', uuid.uuid4().hex)
 		self.status = xml.get('status')
-		self.info = FileInfo(xml.find('fileInfo'))
+		self.info = FileInfo( xml.find('fileInfo') )
 		
 		node = xml.find('log')
 		if node is not None:
 			self.log = TaskLog(xml = node)
-		else:
-			self.log = None
 	
 	
 	
