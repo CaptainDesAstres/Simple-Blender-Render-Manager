@@ -1,24 +1,19 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
-'''module who manage the log of the script'''
+'''module to manage script log'''
 import os
 
 class Log:
-	'''class who manage the log of the script
-there is to log: 
-	the file where is save the log at each new line,
-	the string who is print eache time that the standart output is erase'''
+	'''a class to manage all script output except menuing. must be print to each new page.'''
 	
 	def __init__(self, start, init):
-		'''initialize the log object and open the log file'''
-		self.log = init
-		if not os.path.exists(os.getcwd()+'/log/session '+start+'.log'):
-			self.logFile = open(os.getcwd()+'/log/session '+start+'.log','w')
-		else:
-			self.logFile = open(os.getcwd()+'/log/session '+start+'.log','a')
+		'''initialize session log (object and file)'''
+		self.log = init # log text content
 		
+		self.logFile = open(os.getcwd()+'/log/session '+start+'.log','w')
 		self.logFile.write(self.log)
-		self.write('log creation\n')
+		
+		self.write('Log file created.\n')
 		
 		self.menu = []
 		
