@@ -12,8 +12,7 @@ class Task:
 	
 	
 	def __init__(self, path = None, scene = None, fileInfo = None, xml= None):
-		'''load task info'''
-		self.running = False
+		'''load task settings'''
 		if xml is None:
 			self.defaultInit( path, scene, fileInfo )
 		else:
