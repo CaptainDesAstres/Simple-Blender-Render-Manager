@@ -83,11 +83,11 @@ try:
 	
 	
 	
-	# check if working directorie exist
+	# check working directory
 	if not os.path.exists(preferences.output.path):
-		log += 'The working directorie didn\'t exist, create it: fail'
+		log.write('Can\'t find working directory. Try to create it:','')
 		os.makedirs(preferences.output.path)
-		log = log[:len(log)-4]+'done'
+		log += 'done'
 	
 	
 	
