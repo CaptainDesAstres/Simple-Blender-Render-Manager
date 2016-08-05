@@ -76,9 +76,10 @@ there is to log:
 	
 	
 	
-	def iadd(self,txt):
-		'''redirect '+=' operator to the write()method'''
+	def __iadd__(self,txt):
+		'''redirect '+=' operator to the write() method'''
 		self.write(txt);
+		return self
 	
 	
 	
