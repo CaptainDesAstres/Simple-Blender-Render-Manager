@@ -943,48 +943,6 @@ What do you want to do? (type h for help)'''
 	
 	
 	
-	def upBackup(self, uid):
-		'''up backup level in TaskLog'''
-		for task in self.archive:
-			if task.uid == uid:
-				task.log.backup += 1
-				self.save(preferences.output.path)
-				return True
-		
-		for task in self.tasks:
-			if task.uid == uid:
-				task.log.backup += 1
-				self.save(preferences.output.path)
-				return True
-		
-		return False
-	
-	
-	
-	
-	
-	def eraseBackup(self, uid):
-		'''mark erased task'''
-		for task in self.archive:
-			if task.uid == uid:
-				task.log.status = 'erased'
-				self.save(preferences.output.path)
-				return True
-		
-		for task in self.tasks:
-			if task.uid == uid:
-				self.tasks.remove(task)
-				self.archive.append(task)
-				task.log.status = 'erased'
-				self.save(preferences.output.path)
-				return True
-		
-		return False
-	
-	
-	
-	
-	
 	def checkAndArchive(self, limit):
 		'''check ended task to ensure that all frame have been well rendered and archive ended tasks'''
 		for task in self.tasks[:]:

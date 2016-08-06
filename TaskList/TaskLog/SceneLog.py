@@ -12,7 +12,7 @@ class SceneLog:
 	pageSize = 15
 	
 	def __init__(self, xml = None, scene = None, task = None):
-		'''initialize scene log object'''
+		'''load scene info'''
 		if xml is None:
 			self.defaultInit(scene, task)
 		else:
@@ -24,19 +24,19 @@ class SceneLog:
 	
 	
 	def defaultInit(self, scene, task):
-		'''initialize Scene log'''
-		self.name = scene
-		self.start = task.info.scenes[scene].start
-		self.end = task.info.scenes[scene].end
-		self.frames = []
-		self.status = 'ready to start'
+		'''load scene info'''
+		self.name = scene # blender scene name
+		self.start = task.info.scenes[scene].start # starting frame
+		self.end = task.info.scenes[scene].end # ending frame
+		self.frames = [] # frame log list
+		self.status = 'ready to start' # scene rendering status
 	
 	
 	
 	
 	
 	def fromXml(self, xml):
-		'''initialize Scene log object with saved log'''
+		'''load Scene info from xml'''
 		self.name = XML.decode(xml.get('name'))
 		self.start = int(xml.get('start'))
 		self.end = int(xml.get('end'))

@@ -23,9 +23,11 @@ class TaskLog:
 	
 	def defaultInit(self, task):
 		'''generate log from task settings'''
+		# get task file name
 		self.name = task.path.split('/').pop().split('.')
 		self.name.pop()
 		self.name = '.'.join(self.name)
+		
 		self.backup = 0
 		
 		self.scenes = []
