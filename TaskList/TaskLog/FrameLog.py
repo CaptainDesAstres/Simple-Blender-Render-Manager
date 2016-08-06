@@ -14,7 +14,8 @@ class FrameLog:
 					frame = None,
 					date = None,
 					computingTime = None):
-		'''initialize task frame object'''
+		'''load frame info'''
+		
 		if xml is None:
 			self.defaultInit(frame, date, computingTime)
 		else:
@@ -25,17 +26,17 @@ class FrameLog:
 	
 	
 	def defaultInit(self, frame, date, computingTime):
-		'''initialize Task frame log object'''
-		self.frame = frame
-		self.date = date
-		self.computingTime = computingTime
+		'''load frame info'''
+		self.frame = frame # frame number
+		self.date = date # rendering date
+		self.computingTime = computingTime # rendering time
 	
 	
 	
 	
 	
 	def fromXml(self, xml):
-		'''initialize Task frame log object with saved log'''
+		'''load frame info from xml'''
 		self.frame = int(xml.get('frame'))
 		self.date = datetime.datetime.fromtimestamp(float(xml.get('date')))
 		self.computingTime = float(xml.get('computingTime'))

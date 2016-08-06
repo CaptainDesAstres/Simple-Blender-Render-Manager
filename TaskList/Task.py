@@ -294,7 +294,7 @@ action : ''').strip().lower()
 		# create script for blender
 		script = self.createTaskScript(scriptPath, preferences)
 		
-		results = ''
+		#results = ''
 		try:
 			# create a socket listener dedicated to the task blender thread
 			l = threading.Thread(target = self.socketAcceptClient,
@@ -314,7 +314,7 @@ action : ''').strip().lower()
 			
 			# get blender thread terminal output
 			result = sub.communicate()
-			results += result[0].decode()+result[1].decode()+'\n\n\n'
+			#results += result[0].decode()+result[1].decode()+'\n\n\n'
 			
 			# remove dead blender thread
 			taskList.renderingSubprocess.remove(sub)

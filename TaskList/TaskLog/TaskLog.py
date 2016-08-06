@@ -11,7 +11,7 @@ class TaskLog:
 	
 	
 	def __init__(self, xml = None, pref = None, task = None):
-		'''initialize task log object'''
+		'''load task log info'''
 		if xml is None:
 			self.defaultInit(pref, task)
 		else:
@@ -22,7 +22,7 @@ class TaskLog:
 	
 	
 	def defaultInit(self, pref, task):
-		'''initialize Task log object by generating from the task settings'''
+		'''generate log from task settings'''
 		self.name = task.path.split('/').pop().split('.')
 		self.name.pop()
 		self.name = '.'.join(self.name)
