@@ -894,11 +894,11 @@ What do you want to do? (type h for help)'''
 				log.write('Order to stop rendering after current frame.')
 				
 			elif choice in ['s', 'scene']:
-				# state that BRM running mode should stop after current scene rendering
-				self.runningMode = self.UNTIL_SCENE_END
 				# request all blender thread to stop after current frame rendering
 				for l in self.listenerSockets[:]:
 					l['socket'].sendall( (l['uid']+' stopAfterScene() EOS').encode() )
+				# state that BRM running mode should stop after current scene rendering
+				self.runningMode = self.UNTIL_SCENE_END
 				log.runMenu = 'Rendering will be stoped after current scene!\nWhat do you want to do? (type h for help)'
 				log.write('Order to stop rendering after current scene.')
 				
@@ -916,20 +916,20 @@ What do you want to do? (type h for help)'''
 				log.runMenu += 'What do you want to do? (type h for help)'
 				
 			elif choice in ['n', 'now']:
-				# state that BRM running mode should stop now
-				self.runningMode = self.STOP_NOW
 				# regulary terminate all blender thread
 				for subP in self.renderingSubprocess:
 					subP.terminate()
+				# state that BRM running mode should stop now
+				self.runningMode = self.STOP_NOW
 				log.runMenu = 'Try to stop rendering right now!\nWhat do you want to do? (type h for help)'
 				log.write('Order to stop rendering now.')
 				
 			elif choice in ['f', 'force', 'forced']:
-				# state that BRM running mode should stop now by force
-				self.runningMode = self.STOP_FORCED
 				# kill all blender thread
 				for subP in self.renderingSubprocess:
 					subP.kill()
+				# state that BRM running mode should stop now by force
+				self.runningMode = self.STOP_FORCED
 				log.runMenu = 'Actually forcing rendering to stop!\nWhat do you want to do? (type h for help)'
 				log.write('Order to force rendering to stop.')
 				
