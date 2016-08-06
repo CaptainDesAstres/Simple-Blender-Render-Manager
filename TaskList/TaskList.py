@@ -274,39 +274,43 @@ Quit : q or quit
 	
 	
 	def add(self, log, preferences):
+		'''Add task to the list'''
 		log.menuIn('Add Task')
-		
 		log.menuIn('File Path')
+		
 		while True:
+			# get path to the new file
 			log.print()
-			
-			print('\n\n        Add File :')
-			
-			path = input("\n\nWhat's the absolute path of the file to add (empty input to quit)").strip()
+			path = input("\n\n        Add File :\n\n\nWhat's the absolute path of the file to add (empty input to quit)").strip()
 			
 			if path.lower() in ['', 'cancel', 'quit', 'q']:
-				# cancel action
-				log.menuOut()# quit Add Task
-				log.menuOut()# quit Give File Path
+				# quit without adding any task
+				log.menuOut()
+				log.menuOut()
 				return False
 			
-			
+			# remove quote mark and apostrophe in first and last character
 			if path[0] in ['\'', '"'] and path[-1] == path[0]:
-				# remove quote mark and apostrophe in first and last character
 				path = path[1:len(path)-1]
 			
+			# check if path is absolute (begin by '/')
 			if path[0] != '/':
-				# check if path is absolute (begin by '/')
 				log.error('"'+path+'" path is not absolute (need to begin by "/").')
 				continue
-			elif len(path) < 7 or re.search(r'.blend\d{0,10}$', path) is None:
-				# check if path point to a .blend file
+				
+			# check if path point to a .blend file
+			if len(path) < 7 or re.search(r'.blend\d{0,10}$', path) is None:
 				log.error('"'+path+'" path don\'t seemed to be a blender file (need .blend extension).')
 				continue
-			elif not os.path.exists(path) or not os.path.isfile(path) or not os.access(path, os.R_OK):
-				# check if the file exist
+			
+			# check if the file exist
+			if not os.path.exists(path) \
+					or not os.path.isfile(path) \
+					or not os.access(path, os.R_OK):
 				log.error('"'+path+'" didn\'t exist, is not a file or is not readable!')
 				continue 
+			
+			# accept path
 			log.menuOut()
 			break
 		
