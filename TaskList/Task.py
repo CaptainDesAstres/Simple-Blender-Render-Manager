@@ -362,9 +362,12 @@ action : ''').strip().lower()
 				if m != self.uid+' TaskEnded':# treat all other kind of signal
 					self.treatSocketMessage(m, taskList, index, log)
 				else:
-					# stop listener if task finished
+					# when task finished, close listener and erase from listener list
 					client.close()
-					return
+					for l in taskList.listenerSockets:
+						if l['uid'] == self.uid:
+							taskList.listenerSockets.remove(l)
+							return
 			
 			msg = ''# initialize for new message
 	
