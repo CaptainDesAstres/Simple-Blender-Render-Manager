@@ -63,21 +63,20 @@ class TaskList:
 	
 	
 	def toXml(self):
-		'''export task list into xml syntaxed string'''
+		'''export in xml'''
 		xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
-		xml += '<tasklist>\n'
 		
-		xml += '<tasks>\n'
+		# export pending task list
+		xml += '<tasklist>\n<tasks>\n'
 		for task in self.tasks:
 			xml += task.toXml()
-		xml += '</tasks>\n'
 		
-		xml += '<archive>\n'
+		# export archived task list
+		xml += '</tasks>\n<archive>\n'
 		for task in self.archive:
 			xml += task.toXml()
-		xml += '</archive>\n'
 		
-		xml += '</tasklist>\n'
+		xml += '</archive>\n</tasklist>\n'
 		return xml
 	
 	

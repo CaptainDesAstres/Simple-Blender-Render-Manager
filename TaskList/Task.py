@@ -240,7 +240,7 @@ action : ''').strip().lower()
 	
 	
 	def getRow(self):
-		'''A method to get row to print task list'''
+		'''return task row to display in a table'''
 		name = self.path.split('/').pop()
 		return columnLimit('  '+name, 25, 5)\
 				+columnLimit('  '+str(self.scene), 25, 5)\
