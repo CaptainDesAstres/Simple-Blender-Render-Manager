@@ -495,20 +495,24 @@ Press enter to continue
 	
 	
 	def batchEdit(self, log, preferences):
-		'''A method to batch edit task'''
+		'''batch edit task'''
 		log.menuIn('Batch Editing')
+		
+		# get user selection
 		select = self.batchSelect(log)
+		
+		# quit if null selection
 		if len(select) == 0 :
 			log.menuOut()
 			return False
-		
 		log.menuIn('Task n°'+','.join(str(x) for x in select))
+		
 		change = False
 		while True:
 			log.print()
 			print('\n\n        Batch Edit :\n')
-			
 			self.print(0, select)
+			
 			choice = input('''\nMenu :
 2- Copy
 3- Regroup And Move
