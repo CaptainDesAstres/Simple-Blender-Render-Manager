@@ -561,6 +561,12 @@ Press enter to continue
 				# change selection
 				log.menuOut()
 				select = self.batchSelect(log, select)
+				
+				# if empty selection, quit batch edit
+				if len(select) == 0:
+					log.menuOut()
+					return change
+				
 				log.menuIn('Task n°'+','.join(str(x) for x in select))
 				
 			else:
