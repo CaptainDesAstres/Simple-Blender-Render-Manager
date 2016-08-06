@@ -390,7 +390,7 @@ Quit : q or quit
 	
 	
 	def move(self, log, selected):
-		'''A method to move tasks into the list'''
+		'''move selected tasks inside the list'''
 		log.menuIn('Task(s) Moving')
 		change = False
 		selected.sort()
@@ -400,12 +400,16 @@ Quit : q or quit
 			print('\n\n        Moving Selected Task :\n')
 			self.print(0, selected, True)
 			
+			# get user move instruction
 			choice = input('how to move selected task : (h for help) ').strip().lower()
 			
 			if choice in ['', 'q', 'quit', 'cancel']:
+				# confirm move and quit
 				log.menuOut()
 				return change, selected
+				
 			elif choice in ['h', 'help']:
+				#display moving help
 				log.menuIn('Help')
 				log.print()
 				input('''
@@ -425,27 +429,37 @@ Help :                     h or help
 
 Press enter to continue
 ''')
+				
 			elif re.search(r'^(t|f|l|b|(top)|(first)|(last)|(bottom)|(r)|(i)|(reverse)|(inverse)|(\d+))$', choice):
+				# reverse selection order?
 				reverse = choice in ['r', 'i', 'inverse', 'reverse']
-				if choice in ['t', 'top']:
+				
+				if choice in ['t', 'top']:# move to list top
 					choice = -1
-				elif reverse or choice in ['f', 'first']:
-					choice = selected[0]
-				elif choice in ['l', 'last']:
-					choice = selected[-1]
-				elif choice in ['b', 'bottom']:
-					choice = len(self.tasks)
-				else:
 					
+				elif reverse or choice in ['f', 'first']:
+					# move to the position of the first selected task
+					choice = selected[0]
+					
+				elif choice in ['l', 'last']:
+					# move to the position of the last selected task
+					choice = selected[-1]
+					
+				elif choice in ['b', 'bottom']:# move to list bottom
+					choice = len(self.tasks)
+					
+				else:
+					# try to get manual index choice
 					try:
 						choice = int(choice)
 					except ValueError:
 						log.error('Unvalid action', False)
 						continue
 				
+				# move selection inside the list to the specified index
 				selected = self.moveTo(log, selected, choice)
 				
-				if reverse:
+				if reverse:# reverse selection order
 					reorder = self.tasks[selected[0]: selected[-1]+1]
 					reorder.reverse()
 					self.tasks = self.tasks[0: selected[0] ] + reorder \
