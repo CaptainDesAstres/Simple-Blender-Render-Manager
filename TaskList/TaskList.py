@@ -480,32 +480,37 @@ Press enter to continue
 	
 	
 	def moveTo(self, log, selected, row):
-		'''A method to move selected task to a position in the list'''
+		'''move selected task to specified row'''
 		selected.sort()
+		# do the selection in countinuous?
 		isRange = selected == list(range(selected[0], selected[-1]+1))
 		selected.reverse()
 		selection = []
 		
+		# get all task by pop them from the list and adapt row if needed
 		for index in selected:
 			selection.append(self.tasks.pop(index))
 			if not isRange and row > index:
 				row -= 1
 		selection.reverse()
 		
-		if row <= 0:
+		if row <= 0: 
+			# put selection in top of the list
 			self.tasks = selection + self.tasks
 			log.write('Task n°«'+','.join(str(x) for x in selected)+'» moved on top of the list')
-			selected = list(range(0, len(selected)))
+			return list(range(0, len(selected)))
+			
 		elif row >= len(selection) + len(self.tasks):
+			# put selection in bottom of the list
 			self.tasks += selection
 			log.write('Task n°«'+','.join(str(x) for x in selected)+'» moved on bottom of the list')
-			selected = list(range(len(self.tasks)-len(selected) , len(self.tasks)))
+			return list(range(len(self.tasks)-len(selected) , len(self.tasks)))
+			
 		else:
+			# Put selection at specified index/row
 			self.tasks = self.tasks[0:row]+selection+self.tasks[row:]
 			log.write('Task n°«'+','.join(str(x) for x in selected)+'» moved on row '+str(row)+' of the list')
-			selected = list(range(row, row + len(selected)))
-		
-		return selected
+			return list(range(row, row + len(selected)))
 	
 	
 	
