@@ -3,6 +3,7 @@ import bpy, sys, os, socket, time, datetime, threading
 sys.path.append(os.path.abspath(sys.argv[4]+'/../../../..'))
 
 def RenderingTask(task, preferences):
+	'''rendering each scene of the task'''
 	# Create a socket to communicate with blender-render-manager
 	connexion = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	connexion.connect(('localhost', preferences.port))
@@ -43,11 +44,11 @@ def RenderingTask(task, preferences):
 			connexion.sendall( (task.uid+' debugMsg('+str(e)+') EOS').encode() )
 		
 		# stop rendering after this scene if user request it
-		if task.running == 'until next scene':
+		if task.status == 'until next scene':
 			break
 	
 	# report that the rendering is finish
-	task.running = 'NOW'
+	task.status = 'NOW'
 	connexion.sendall( (task.uid+' TaskEnded EOS').encode() )
 	
 	listen.join()# stop the socket listener thread
@@ -56,16 +57,17 @@ def RenderingTask(task, preferences):
 
 
 def socketListener(soc, task):
-	'''a method to manage signal send by the main process'''
+	'''treat main process request'''
 	msg = ''
 	soc.settimeout(0.5)
+	
 	while True:
-		try:
+		try:# get socket messages
 			msg += soc.recv(1024).decode()
 		except:
 			pass # (socket timeout error)
 		
-		if task.running == 'NOW':
+		if task.status == 'NOW':
 			break
 		if msg[-4:] != ' EOS':
 			continue
@@ -74,9 +76,9 @@ def socketListener(soc, task):
 			messages.pop()
 			for m in messages:
 				if m == task.uid+' stopAfterFrame()':
-					task.running = 'until next frame'
+					task.status = 'until next frame'
 				if m == task.uid+' stopAfterScene()':
-					task.running = 'until next scene'
+					task.status = 'until next scene'
 			msg = ''
 	
 
@@ -93,7 +95,7 @@ def run(task, sceneLog, socket, preferences ):
 	
 	for scene.frame_current in range(scene.frame_start, scene.frame_end+1):
 		
-		if task.running == 'until next frame':
+		if task.status == 'until next frame':
 			break
 		
 		# check if frame have already been rendered
