@@ -164,15 +164,17 @@ press enter to continu''')
 	
 	
 	def runMenuPrint(self, index = None):
-		'''display rendering progress during run mode '''
+		'''display task progress'''
+		# compute total frame number
 		total = self.end - self.start + 1
 		
 		if index is not None:
-			index = str(index)+'-  '
+			prefix = str(index)+'-  '
 		else:
-			index = '╚═ '
+			prefix = '╚═ '
 		
-		print(index+'«'+self.name+'» scene : '+str(len(self.frames))+'/'+str(total)\
+		#display scene info
+		print(prefix+'«'+self.name+'» scene : '+str(len(self.frames))+'/'+str(total)\
 					+' frames, '+str(total - len(self.frames))\
 					+' remaining frames,\n     Average time by frame : '\
 					+str(self.average())\
@@ -183,16 +185,20 @@ press enter to continu''')
 	
 	
 	def average(self):
-		'''return frame average rendering time'''
+		'''compute average rendering time by frame'''
+		
 		if len(self.frames)>0:
-			count = 0
+			# Compute total rendering time and frame number
+			count = len(self.frames)
 			time = 0
 			for f in self.frames:
-				count += 1
 				time += f.computingTime
+			
+			# compute average time and return it
 			average = time / count
 			return average
-		else:
+			
+		else:# return 0 when no info
 			return 0.0
 	
 	
