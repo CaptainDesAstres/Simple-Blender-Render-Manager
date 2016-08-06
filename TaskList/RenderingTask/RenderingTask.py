@@ -7,7 +7,7 @@ def RenderingTask(task, preferences):
 	# Create a socket to communicate with blender-render-manager
 	connexion = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	connexion.connect(('localhost', preferences.port))
-	# creat a listener
+	# create a listener
 	listen = threading.Thread(
 				target = socketListener,
 				args=(connexion, task) 
@@ -53,6 +53,7 @@ def RenderingTask(task, preferences):
 	
 	listen.join()# stop the socket listener thread
 	connexion.close()
+	bpy.ops.wm.quit_blender()
 
 
 
@@ -60,7 +61,7 @@ def socketListener(soc, task):
 	'''treat main process request'''
 	msg = ''
 	soc.settimeout(0.5)
-	
+	print('listener start')
 	while True:
 		try:# get socket messages
 			msg += soc.recv(1024).decode()
@@ -71,9 +72,11 @@ def socketListener(soc, task):
 			break# the task is finihed, listener must be stoped
 		
 		if msg[-4:] != ' EOS':
+			print('partial message«'+msg+'»')
 			continue# loop until the message is complete
 			
 		else:
+			print('complete message«'+msg+'»')
 			messages = msg.split(' EOS')
 			messages.pop()# pop empty last element
 			
