@@ -48,7 +48,7 @@ def RenderingTask(task, preferences):
 			break
 	
 	# report that the rendering is finish
-	task.status = 'NOW'
+	task.status = 'FINISH'
 	connexion.sendall( (task.uid+' TaskEnded EOS').encode() )
 	
 	listen.join()# stop the socket listener thread
@@ -67,20 +67,25 @@ def socketListener(soc, task):
 		except:
 			pass # (socket timeout error)
 		
-		if task.status == 'NOW':
-			break
+		if task.status == 'FINISH':
+			break# the task is finihed, listener must be stoped
+		
 		if msg[-4:] != ' EOS':
-			continue
+			continue# loop until the message is complete
+			
 		else:
 			messages = msg.split(' EOS')
-			messages.pop()
+			messages.pop()# pop empty last element
+			
 			for m in messages:
-				if m == task.uid+' stopAfterFrame()':
+				if m == task.uid+' stopAfterFrame()':# stop after current frame request
 					task.status = 'until next frame'
-				if m == task.uid+' stopAfterScene()':
+					
+				if m == task.uid+' stopAfterScene()':# stop after current scene request
 					task.status = 'until next scene'
-			msg = ''
-	
+			
+			msg = ''# initialize for new message
+
 
 
 
