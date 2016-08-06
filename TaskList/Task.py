@@ -435,8 +435,8 @@ action : ''').strip().lower()
 	
 	
 	def createTaskScript(self, scriptPath, preferences):
-		'''create a script for each blender versions to run the task'''
-		
+		'''create a blender script file customize for the task'''
+		# script custom content
 		script = '''#!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
 ''\'module to manage metapreset''\'
@@ -453,10 +453,12 @@ task = Task( xml = xmlMod.fromstring(''\'<?xml version="1.0" encoding="UTF-8"?>
 
 RenderingTask(task, preferences)'''
 		
+		# save script in a file
 		path = scriptPath+'/TaskList/RenderingTask/TaskScripts/'+self.uid+'.py'
 		with open(path,'w') as taskScriptFile:
 			taskScriptFile.write( script )
 		
+		# return custom script path
 		return path
 	
 	
