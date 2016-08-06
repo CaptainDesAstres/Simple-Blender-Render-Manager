@@ -891,6 +891,7 @@ What do you want to do? (type h for help)'''
 				for l in self.listenerSockets[:]:
 					l['socket'].sendall( (l['uid']+' stopAfterFrame() EOS').encode() )
 				log.runMenu = 'Rendering will be stoped after current frame!\nWhat do you want to do? (type h for help)'
+				log.write('Order to stop rendering after current frame.')
 				
 			elif choice in ['s', 'scene']:
 				# state that BRM running mode should stop after current scene rendering
@@ -899,11 +900,13 @@ What do you want to do? (type h for help)'''
 				for l in self.listenerSockets[:]:
 					l['socket'].sendall( (l['uid']+' stopAfterScene() EOS').encode() )
 				log.runMenu = 'Rendering will be stoped after current scene!\nWhat do you want to do? (type h for help)'
+				log.write('Order to stop rendering after current scene.')
 				
 			elif choice in ['t', 'task']:
 				# state that BRM running mode should stop after current task rendering
 				self.runningMode = self.UNTIL_TASK_END
 				log.runMenu = 'Rendering will be stoped after current task!\nWhat do you want to do? (type h for help)'
+				log.write('Order to stop rendering after current task.')
 				
 			elif choice in ['p', 'pid']:
 				# display all blender processe PID via remaining message
@@ -919,6 +922,7 @@ What do you want to do? (type h for help)'''
 				for subP in self.renderingSubprocess:
 					subP.terminate()
 				log.runMenu = 'Try to stop rendering right now!\nWhat do you want to do? (type h for help)'
+				log.write('Order to stop rendering now.')
 				
 			elif choice in ['f', 'force', 'forced']:
 				# state that BRM running mode should stop now by force
@@ -927,6 +931,7 @@ What do you want to do? (type h for help)'''
 				for subP in self.renderingSubprocess:
 					subP.kill()
 				log.runMenu = 'Actually forcing rendering to stop!\nWhat do you want to do? (type h for help)'
+				log.write('Order to force rendering to stop.')
 				
 			else:
 				# unvalid choice
