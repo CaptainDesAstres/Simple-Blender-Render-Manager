@@ -118,9 +118,9 @@ class TaskList:
 			elif choice in ['u', '<'] and page > 0:# display previous task page
 				page -= 1
 				
-			elif choice in ['b', 'batch'] \
-					and self.batchEdit(log, preferences):# edit task by batch
-				self.save(preferences.output.path)
+			elif choice in ['b', 'batch']:
+				if self.batchEdit(log, preferences):# edit task by batch
+					self.save(preferences.output.path)
 				
 			elif choice in ['l', 'log']:# display archived task
 				self.menuArchive(log)
