@@ -514,11 +514,11 @@ Press enter to continue
 			self.print(0, select)
 			
 			choice = input('''\nMenu :
-2- Copy
-3- Regroup And Move
-4- Remove
-5- Lock
-6- Unlock
+1- Copy
+2- Regroup And Move
+3- Remove
+4- Lock
+5- Unlock
 9- Change Selection
 0- Quit
 ''')
@@ -527,22 +527,22 @@ Press enter to continue
 				log.menuOut()
 				log.menuOut()
 				return change
-			elif choice == '2':
+			elif choice == '1':
 				new, confirm = self.copyTasks(log, select, preferences)
 				if confirm:
 					select = new
 					change = True
-			elif choice == '3':
+			elif choice == '2':
 				change = (self.move(log, select) or change)
-			elif choice == '4':
+			elif choice == '3':
 				if self.remove(log, select):
 					log.menuOut()
 					log.menuOut()
 					return True
-			elif choice == '5':
+			elif choice == '4':
 				self.lock(select, log)
 				change = True
-			elif choice == '6':
+			elif choice == '5':
 				self.unlock(select, log)
 				change = True
 			elif choice == '9':
