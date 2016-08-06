@@ -336,7 +336,8 @@ action : ''').strip().lower()
 	
 	
 	def socketAcceptClient(self, taskList, index, log):
-		'''A method to manage client connexion when running'''
+		'''manage blender new connexion'''
+		# add new client connexion
 		client = taskList.socket.accept()[0]
 		taskList.listenerSockets.append( 
 										{
@@ -344,15 +345,29 @@ action : ''').strip().lower()
 									'uid':self.uid
 										} 
 										)
+		
 		msg = ''
-		while taskList.runningMode < taskList.STOP_NOW:
+		while taskList.runningMode < taskList.STOP_NOW:# while running mode continue
 			msg += client.recv(1024).decode()
-			if msg == '':
+			
+			if msg == '' or msg[-4:] != ' EOS':
 				time.sleep(1)
-			elif msg == self.uid+' VersionEnded EOS':
+				continue
+			
+			# split messages
+			messages = msg.split(' EOS')
+			messages.pop()# pop empty last element
+			
+			for m in messages:
+				if m != self.uid+' TaskEnded EOS':# treat all other kind of signal
+					self.treatSocketMessage(m, taskList, index, log)
+			
+			if messages.pop() == self.uid+' TaskEnded EOS':
+				# stop listener if task finished
 				break
-			else:
-				msg = self.treatSocketMessage(msg, taskList, index, log)
+			
+			msg = ''# initialize for new message
+			
 		client.close()
 	
 	

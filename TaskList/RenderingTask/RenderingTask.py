@@ -110,7 +110,6 @@ def run(task, sceneLog, socket, preferences ):
 		if os.path.exists(frPath) or sceneLog.frameDone(scene.frame_current):
 			continue
 		
-		
 		start = time.time()
 		
 		# render the frame
@@ -121,7 +120,6 @@ def run(task, sceneLog, socket, preferences ):
 						+'» scene «'+scene.name+'»  frame '\
 						+str(scene.frame_current)+']) EOS').encode() )
 			break
-		
 		
 		endDate = datetime.datetime.today()
 		computeTime = time.time() - start
