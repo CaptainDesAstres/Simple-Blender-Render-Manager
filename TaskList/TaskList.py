@@ -105,9 +105,9 @@ class TaskList:
 				self.run(scriptPath, log, preferences)
 				saveTasks(preferences.output.path, self)
 				
-			elif choice in ['a', 'add', '+'] \
-					and self.add(log, preferences):# add task to the list
-				saveTasks( preferences.output.path, self )
+			elif choice in ['a', 'add', '+']:
+				if self.add(log, preferences):# add task to the list
+					saveTasks( preferences.output.path, self )
 				
 			elif choice in ['d', '>', '']:# display next task page
 				if page < math.floor((len(self.tasks)-1)/25):
