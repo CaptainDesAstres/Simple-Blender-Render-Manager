@@ -43,6 +43,9 @@ def RenderingTask(task, preferences):
 			run(task, sceneLog, bpy, connexion, preferences )
 		except Exception as e:
 			connexion.sendall( (task.uid+' debugMsg('+str(e)+') EOS').encode() )
+		
+		if task.running == 'until next scene':
+			break
 	
 	# send end of rendering signal
 	task.running = 'NOW'
@@ -74,8 +77,8 @@ def socketListener(soc, task):
 			for m in messages:
 				if m == task.uid+' stopAfterFrame()':
 					task.running = 'until next frame'
-				if m == task.uid+' stopAfterGroup()':
-					task.running = 'until next group'
+				if m == task.uid+' stopAfterScene()':
+					task.running = 'until next scene'
 			msg = ''
 	
 

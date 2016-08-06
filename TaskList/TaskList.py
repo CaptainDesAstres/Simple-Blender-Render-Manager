@@ -15,7 +15,7 @@ class TaskList:
 	OFF = 0 # not running
 	UNTIL_LIST_END = 1 # running until all task have been rendered
 	UNTIL_FRAME_END = 2 # running until end of rendering of the current frame
-	UNTIL_GROUP_END = 3 # running until end of rendering of the current group
+	UNTIL_SCENE_END = 3 # running until end of rendering of the current group
 	UNTIL_TASK_END = 4 # running until end of rendering of the current task
 	STOP_NOW = 5 # stop as soon as possible
 	STOP_FORCED = 6 # stop by forcing blender to stop
@@ -891,10 +891,11 @@ What do you want to do? (type h for help)'''
 				for l in self.listenerSockets[:]:
 					l['socket'].sendall( (l['uid']+' stopAfterFrame() EOS').encode() )
 				
-			elif choice in ['g', 'qroup']:
-				self.runningMode = self.UNTIL_GROUP_END
+			elif choice in ['s', 'scene']:
+				self.runningMode = self.UNTIL_SCENE_END
 				for l in self.listenerSockets[:]:
-					l['socket'].sendall( (l['uid']+' stopAfterGroup() EOS').encode() )
+					l['socket'].sendall( (l['uid']+' stopAfterScene() EOS').encode() )
+				
 			elif choice in ['t', 'task']:
 				self.runningMode = self.UNTIL_TASK_END
 			elif choice in ['p', 'pid']:
