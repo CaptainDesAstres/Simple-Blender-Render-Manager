@@ -1,36 +1,28 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
-'''module to manage blender file info'''
-import xml.etree.ElementTree as xmlMod
+'''manage blender file info'''
 from TaskList.FileInfo.Scene import *
 from usefullFunctions import XML
-import os
 
 class FileInfo:
-	'''class to manage blender file info'''
-	
+	'''contain blender file info'''
 	
 	def __init__(self, xml):
-		'''initialize blender file info with default settings or saved settings'''
-		self.fromXml(xml)
-	
-	
-	
-	
-	
-	def fromXml(self, xml):
-		'''initialize blender file info with savedd settings'''
+		'''load blender file info from xml'''
+		# get active scene name
 		self.active = XML.decode(xml.get('active'))
+		
+		# list all scene
 		self.scenes = {}
 		for scene in xml.findall('scene'):
-			self.scenes[scene.get('name')] = Scene(scene)
+			self.scenes[XML.decode(scene.get('name'))] = Scene(scene)
 	
 	
 	
 	
 	
 	def toXml(self):
-		'''export blender file info into xml syntaxed string'''
+		'''export blender file info in xml'''
 		xml = '  <fileInfo active="'+XML.encode(self.active)+'">\n'
 		
 		for scene in self.scenes.values():

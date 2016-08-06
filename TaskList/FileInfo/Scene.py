@@ -1,25 +1,14 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
-'''module to manage blender scene info'''
-import xml.etree.ElementTree as xmlMod
+'''manage blender file scene info'''
 from usefullFunctions import XML
-import os
 
 class Scene:
-	'''class to manage blender scene info'''
-	
+	'''contain blender file scene info'''
 	
 	def __init__(self, xml):
-		'''initialize blender scene info with default settings or saved settings'''
-		self.fromXml(xml)
-	
-	
-	
-	
-	
-	def fromXml(self, xml):
-		'''initialize blender scene info with savedd settings'''
-		self.name = xml.get('name')
+		'''load scene info'''
+		self.name = XML.decode(xml.get('name'))
 		self.start = int(xml.get('start'))
 		self.end = int(xml.get('end'))
 		self.fps = int(xml.get('fps'))
@@ -30,7 +19,7 @@ class Scene:
 	
 	
 	def toXml(self):
-		'''export blender scene info into xml syntaxed string'''
+		'''export blender scene info in xml'''
 		return '    <scene name="'+XML.encode(self.name)+'" start="'+str(self.start)\
 			+'" end="'+str(self.end)+'" fps="'+str(self.fps)+'" />\n'
 	
