@@ -115,7 +115,7 @@ class Log:
 	
 	
 	def runPrint(self):
-		'''print the current menu'''
+		'''display run remaining message'''
 		if self.runMenu is not None:
 			print(self.runMenu)
 

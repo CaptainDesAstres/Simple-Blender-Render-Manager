@@ -274,31 +274,35 @@ action : ''').strip().lower()
 	
 	
 	def run(self, taskList, scriptPath, log, preferences):
-		'''A method to execute the task'''
+		'''Render the task'''
 		index = taskList.current
 		log.menuIn('run Task '+str(index)+' from '+str(len(taskList.tasks)))
 		
+		# create task log on first running
 		if self.log is None:
-			# task never have been run before
 			self.log = TaskLog(pref = preferences, task = self)
 		
-		writable = self.checkOutput(preferences)
-		if not writable:
-			log.error('You don\'t have the right to write in output path of the task')
+		# ensure we can write in working directory
+		if not self.checkOutput(preferences):
+			log.error('You need permission to write in task output path!')
 			log.menuOut()
 			return True
 		
+		# refresh displaying
 		self.printRunMenu(index, len(taskList.tasks), log)
 		
+		# create script for blender
 		script = self.createTaskScript(scriptPath, preferences)
 		
 		results = ''
 		try:
+			# create a socket listener dedicated to the task blender thread
 			l = threading.Thread(target = self.socketAcceptClient,
 								args=(taskList, index, log))
 			l.start()
 			taskList.listenerThreads.append(l)
 			
+			# creat and launch the task blender thread 
 			sub = subprocess.Popen(\
 						shlex.split(\
 							'\''+preferences.blender.path+'\' -b "'+self.path+'" -P "'\
@@ -308,14 +312,22 @@ action : ''').strip().lower()
 						stderr = subprocess.PIPE)
 			taskList.renderingSubprocess.append(sub)
 			
+			# get blender thread terminal output
 			result = sub.communicate()
-			taskList.renderingSubprocess.remove(sub)
 			results += result[0].decode()+result[1].decode()+'\n\n\n'
+			
+			# remove dead blender thread
+			taskList.renderingSubprocess.remove(sub)
+			
 		except FileNotFoundError:
+			# log and display all blender error
 			log.write('\033[31mTask n°'+str(index)+' : Blender call error! Try to verify the path of blender!\033[0m')
 		
+		# erase dedicated script
 		self.eraseTaskScript(script)
-		#log.write('###\n'+results+'###\n')
+		
+		#log.write('###\n'+results+'###\n')# debuging output
+		
 		log.menuOut()
 		return True
 	
