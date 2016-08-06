@@ -52,7 +52,8 @@ class TaskLog:
 	def fromXml(self, xml):
 		'''initialize Task log object with saved log'''
 		self.name = XML.decode(xml.get('name'))
-		self.backup = int(xml.get('backup'))
+		
+		#load all scene info
 		self.scenes = []
 		for scene in xml.findall('scene'):
 			self.scenes.append(\
@@ -65,8 +66,7 @@ class TaskLog:
 	
 	def toXml(self):
 		'''export task log into xml syntaxed string'''
-		xml = '<log name="'+XML.encode(self.name)+'" backup="'+str(self.backup)\
-				+'" >\n'
+		xml = '<log name="'+XML.encode(self.name)+'" >\n'
 		
 		for scene in self.scenes:
 			xml += scene.toXml()
