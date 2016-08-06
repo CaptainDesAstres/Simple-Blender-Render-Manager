@@ -44,7 +44,7 @@ def RenderingTask(task, preferences):
 			connexion.sendall( (task.uid+' debugMsg('+str(e)+') EOS').encode() )
 		
 		# stop rendering after this scene if user request it
-		if task.status == 'until next scene':
+		if task.status in ['until next scene', 'until next frame']:
 			break
 	
 	# report that the rendering is finish
