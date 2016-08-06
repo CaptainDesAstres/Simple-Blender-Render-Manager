@@ -410,19 +410,24 @@ action : ''').strip().lower()
 		'''create output path if needed'''
 		path = pref.output.path+'render/'
 		
+		# get blender file name
 		name = self.path.split('/').pop().split('.')
 		name.pop()
 		name = '.'.join(name)
 		path += name+'/'
 		
 		scenes = self.log.scenes
-		
 		for s in scenes:
 			p = path+s.name+'/'
+			
+			# creat output directory for each scene of the task
 			if not os.path.exists(p):
 				os.makedirs(p)
+			
+			# Ensure to have writing access permission
 			if not os.access( p, os.W_OK ):
 				return False
+		
 		return True
 	
 	
