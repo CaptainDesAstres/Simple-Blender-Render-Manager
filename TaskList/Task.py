@@ -61,12 +61,15 @@ class Task:
 	
 	
 	def toXml(self):
-		'''export task settings into xml syntaxed string'''
+		'''export in xml'''
 		xml = '<task path="'+XML.encode(self.path)+'" scene="'+str(self.scene)\
 				+'" uid="'+self.uid+'" status="'+self.status+'" >\n'\
 				+self.info.toXml()
+		
+		# export rendering task log
 		if self.log is not None:
 			xml += self.log.toXml()
+		
 		xml += '</task>\n'
 		return xml
 		
