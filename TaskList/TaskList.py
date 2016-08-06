@@ -352,25 +352,6 @@ Quit : q or quit
 	
 	
 	
-	def renamePreset(self, old, new):
-		'''a method to rename used preset'''
-		for task in self.tasks:
-			task.renamePreset(old, new)
-	
-	
-	
-	
-	
-	
-	def erasePreset(self, preset):
-		'''a method to stop using preset'''
-		for task in self.tasks:
-			task.erasePreset(preset)
-	
-	
-	
-	
-	
 	def save(self, output):
 		'''A method to save Tasks list'''
 		saveTasks(output, self)
