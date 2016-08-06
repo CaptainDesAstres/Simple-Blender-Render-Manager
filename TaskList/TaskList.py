@@ -297,18 +297,18 @@ Quit : q or quit
 			if path[0] != '/':
 				log.error('"'+path+'" path is not absolute (need to begin by "/").')
 				continue
-				
-			# check if path point to a .blend file
-			if len(path) < 7 or re.search(r'.blend\d{0,10}$', path) is None:
-				log.error('"'+path+'" path don\'t seemed to be a blender file (need .blend extension).')
-				continue
 			
 			# check if the file exist
 			if not os.path.exists(path) \
 					or not os.path.isfile(path) \
 					or not os.access(path, os.R_OK):
 				log.error('"'+path+'" didn\'t exist, is not a file or is not readable!')
-				continue 
+				continue
+			
+			# check if path point to a .blend file
+			if len(path) < 7 or re.search(r'.blend\d{0,10}$', path) is None:
+				log.error('"'+path+'" path don\'t seemed to be a blender file (need .blend extension).')
+				continue
 			
 			# accept path
 			log.menuOut()
