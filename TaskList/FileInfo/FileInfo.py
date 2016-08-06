@@ -44,21 +44,20 @@ class FileInfo:
 	
 	
 	def sceneChoice(self, log):
-		'''a methode to choose the scene mode'''
-		scenes = list(self.scenes.keys())
-		scenes.sort(key = str.lower)
+		'''choose between render the active scene or all the scene'''
+		scenes = len(self.scenes)
 		
-		if len(scenes) == 0:
+		if scenes == 0:
 			log.error('  no scene in this file… Abort')
 			return None
 		
-		if len(scenes) == 1:
+		if scenes == 1:
 			log.write('  Only one scene in file. All scene will be rendered.')
 			return True
 		
 		log.menuIn('Scene Choice')
 		while True:
-			choice = input('there is '+str(len(scenes))+''' scenes in this file. Do you want to:
+			choice = input('there is '+str(scenes)+''' scenes in this file. Do you want to:
 	1- Render all scenes
 	2- Render active scene «'''+self.active+'''»
 	0- Abort''').strip().lower()
