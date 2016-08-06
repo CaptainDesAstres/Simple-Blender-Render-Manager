@@ -108,19 +108,25 @@ class TaskLog:
 	
 	
 	def print(self, index = False):
-		'''A method to print task log'''
-		print('The task have '+str(len(self.scenes))+' scene(s):')
+		'''Display task log info'''
+		print(''+str(len(self.scenes))+' scene(s) in this task:')
+		
 		ended, total = 0, 0
+		
 		for i, scene in enumerate(self.scenes):
+			# display each scene info
 			if index:
 				scene.runMenuPrint(i+1)
 			else:
 				scene.runMenuPrint()
 			
+			# compute total frame number and rendered frame number
 			total += (scene.end - scene.start + 1)
 			ended += len(scene.frames)
+		
+		# display task frame info resume
 		print('\n\n                  '+str(ended)+'/'+str(total)\
-							+'('+str(total-ended)+' remaining)')
+							+'(remain '+str(total-ended)+' frame(s))')
 	
 	
 	
