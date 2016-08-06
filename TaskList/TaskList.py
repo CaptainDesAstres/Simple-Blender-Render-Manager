@@ -365,21 +365,24 @@ Quit : q or quit
 	
 	
 	def remove(self, log, selected):
-		'''A method to remove task from the list'''
+		'''remove task after confirmation'''
 		log.menuIn('Task(s) Removing')
 		log.print()
 		print('\n\n        Removing Selected Task :\n')
 		self.print(0, selected)
 		
-		confirm = input('Do you realy want to erase this task?(y) ').strip().lower()
+		# get user confirmation
+		confirm = input('Do you realy want to erase all this task?(y) ').strip().lower()
 		
 		log.menuOut()
 		if confirm == 'y':
+			# remove selected task
 			selected.sort(reverse = True)
 			for i in selected:
 				self.tasks.pop(i)
 			return True
 		else:
+			# quit without task removing
 			return False
 	
 	
@@ -577,20 +580,27 @@ Press enter to continue
 	
 	
 	def lock(self, select, log):
-		'''a method to batch lock task'''
+		'''batch lock task'''
+		# keep trace of modified and unmodified task
 		modified = []
 		unmodified = []
+		
 		for i in select:
 			task = self.tasks[i]
+			
+			# lock selected tasks
 			if task.status in ['ready', 'pause']:
 				task.status = 'pendinglock'
 				modified.append(i)
+				
 			elif task.status == 'waiting':
 				task.status = 'lock'
 				modified.append(i)
+				
 			else:
 				unmodified.append(i)
 		
+		# log modification
 		if len(modified)>0:
 			log.write('Task n°«'+','.join(str(x) for x in modified)+'» have been locked.')
 		if len(unmodified)>0:
@@ -601,20 +611,27 @@ Press enter to continue
 	
 	
 	def unlock(self, select, log):
-		'''a method to batch unlock task'''
+		'''batch unlock task'''
+		# keep trace of modified and unmodified task
 		modified = []
 		unmodified = []
+		
 		for i in select:
 			task = self.tasks[i]
+			
+			# unlock selected tasks
 			if task.status == 'pendinglock':
 				task.status = 'pause'
 				modified.append(i)
+				
 			elif task.status == 'lock':
 				task.status = 'waiting'
 				modified.append(i)
+				
 			else:
 				unmodified.append(i)
 		
+		# log modification
 		if len(modified)>0:
 			log.write('Task n°«'+','.join(str(x) for x in modified)+'» have been unlocked.')
 		if len(unmodified)>0:
