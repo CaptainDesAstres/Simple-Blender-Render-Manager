@@ -804,7 +804,11 @@ Quit : q or quit
 		for self.current,task in enumerate(self.tasks):# rendering each task
 			# render unlock task
 			if task.status not in ['lock', 'pendinglock']:
-				run = task.run(i+1, self, scriptPath, log, preferences)
+				run = task.run( self,\
+								scriptPath,\
+								log,\
+								preferences\
+							)
 			
 			# remove listener associate with closed thread
 			self.checkListeners()

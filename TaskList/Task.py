@@ -273,8 +273,9 @@ action : ''').strip().lower()
 	
 	
 	
-	def run(self, index, taskList, scriptPath, log, preferences):
+	def run(self, taskList, scriptPath, log, preferences):
 		'''A method to execute the task'''
+		index = taskList.current
 		log.menuIn('run Task '+str(index)+' from '+str(len(taskList.tasks)))
 		
 		if self.log is None:
