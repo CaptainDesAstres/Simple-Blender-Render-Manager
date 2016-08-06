@@ -375,47 +375,46 @@ action : ''').strip().lower()
 	
 	
 	def treatSocketMessage(self, msg, taskList, index, log):
-		'''a method to interpret socket message'''
-		if msg[-4:] != ' EOS':
-			return msg
+		'''treat all blender socket message'''
+		# normally, the message is to confirm the rendering of a frame, it must follow this sytaxe:
+		#uid action(group,frame,date,computingTime) EOS
+		#fc9b9d6fd2af4e0fb3f09066f9902f90 ConfirmFrame(groupe1,15,10:09:2014:10:30:40,11111111111111) EOS
 		
-		messages = msg.split(' EOS')
-		messages.pop()
+		# parse message info
+		uid = msg[0:32]
+		action = msg[33:msg.find('(')]
+		info = msg[46:-1]
 		
-		for m in messages:
-			# normally, the message is to confirm the rendering of a frame, it must follow this sytaxe:
-			#uid action(group,frame,date,computingTime) EOS
-			#fc9b9d6fd2af4e0fb3f09066f9902f90 ConfirmFrame(groupe1,15,10:09:2014:10:30:40,11111111111111) EOS
-			uid = m[0:32]
-			action = m[33:m.find('(')]
-			info = m[46:-1]
-			if uid == self.uid and action == 'debugMsg':
-				log.write( m[m.find('(')+1 : -1] )
-			elif uid == self.uid and action == 'ConfirmFrame':
-				info = info.split(',')
-				scene = info[0]
-				frame = int(info[1])
-				computingTime = float(info[3])
-				
-				date = info[2].split(':')
-				date = datetime.datetime(
-							year = int(date[2]),
-							month = int(date[1]),
-							day = int(date[0]),
-							hour = int(date[3]),
-							minute = int(date[4]),
-							second = int(date[5])
-										)
-				
-				for s in self.log.scenes:
-					if s.name == scene:
-						s.confirmFrame(frame, date, computingTime)
-				self.printRunMenu(index, len(taskList.tasks), log)
+		if uid == self.uid and action == 'debugMsg':# display debuging messages
+			log.write( msg[msg.find('(')+1 : -1] )
+			
+		elif uid == self.uid and action == 'ConfirmFrame':
+			# confirm a frame rendering
+			#get frame info
+			info = info.split(',')
+			scene = info[0]
+			frame = int(info[1])
+			computingTime = float(info[3])
+			
+			# get rendering datetime
+			date = info[2].split(':')
+			date = datetime.datetime(
+						year = int(date[2]),
+						month = int(date[1]),
+						day = int(date[0]),
+						hour = int(date[3]),
+						minute = int(date[4]),
+						second = int(date[5])
+									)
+			
+			# log the frame as finished in the corresponding scene log
+			for s in self.log.scenes:
+				if s.name == scene:
+					s.confirmFrame(frame, date, computingTime)
+			
+			# refresh displaying
+			self.printRunMenu(index, len(taskList.tasks), log)
 		
-		if messages[-1] == self.uid+' TaskEnded':
-			return messages[-1]+' EOS'
-		else:
-			return ''
 	
 	
 	
