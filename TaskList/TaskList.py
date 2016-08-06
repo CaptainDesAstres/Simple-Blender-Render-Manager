@@ -892,28 +892,42 @@ What do you want to do? (type h for help)'''
 					l['socket'].sendall( (l['uid']+' stopAfterFrame() EOS').encode() )
 				
 			elif choice in ['s', 'scene']:
+				# state that BRM running mode should stop after current scene rendering
 				self.runningMode = self.UNTIL_SCENE_END
+				# request all blender thread to stop after current frame rendering
 				for l in self.listenerSockets[:]:
 					l['socket'].sendall( (l['uid']+' stopAfterScene() EOS').encode() )
 				
 			elif choice in ['t', 'task']:
+				# state that BRM running mode should stop after current task rendering
 				self.runningMode = self.UNTIL_TASK_END
+				
 			elif choice in ['p', 'pid']:
+				# display all blender processe PID
 				log.runMenu = 'Subprocess PID List :\n'
 				for subP in self.renderingSubprocess:
 					log.runMenu += str(subP.pid)+'\n'
 				log.runMenu += 'What do you want to do? (type h for help)'
+				
 			elif choice in ['n', 'now']:
+				# state that BRM running mode should stop now
 				self.runningMode = self.STOP_NOW
+				# regulary terminate all blender thread
 				for subP in self.renderingSubprocess:
 					subP.terminate()
+				
 			elif choice in ['f', 'force', 'forced']:
+				# state that BRM running mode should stop now by force
 				self.runningMode = self.STOP_FORCED
+				# kill all blender thread
 				for subP in self.renderingSubprocess:
 					subP.kill()
+				
 			else:
+				# unvalid choice
 				log.runMenu = 'Ask for an unknow action «'+choice+'»! Retry!\nWhat do you want to do? (type h for help)'
-		log.runMenu = None
+		
+		log.runMenu = None# delete remaining message
 	
 	
 	
