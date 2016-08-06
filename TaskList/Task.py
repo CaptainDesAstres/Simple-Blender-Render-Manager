@@ -359,16 +359,14 @@ action : ''').strip().lower()
 			messages.pop()# pop empty last element
 			
 			for m in messages:
-				if m != self.uid+' TaskEnded EOS':# treat all other kind of signal
+				if m != self.uid+' TaskEnded':# treat all other kind of signal
 					self.treatSocketMessage(m, taskList, index, log)
-			
-			if messages.pop() == self.uid+' TaskEnded EOS':
-				# stop listener if task finished
-				break
+				else:
+					# stop listener if task finished
+					client.close()
+					return
 			
 			msg = ''# initialize for new message
-			
-		client.close()
 	
 	
 	
