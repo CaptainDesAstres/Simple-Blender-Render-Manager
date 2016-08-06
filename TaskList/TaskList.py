@@ -313,11 +313,9 @@ Quit : q or quit
 			# accept path
 			log.menuOut()
 			break
-		
-		# open the file and get settings
 		log.write('Try to add "'+path+'" task:')
 		
-		# try to open file and get infos
+		# try to open file and get scene infos
 		command = '("'+preferences.blender.path\
 						+'" -b "'+path+'" -P "'\
 						+os.path.realpath(__file__+'/..')+'/getter/getFileTaskInfos.py")'\
@@ -325,10 +323,13 @@ Quit : q or quit
 		info = os.popen(command).read()
 		
 		if info.count('BlenderVersionError') != 0:
+			# treat blender running error
 			log.error('Blender version call error! Try to verified the path of default blender version!', False)
 			log.menuOut()
 			log.write('  Blender Version Error : abort task adding')
 			return False
+		
+		# parse file information
 		#print(info)# print debug info
 		info = re.search(r'<\?xml(.|\n)*</fileInfo>',info).group(0)
 		info = xmlMod.fromstring(info)
@@ -340,14 +341,13 @@ Quit : q or quit
 			log.menuOut()
 			return False
 		
-		
 		# add the task
 		self.tasks.append( Task(
 							path = path,
 							scene = scene,
 							fileInfo = info
 							) )
-		log.write('  Task added')
+		log.write('  add task «'+path+'»')
 		
 		log.menuOut()
 		return True
