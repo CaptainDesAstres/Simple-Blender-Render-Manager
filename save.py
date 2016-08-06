@@ -5,17 +5,17 @@ import os, re
 
 
 def savePreferences(s):
-	'''function that save preferences 's' in a preferences file'''
+	'''Save preferences file'''
 	with open(os.getcwd()+'preferences','w') as prefFile:
 		prefFile.write(s.toXml())
 
 def saveTasks(output, t):
-	'''function that save Tasks List in xml file'''
+	'''Save Tasks file'''
 	with open(output+'Tasks','w') as tasksFile:
 		tasksFile.write(t.toXml())
 
 def eraseLockFile():
-	'''Function to erase lock file'''
+	'''Erase lock file'''
 	os.remove(os.getcwd()+'/lock')
 
 def checkLogLimit(limit):
