@@ -323,8 +323,8 @@ action : ''').strip().lower()
 			# log and display all blender error
 			log.write('\033[31mTask n°'+str(index)+' : Blender call error! Try to verify the path of blender!\033[0m')
 		
-		# erase dedicated script
-		self.eraseTaskScript(script)
+		# erase dedicated task script
+		os.remove(script)
 		
 		#log.write('###\n'+results+'###\n')# debuging output
 		
@@ -458,15 +458,6 @@ RenderingTask(task, preferences)'''
 			taskScriptFile.write( script )
 		
 		return path
-	
-	
-	
-	
-	
-	def eraseTaskScript(self, path):
-		'''erase Task Script files'''
-		
-		os.remove(path)
 	
 	
 	
