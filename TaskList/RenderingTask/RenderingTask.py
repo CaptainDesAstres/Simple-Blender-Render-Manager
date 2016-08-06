@@ -38,7 +38,7 @@ def RenderingTask(task, preferences):
 		
 		# render scene and report any error
 		try:
-			run(task, sceneLog, bpy, connexion, preferences )
+			run(task, sceneLog, connexion, preferences )
 		except Exception as e:
 			connexion.sendall( (task.uid+' debugMsg('+str(e)+') EOS').encode() )
 		
@@ -83,7 +83,7 @@ def socketListener(soc, task):
 
 
 
-def run(task, sceneLog, bpy, socket, preferences ):
+def run(task, sceneLog, socket, preferences ):
 	'''Function to manage task rendering'''
 	# set output path
 	scene = bpy.context.screen.scene
