@@ -944,13 +944,14 @@ What do you want to do? (type h for help)'''
 	
 	
 	def checkAndArchive(self, limit):
-		'''check ended task to ensure that all frame have been well rendered and archive ended tasks'''
+		'''Archive task after ensuring all frame rendering was finshed'''
 		for task in self.tasks[:]:
 			if ( task.log is not None and task.log.isComplete() )\
-					or task.status == 'erased':
+					or task.status == 'erased':# archive all finished task
 				self.tasks.remove(task)
 				self.archive.append(task)
-		while len(self.archive) > limit:
+		
+		while len(self.archive) > limit:# respect archive limit size
 			self.archive.pop(0)
 	
 	

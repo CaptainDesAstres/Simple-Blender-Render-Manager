@@ -1,7 +1,6 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
 '''module to manage task scene  log'''
-import xml.etree.ElementTree as xmlMod
 from TaskList.TaskLog.FrameLog import *
 from usefullFunctions import XML
 
@@ -214,7 +213,7 @@ press enter to continu''')
 	
 	
 	def confirmFrame(self, frame, date, computingTime):
-		'''add frame rendering log confirmation to the scene'''
+		'''add frame log'''
 		self.frames.append(
 							FrameLog(
 									frame = frame,
