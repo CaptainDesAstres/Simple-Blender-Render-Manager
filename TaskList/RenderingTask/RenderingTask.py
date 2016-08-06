@@ -91,23 +91,25 @@ def socketListener(soc, task):
 
 
 def run(task, sceneLog, socket, preferences ):
-	'''Function to manage task rendering'''
-	# set output path
+	'''render current scene'''
 	scene = bpy.context.screen.scene
-	path = preferences.output.path+'render/'\
+	
+	# get scene output path
+	scPath = preferences.output.path+'render/'\
 								+task.log.name+'/'\
 								+scene.name+'/'
 	
 	for scene.frame_current in range(scene.frame_start, scene.frame_end+1):
-		
+		# respect «stop after previous frame» request
 		if task.status == 'until next frame':
 			break
 		
-		# check if frame have already been rendered
-		if sceneLog.frameDone(scene.frame_current):
+		# determine frame rendering path and ensure the frame isn't already rendered
+		scene.render.filepath = scPath + str(scene.frame_current).rjust(4,'0')
+		frPath = scene.render.filepath+scene.render.file_extension
+		if os.path.exists(frPath) or sceneLog.frameDone(scene.frame_current):
 			continue
 		
-		scene.render.filepath = path+str(scene.frame_current).rjust(4,'0')
 		
 		start = time.time()
 		
