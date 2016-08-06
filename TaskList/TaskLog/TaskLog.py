@@ -135,7 +135,7 @@ class TaskLog:
 	
 	
 	def isComplete(self):
-		'''check if there is still frame waiting to be rendered'''
+		'''report if there is still unrendered frame'''
 		for scene in self.scenes:
 			if scene.remaining()>0:
 				return False

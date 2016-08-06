@@ -205,7 +205,7 @@ press enter to continu''')
 	
 	
 	def remaining(self):
-		'''return the count of frames that don't have been rendered yet'''
+		'''return unrendered frames count'''
 		return (self.end - self.start + 1 - len(self.frames) )
 	
 	
