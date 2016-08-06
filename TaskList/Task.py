@@ -461,7 +461,7 @@ from Preferences.Preferences import *
 from TaskList.RenderingTask.RenderingTask import *
 from TaskList.Task import *
 
-preferences = Preferences( xml = xmlMod.fromstring(''\''''+preferences.toXml(False)+'''''\') )
+preferences = Preferences( xml = xmlMod.fromstring(''\''''+preferences.toXml()+'''''\') )
 task = Task( xml = xmlMod.fromstring(''\'<?xml version="1.0" encoding="UTF-8"?>
 '''+self.toXml()+'''''\'))
 
