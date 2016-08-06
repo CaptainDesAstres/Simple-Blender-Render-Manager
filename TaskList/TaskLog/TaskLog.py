@@ -10,10 +10,10 @@ class TaskLog:
 	'''class to manage task running log'''
 	
 	
-	def __init__(self, xml = None, pref = None, task = None):
+	def __init__(self, xml = None, task = None):
 		'''load task log info'''
 		if xml is None:
-			self.defaultInit(pref, task)
+			self.defaultInit(task)
 		else:
 			self.fromXml(xml)
 	
