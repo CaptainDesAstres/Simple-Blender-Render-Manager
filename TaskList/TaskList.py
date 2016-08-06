@@ -877,7 +877,7 @@ Quit : q or quit
 type:           for:
 h        display this help
 t        to stop rendering after the current task
-g        to stop rendering after the current renderlayer group
+s        to stop rendering after the current scene
 c        to stop rendering after the current frame
 n        to stop rendering immediatly (send terminated signal)
 f        to force to stop rendering immediatly (send kill signal)
