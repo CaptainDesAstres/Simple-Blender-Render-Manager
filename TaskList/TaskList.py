@@ -625,8 +625,10 @@ Press enter to continue
 	
 	
 	def batchSelect(self, log, select = None):
-		'''A method to select multiple task'''
-		log.menuIn('Multiple Task Selecting')
+		'''manual selection of multiple task'''
+		log.menuIn('Multiple Task Selection')
+		
+		# init page, selection and mode
 		if select is None:
 			select = []
 		page = 0
@@ -638,12 +640,16 @@ Press enter to continue
 			print('\n\n        Multiple Selection :\n')
 			self.print(page, select, True)
 			
+			# get user selection request
 			choice = input(msg).strip().lower()
 			
 			if choice in ['quit', 'q', 'cancel']:
+				# quit with current selection
 				log.menuOut()
 				return select
+			
 			if choice in ['h', 'help']:
+				#display selection help
 				log.menuIn('Help')
 				log.print()
 				
@@ -671,36 +677,45 @@ Quit : q or quit
 				
 				input('Press enter to continue')
 				log.menuOut()
-			elif choice  in ['u', '<']:
+				
+			elif choice  in ['u', '<']:# list page up
 				if page > 0:
 					page -= 1
-			elif choice  in ['d', '>', '']:
+				
+			elif choice  in ['d', '>', '']:# list page down
 				if page < math.floor((len(self.tasks)-1)/25):
 					page += 1
 				elif choice == '':
 					page = 0
-			elif choice  in ['a', 'add', '+']:
+				
+			elif choice  in ['a', 'add', '+']:# use additive selection mode
 				mode = 'ADD'
 				msg = 'What task to select [ADD mode] : '
-			elif choice  in ['s', 'sub', '-']:
+				
+			elif choice  in ['s', 'sub', '-']:# use substractive selection mode
 				mode = 'SUB'
 				msg = 'What task to unselect [SUB mode] : '
-			elif choice  in ['switch', 'swt']:
+				
+			elif choice  in ['switch', 'swt']:# use switching selection mode
 				mode = 'SWT'
 				msg = 'What task to switch selecting [SWT mode] : '
-			elif choice  in ['all']:
-				if mode == 'ADD':
+				
+			elif choice == 'all':
+				if mode == 'ADD':# select all task
 					select = list(range(0, len(self.tasks)))
-				elif mode == 'SUB':
+					
+				elif mode == 'SUB':# unselect all task
 					select = []
+					
 				else:
 					for i in range(0, len(self.tasks)):
-						if i in select:
+						if i in select:# unselect all selected task
 							select.remove(i)
-						else:
+						else:# select all unselected task
 							select.append(i)
-			elif choice.count('-') == 1:
-				try:
+				
+			elif choice.count('-') == 1:# treat range selecting
+				try:# try to get first and last task of the selection
 					choice = choice.split('-')
 					last = min(int(choice.pop().strip()), len(self.tasks)-1)
 					first = max(int(choice.pop().strip()), 0)
@@ -708,40 +723,49 @@ Quit : q or quit
 					log.error('your request is unvalid', False)
 					continue
 				
+				# get selection
 				inter = list(range(first, last+1))
 				
 				if mode == 'ADD':
+					# additive mode: add to selection all unselected task in the range
 					for i in inter:
 						if i not in select:
 							select.append(i)
 					select.sort()
+					
 				elif mode == 'SUB':
+					# substractive mode: remove from selection all task in the range
 					for i in inter:
 						if i in select:
 							select.remove(i)
-				else:
+					
+				else:# switch mode
 					for i in inter:
-						if i in select:
+						if i in select: # remove from selection task of the range
 							select.remove(i)
-						else:
+						else: # add to selection task of the range that wasn't previously selected
 							select.append(i)
 					select.sort()
+				
 			else:
+				# get task by task choice
 				try:
 					choice = int(choice)
 				except ValueError:
 					log.error('your request ('+choice+') is unvalid', False)
 					continue
 				
-				if mode == 'ADD' and choice not in select:
+				if mode == 'ADD' and choice not in select:# add to selection
 					select.append(choice)
 					select.sort()
-				elif mode == 'SUB' and choice in select:
+					
+				elif mode == 'SUB' and choice in select:# remove from selection
 					select.remove(choice)
+					
 				elif mode == 'SWT':
-					if choice in select:
+					if choice in select:# unselect if selected
 						select.remove(choice)
-					else:
+					else:# select if unselected
 						select.append(choice)
 						select.sort()
 	
