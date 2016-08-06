@@ -810,14 +810,14 @@ Quit : q or quit
 	
 	
 	def copyTasks(self, log, select, preferences):
-		'''A method to copy a selection of task to apply them another preset'''
+		'''copy selected task'''
 		log.menuIn('Batch Copy')
-		
 		log.menuIn('Position Choice')
+		
 		while True:
 			log.print()
-			print('\n\n        Copy : Positon Choice :\n\nChoice : \n\n1- Immediately after original task\n2- At the end of list\n0- Cancel')
-			choice = input('choice : ').strip().lower()
+			# get user position choice
+			choice = input('\n\n        Copy : Positon Choice :\n\nChoice : \n\n1- Immediately after original task\n2- At the end of list\n0- Cancel\n\nchoice : ').strip().lower()
 			
 			if choice in ['0', 'q', 'quit', 'cancel']:
 				log.menuOut()
