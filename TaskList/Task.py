@@ -262,7 +262,7 @@ action : ''').strip().lower()
 	
 	
 	def printRunMenu(self, index, count, log):
-		'''print current runninge state'''
+		'''display run state'''
 		log.print()
 		print('\n\nRun task n°'+str(index)+' of '+str(count)+' :\n\n')
 		if self.log is not None:
