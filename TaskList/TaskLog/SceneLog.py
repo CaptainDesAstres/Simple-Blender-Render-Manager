@@ -52,12 +52,13 @@ class SceneLog:
 	
 	
 	def toXml(self):
-		'''export scene log into xml syntaxed string'''
+		'''export in xml'''
 		xml = '<scene name="'+XML.encode(self.name)\
 				+'" start="'+str(self.start)\
 				+'" end="'+str(self.end)\
 				+'" status="'+self.status+'" >\n'
 		
+		# export each rendering frame repport
 		for f in self.frames:
 			xml += f.toXml()
 		

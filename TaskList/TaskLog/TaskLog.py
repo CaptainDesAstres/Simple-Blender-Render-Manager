@@ -65,9 +65,11 @@ class TaskLog:
 	
 	
 	def toXml(self):
-		'''export task log into xml syntaxed string'''
+		'''export in xml'''
+		#export task name
 		xml = '<log name="'+XML.encode(self.name)+'" >\n'
 		
+		# export each scene
 		for scene in self.scenes:
 			xml += scene.toXml()
 		
