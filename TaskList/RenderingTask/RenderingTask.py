@@ -3,9 +3,6 @@ import bpy, sys, os, socket, time, datetime, threading
 sys.path.append(os.path.abspath(sys.argv[4]+'/../../../..'))
 
 def RenderingTask(task, preferences):
-	
-	task.running = True
-	
 	# create a socket to communicate with blender-render-manager
 	connexion = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	connexion.connect(('localhost', preferences.port))
