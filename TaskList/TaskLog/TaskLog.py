@@ -21,7 +21,7 @@ class TaskLog:
 	
 	
 	
-	def defaultInit(self, pref, task):
+	def defaultInit(self, task):
 		'''generate log from task settings'''
 		self.name = task.path.split('/').pop().split('.')
 		self.name.pop()
@@ -32,12 +32,12 @@ class TaskLog:
 		if task.scene :
 			for scene in task.info.scenes.keys():
 				self.scenes.append(\
-								SceneLog(scene = scene, task = task, pref = pref)\
+								SceneLog(scene = scene, task = task)\
 								)
 		else:
 			self.scenes.append(\
 								SceneLog(scene = task.info.active,\
-									task = task, pref = pref)\
+									task = task)\
 								)
 		
 		self.status = 'ready'

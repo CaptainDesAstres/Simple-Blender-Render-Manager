@@ -280,7 +280,7 @@ action : ''').strip().lower()
 		
 		# create task log on first running
 		if self.log is None:
-			self.log = TaskLog(pref = preferences, task = self)
+			self.log = TaskLog(task = self)
 		
 		# ensure we can write in working directory
 		if not self.checkOutput(preferences):
