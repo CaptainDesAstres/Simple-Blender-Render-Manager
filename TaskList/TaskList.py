@@ -847,7 +847,7 @@ Quit : q or quit
 	
 	
 	def checkListeners(self):
-		'''remove all ended thread from self.listenerThreads'''
+		'''remove dead thread'''
 		for l in self.listenerThreads[:]:
 			if not l.is_alive():
 				self.listenerThreads.remove(l)
@@ -857,14 +857,21 @@ Quit : q or quit
 	
 	
 	def runMenu(self, log):
-		'''treat action of the menu when the rendering is start'''
-		log.runMenu = 'What do you want to do? (type h for help)'
+		'''display and manage action running mode action'''
+		# run menu remaining message in log
+		log.runMenu = 'What do you want to do? (h for help)'
+		
 		while True:
+			# print run menu with current task and get user action
 			self.tasks[self.current].printRunMenu(self.current+1, len(self.tasks), log)
 			choice = input().lower().strip()
-			if self.status == 'stop':
+			
+			
+			if self.status == 'stop':# stop run menu on running mode end
 				break
+				
 			elif choice in ['h', 'help']:
+				# use help as remaining message on user demand
 				log.runMenu = '''wait for all rendering to be done or
 (option starting by # are not yet implement)
 type:           for:
@@ -876,10 +883,14 @@ n        to stop rendering immediatly (send terminated signal)
 f        to force to stop rendering immediatly (send kill signal)
 p        to get subprocess PID
 What do you want to do? (type h for help)'''
+				
 			elif choice in ['c', 'current', 'frame']:
+				# state that BRM running mode should stop after current frame rendering
 				self.runningMode = self.UNTIL_FRAME_END
+				# request all blender thread to stop after current frame rendering
 				for l in self.listenerSockets[:]:
 					l['socket'].sendall( (l['uid']+' stopAfterFrame() EOS').encode() )
+				
 			elif choice in ['g', 'qroup']:
 				self.runningMode = self.UNTIL_GROUP_END
 				for l in self.listenerSockets[:]:
