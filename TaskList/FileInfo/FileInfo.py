@@ -43,7 +43,7 @@ class FileInfo:
 	
 	
 	
-	def sceneChoice(self, log, allChoice = True):
+	def sceneChoice(self, log):
 		'''a methode to choose the scene mode'''
 		scenes = list(self.scenes.keys())
 		scenes.sort(key = str.lower)
