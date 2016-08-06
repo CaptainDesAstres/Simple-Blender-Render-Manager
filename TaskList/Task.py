@@ -397,7 +397,7 @@ action : ''').strip().lower()
 						s.confirmFrame(frame, date, computingTime)
 				self.printRunMenu(index, len(taskList.tasks), log)
 		
-		if messages[-1] == self.uid+' VersionEnded':
+		if messages[-1] == self.uid+' TaskEnded':
 			return messages[-1]+' EOS'
 		else:
 			return ''
