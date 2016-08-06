@@ -524,31 +524,45 @@ Press enter to continue
 ''')
 			
 			if choice in ['q', 'quit', 'cancel', '0']:
+				# quit batch task edition
 				log.menuOut()
 				log.menuOut()
 				return change
+				
 			elif choice == '1':
+				# copy selected tasks
 				new, confirm = self.copyTasks(log, select, preferences)
 				if confirm:
 					select = new
 					change = True
+				
 			elif choice == '2':
+				# move selected tasks inside the list
 				change = (self.move(log, select) or change)
+				
 			elif choice == '3':
+				# delete selected tasks
 				if self.remove(log, select):
 					log.menuOut()
 					log.menuOut()
 					return True
+				
 			elif choice == '4':
+				# lock selected tasks
 				self.lock(select, log)
 				change = True
+				
 			elif choice == '5':
+				# unlock selected tasks
 				self.unlock(select, log)
 				change = True
+				
 			elif choice == '9':
+				# change selection
 				log.menuOut()
 				select = self.batchSelect(log, select)
 				log.menuIn('Task n°'+','.join(str(x) for x in select))
+				
 			else:
 				log.error('Unvalid request',False)
 	
