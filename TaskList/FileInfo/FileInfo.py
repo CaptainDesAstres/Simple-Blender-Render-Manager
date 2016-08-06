@@ -47,14 +47,17 @@ class FileInfo:
 		'''choose between render the active scene or all the scene'''
 		scenes = len(self.scenes)
 		
+		# can't add empty task file
 		if scenes == 0:
 			log.error('  no scene in this file… Abort')
 			return None
 		
+		# no need to choose if there is only one scene in the file
 		if scenes == 1:
-			log.write('  Only one scene in file. All scene will be rendered.')
+			log.write('  Only one scene to render in file.')
 			return True
 		
+		# get user choice
 		log.menuIn('Scene Choice')
 		while True:
 			choice = input('there is '+str(scenes)+''' scenes in this file. Do you want to:
@@ -62,20 +65,25 @@ class FileInfo:
 	2- Render active scene «'''+self.active+'''»
 	0- Abort''').strip().lower()
 			
+			# quit and abort task adding
 			if choice in [ '', 'q', '0' ]:
 				log.menuOut()
 				log.write('  Abort task adding')
 				return None
-			elif choice == '1':
+			
+			# quit and render all scene
+			if choice == '1':
 				log.menuOut()
 				log.write('  Set to render all task scene')
 				return True
-			elif choice == '2':
+			
+			# quit and render only active scene
+			if choice == '2':
 				log.menuOut()
 				log.write('  Set to render task active scene only')
 				return False
-			else:
-				log.error('unvalid choice')
+			
+			log.error('unvalid choice')
 			
 		
 	
