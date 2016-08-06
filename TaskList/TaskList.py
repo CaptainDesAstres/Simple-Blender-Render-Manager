@@ -777,46 +777,64 @@ Quit : q or quit
 	
 	
 	def run(self, scriptPath, log, preferences):
-		'''A method to run the task of the list'''
+		'''launch task list rendering'''
 		log.menuIn('Run Tasks')
-		run = True
+		
+		# state that BRM is in run mode until all task is rendered
+		run = True 
 		self.status = 'run'
 		self.runningMode = self.UNTIL_LIST_END
+		self.current = 0 # current task
+		
+		# create a socket to communicate with blender script
 		self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 		self.socket.bind(('localhost', preferences.port))
 		self.socket.listen(5)
+		
+		# initialize empty list
 		self.listenerThreads = []
 		self.listenerSockets = []
 		self.renderingSubprocess = []
 		
+		# start to display run menu with a parallel thread
 		runMenu = threading.Thread(target = self.runMenu , args=(log,))
-		self.current = 0
 		runMenu.start()
 		
-		for i,task in enumerate(self.tasks):
-			self.current = i
-			
+		for self.current,task in enumerate(self.tasks):# rendering each task
+			# render unlock task
 			if task.status not in ['lock', 'pendinglock']:
 				run = task.run(i+1, self, scriptPath, log, preferences)
+			
+			# remove listener associate with closed thread
+			self.checkListeners()
+			
+			# stop running on user request
 			if not run or self.runningMode != self.UNTIL_LIST_END:
 				break
-			self.checkListeners()
-		self.status = 'stop'
 		
+		self.status = 'stop'# state that BRM quit run mode
+		
+		# waiting until there is no remaining socket listener
 		while len(self.listenerThreads) > 0:
 			self.checkListeners()
 			time.sleep(1)
 		
+		# delete socket/process list
 		self.listenerThreads = None
 		self.listenerSockets = None
 		self.renderingSubprocess = None
 		
+		# close socket
 		self.socket.close()
 		self.socket = None
-		print('running action are ended or stoped, now checking frame')
+		
+		# archive fully rendered task
+		print('check frame after quiting the running mode')
 		self.checkAndArchive(preferences.archiveLimit)
 		print('all done, press enter to continue!')
+		
+		# stop the thread who display the running mode menu and quit
 		runMenu.join()
 		log.menuOut()
 	
