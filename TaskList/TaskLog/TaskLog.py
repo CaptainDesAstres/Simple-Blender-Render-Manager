@@ -81,27 +81,30 @@ class TaskLog:
 	
 	
 	def menu(self, log, index):
-		'''a method to display and browse into task rendering log'''
+		'''navigate inside rendering log'''
 		log.menuIn('Rendering Log')
+		
 		while True:
 			log.print()
 			print('\n\n        Rendering Log of task n°'+str(index)+' :\n')
-			
 			self.print(True)
 			
-			choice = input('\n\ntype the index of a scene to see more or q to quit :').strip().lower()
+			# get user instructions
+			choice = input('\n\nType scene index for details (q to quit) :').strip().lower()
 			
 			if choice in ['0', 'q', 'quit', 'cancel']:
+				# quit rendering log
 				log.menuOut()
 				return
 			
-			try:
-				choice = int(choice)-1
+			try:# try to get choose scene index
+				choice = int(choice) - 1
 			except:
 				log.error('Integer value expected!', False)
 				continue
 			
 			if choice >= 0 and choice < len(self.scenes):
+				# display scene rendering log
 				self.scenes[choice].menu(log)
 			else:
 				log.error('There is no scene with this index!', False)

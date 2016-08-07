@@ -70,27 +70,30 @@ class SceneLog:
 	
 	
 	def menu(self, log ):
-		'''see detail of the Scene rendering'''
+		'''navigate in scene rendering log'''
 		log.menuIn('«'+self.name+'» scene details')
 		
 		page = 0
 		count = len(self.frames)
+		# compute page number
 		pageMax = round(count/self.pageSize)
 		if count - pageMax * self.pageSize <=0:
 			pageMax -= 1
 		
 		while True:
 			log.print()
-			
-			print('\n\n        «'+self.name+'» group details :\n')
+			print('\n\n        «'+self.name+'» scene details :\n')
 			self.print(page)
-			
-			choice = input('\n\nh for help').strip().lower()
+			# get user instruction
+			choice = input('\n\nAction? (h for help):').strip().lower()
 			
 			if choice in ['cancel', 'q', 'quit']:
+				# quit scene rendering log
 				log.menuOut()
 				return
+				
 			elif choice in ['h', 'help']:
+				# display navigation help
 				log.menuIn('Help')
 				input('''
 + and -          scroll to see more frame
@@ -98,11 +101,12 @@ u and d          same
 up and down      same
 t and b          scroll to Top or Bottom of frame list
 a frame number   scroll to see the frame of this number
-q                quit group log
-press enter to continu''')
+q                quit scene log
+press enter to continue''')
 				log.menuOut()
 				
 			elif choice in ['', '+', 'down', 'd']:
+				# display next page/frames
 				page += 1 
 				if page > pageMax:
 					if choice != '':
@@ -111,28 +115,30 @@ press enter to continu''')
 						page = 0
 				
 			elif choice in ['-', 'up', 'u']:
+				# display previous page/frames
 				page -= 1 
 				if page < 0:
 					page = 0
 				
 			elif choice in ['t', 'top']:
+				# display first page/frames
 				page = 0
 				
 			elif choice in ['b', 'bottom']:
+				# display last page/frames
 				page = pageMax
 				
 			else:
-				try:
-					choice = int(choice)
+				
+				try:# get targeted frame index
+					choice = int(choice) - self.start
+					choice = max(choice, 0)
+					choice = min(choice, count)
 				except:
 					log.error('Unvalid action «'+choice+'» !', False)
 					continue
 				
-				choice -= self.start
-				if choice < 0 :
-					choice = 0
-				elif choice > count:
-					choice = count
+				# scroll to page to display thus frame
 				page = int(choice / self.pageSize)
 	
 	
