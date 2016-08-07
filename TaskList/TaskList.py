@@ -820,42 +820,59 @@ Quit : q or quit
 			choice = input('\n\n        Copy : Positon Choice :\n\nChoice : \n\n1- Immediately after original task\n2- At the end of list\n0- Cancel\n\nchoice : ').strip().lower()
 			
 			if choice in ['0', 'q', 'quit', 'cancel']:
+				#quit without copying
 				log.menuOut()
 				log.menuOut()
 				return select, False
 			
-			if choice in ['1', '2']:
-				row = int(choice)
+			if choice in ['1', '2']:# valid user choice
 				break
-			else:
-				log.error('unvalid choice, accepted choice is 0 1 or 2', False)
-				continue
+			
+			log.error('unvalid choice, accepted choice is 0 1 or 2', False)
+			continue
 		log.menuOut()
 		
-		
+		# make a list of copy task
 		copies = []
 		select.sort()
 		for i in select:
 			copies.append(self.tasks[i].copy())
 		
+		# init some copy attribute
 		for t in copies:
 			t.status = 'waiting'
 			t.log = None
 		
-		if row == 2:
-			newSelect = list(range(len(self.tasks),len(self.tasks) + len(copies)))
+		if choice == '2':
+			# get new selection index
+			newSelect = list( range(\
+						len(self.tasks) ,\
+						len(self.tasks) + len(copies)
+							))
+			
+			# put copy task at list end
 			self.tasks += copies
+			
+			# log the copy
 			log.write('Task n°«'+','.join(str(x) for x in select)+'» copied to row n°'+str(newSelect[0])+' to '+str(newSelect[-1])+'.')
+			
 			log.menuOut()
 			return newSelect, True
+			
 		else:
+			
 			newSelect = []
 			gap = 0
 			for i in select:
+				# new selection index
 				newSelect.append(i+1+gap)
 				gap += 1
+				# put copy task at list, just after copied task
 				self.tasks.insert(newSelect[-1], copies.pop(0))
+			
+			# log the copy
 			log.write('Task n°«'+','.join(str(x) for x in select)+'» copied to row n°'+','.join(str(x) for x in newSelect)+'.')
+			
 			log.menuOut()
 			return newSelect, True
 	
