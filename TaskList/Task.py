@@ -78,7 +78,7 @@ class Task:
 	
 	
 	
-	def menu(self, log, index, tasks, preferences):
+	def menu(self, log, index, tasks):
 		'''method to edit task settings'''
 		log.menuIn('Task n°'+str(index))
 		change = False
@@ -254,10 +254,15 @@ action : ''').strip().lower()
 	
 	
 	def copy(self):
+		'''Return a full copy of self'''
+		# create the copy
 		xml = '<?xml version="1.0" encoding="UTF-8"?>\n'+self.toXml()
 		xml = xmlMod.fromstring(xml)
 		copy = Task(xml = xml)
+		
+		# init copy uid
 		copy.uid = uuid.uuid4().hex
+		
 		return copy
 	
 	

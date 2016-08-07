@@ -161,7 +161,7 @@ Press enter to continue''')
 					continue
 				
 				# edit selected task
-				if(self.tasks[choice].menu(log, choice, self, preferences)):
+				if(self.tasks[choice].menu(log, choice, self)):
 					self.save(preferences.output.path)
 	
 	
@@ -356,7 +356,7 @@ Quit : q or quit
 	
 	
 	def save(self, output):
-		'''A method to save Tasks list'''
+		'''Save Tasks list'''
 		saveTasks(output, self)
 		
 	
