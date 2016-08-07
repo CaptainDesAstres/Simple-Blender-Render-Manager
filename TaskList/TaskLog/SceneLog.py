@@ -146,22 +146,26 @@ press enter to continue''')
 	
 	
 	def print(self, page = 0):
-		'''A method to print Scene log'''
+		'''Display scene rendering log'''
 		total = self.end - self.start + 1
 		remain = total - len(self.frames)
 		
+		# display resume info
 		print('Status          : '+self.status)
-		
-		print('\nRendered / total (remaining) : '+str(len(self.frames))+' / '\
+		print('Rendered / total (remaining) : '+str(len(self.frames))+' / '\
 				+str(total)+'     ( remain '+str(remain)+' frames )')
 		print('Average rendering time : '+str(self.average())+' sec')
 		
 		if len(self.frames) > 0:
+			# print table header 
 			print('Extract ('+str(page*self.pageSize+1)+' to '\
 				+str((page+1)*self.pageSize)+' of '+str(len(self.frames))+') : ')
 			print('Frame n°     rendering Date                 rendering time in seconds')
+			
+			# print frames extract
 			for fr in self.frames[page*self.pageSize:(page+1)*self.pageSize]:
 				fr.print()
+			
 		else:
 			print('\n        No rendered frame')
 	

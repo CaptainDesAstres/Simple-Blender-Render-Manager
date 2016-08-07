@@ -57,7 +57,7 @@ class FrameLog:
 	
 	
 	def print(self):
-		'''A method to print task frame log'''
+		'''Display task frame rendering log'''
 		print(' ╚═ '+columnLimit((str(self.frame)), 9, sep = '')\
 			 +self.date.strftime('%d/%m/%Y at %H:%M')\
 			 +'            '+str(round(self.computingTime, 2)) )
