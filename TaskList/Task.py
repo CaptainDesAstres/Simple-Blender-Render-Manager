@@ -242,9 +242,9 @@ action : ''').strip().lower()
 	def print(self):
 		'''Display task information'''
 		print('\n\nStatus :        ' + self.status\
-				+'Path :          ' + self.path\
-				+'File Name :     ' + self.path.split('/').pop()\
-				+'Scene :         ' + str(self.scene) + '\n'
+				+'\nSPath :          ' + self.path\
+				+'\nSFile Name :     ' + self.path.split('/').pop()\
+				+'\nSScene :         ' + str(self.scene) + '\n'
 				)
 	
 	

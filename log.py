@@ -1,10 +1,10 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
-'''module to manage script log'''
+'''Manage script log'''
 import os
 
 class Log:
-	'''a class to manage all script output except menuing. must be print to each new page.'''
+	'''manage all script output (must be print to each new page).'''
 	
 	def __init__(self, start, init):
 		'''initialize session log (object and file)'''
@@ -22,7 +22,7 @@ class Log:
 	
 	
 	def __del__(self):
-		'''close the log file when the object is deleted'''
+		'''close the log file before object destruction'''
 		self.logFile.close()
 		del(self.log)
 		del(self.logFile)
