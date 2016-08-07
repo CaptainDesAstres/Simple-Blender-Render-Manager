@@ -560,7 +560,9 @@ Press enter to continue
 				
 			elif choice == '2':
 				# move selected tasks inside the list
-				change = (self.move(log, select) or change)
+				
+				confirm, select = self.move(log, select)
+				change = (confirm or change)
 				
 			elif choice == '3':
 				# delete selected tasks
