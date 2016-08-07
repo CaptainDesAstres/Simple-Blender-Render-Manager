@@ -240,12 +240,12 @@ action : ''').strip().lower()
 	
 	
 	def print(self):
-		'''A method to print task information'''
-		print('\n\nStatus :        '+self.status)
-		print('Path :          '+self.path)
-		print('File Name :     '+self.path.split('/').pop())
-		print('Scene :         '+str(self.scene))
-		print('\n')
+		'''Display task information'''
+		print('\n\nStatus :        ' + self.status\
+				+'Path :          ' + self.path\
+				+'File Name :     ' + self.path.split('/').pop()\
+				+'Scene :         ' + str(self.scene) + '\n'
+				)
 	
 	
 	
