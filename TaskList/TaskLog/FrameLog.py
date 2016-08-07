@@ -1,13 +1,12 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
-'''module to manage task Frame log'''
-import xml.etree.ElementTree as xmlMod
+'''Frame rendering log'''
 import datetime
 from usefullFunctions import *
 
 
 class FrameLog:
-	'''class to manage task frame log'''
+	'''frame rendering log'''
 	
 	
 	def __init__(self, xml = None, 

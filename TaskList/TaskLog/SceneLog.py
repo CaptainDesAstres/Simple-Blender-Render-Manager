@@ -1,12 +1,12 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
-'''module to manage task scene  log'''
+'''scene rendering log'''
 from TaskList.TaskLog.FrameLog import *
 from usefullFunctions import XML
 
 
 class SceneLog:
-	'''class to manage task scene log'''
+	'''scene rendering log'''
 	
 	pageSize = 15
 	

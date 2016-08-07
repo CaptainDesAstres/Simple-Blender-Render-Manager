@@ -1,13 +1,12 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
-'''module to manage task running log'''
-import xml.etree.ElementTree as xmlMod
+'''task rendering log'''
 from TaskList.TaskLog.SceneLog import *
 from usefullFunctions import XML
 
 
 class TaskLog:
-	'''class to manage task running log'''
+	'''task rendering log'''
 	
 	
 	def __init__(self, xml = None, task = None):
