@@ -238,7 +238,7 @@ press enter to continue''')
 	
 	
 	def frameDone(self, fr ):
-		'''a method to check if a frame have been rendered'''
+		'''check if the frame is already rendered'''
 		for frame in self.frames:
 			if frame.frame == fr :
 				return True
