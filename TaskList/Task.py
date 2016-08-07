@@ -84,7 +84,7 @@ class Task:
 		change = False
 		started = self.log is not None
 		
-		if started:
+		if started: # menu if task rendering started
 			menu = '''
     Menu :
 (TASK ALREADY STARTED : SOME OPTIONS IS NOT AVAILABLE!)
@@ -96,7 +96,7 @@ class Task:
 0- Quit and save
 
 '''
-		else:
+		else: # menu if task rendering never started
 			menu = '''
     Menu :
 1- Change scene
@@ -110,19 +110,20 @@ class Task:
 		
 		while True:
 			log.print()
-			
 			print('\n        Edit Task n°'+str(index)+' :')
 			self.print()
-			print(menu)
+			# get user menu choice
+			choice= input(menu+'\nAction ? ').strip().lower()
 			
-			
-			choice= input('action : ').strip().lower()
 			if choice in ['0', 'q', 'quit', 'cancel']:
+				# confirm edit and quit
 				log.menuOut()
 				return change
-			elif choice == '1' and not started:
 				
+			elif choice == '1' and not started:
+				# switch scene settings
 				self.scene = not self.scene
+				# repport change in log
 				if self.scene:
 					log.write('  all scene of task n°'+str(index)+' will be rendered.')
 				else:
@@ -130,52 +131,60 @@ class Task:
 				change = True
 				
 			elif choice == '2':
-				
+				# move task
 				confirm, select = tasks.move(log, [index])
 				if confirm:
 					change = True
 					index = select[0]
 				
 			elif choice == '3':
-				
+				# switch to lock/unlock the task
 				if self.status in ['ready', 'pause']:
 					self.status = 'pendinglock'
 					change = True
 					log.write('Task n°'+str(index)+' locked')
+					
 				elif self.status == 'waiting':
 					self.status = 'lock'
 					change = True
 					log.write('Task n°'+str(index)+' locked')
+					
 				elif self.status == 'pendinglock':
 					self.status = 'pause'
 					change = True
 					log.write('Task n°'+str(index)+' unlocked')
+					
 				elif self.status == 'lock':
 					self.status = 'waiting'
 					change = True
 					log.write('Task n°'+str(index)+' unlocked')
+					
 				else:
 					log.error('Task n°'+str(index)+' is not lockable/unlockable')
 				
 				
 			elif choice == '4':
-				
+				# delete task
 				if tasks.remove(log, [index]):
 					log.menuOut()
 					log.write('Task n°'+str(index)+' removed')
 					return True
 				
 			elif choice == '5':
-				
+				# made a copy of the task
 				new = self.copy()
 				new.status = 'waiting'
 				new.log = None
 				tasks.tasks.append(new)
+				
+				# repport in log
 				log.write('a copy of the task n°'+str(index)+' have been added at the bottom of the task list')
 				change = True
 				
 			elif choice == '9' and started:
+				# access the rendering log
 				self.log.menu(log, index)
+				
 			else:
 				log.error('Unknow request!', False)
 	
