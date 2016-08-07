@@ -79,7 +79,7 @@ class Task:
 	
 	
 	def menu(self, log, index, tasks):
-		'''method to edit task settings'''
+		'''edit task settings'''
 		log.menuIn('Task n°'+str(index))
 		change = False
 		started = self.log is not None
@@ -88,10 +88,10 @@ class Task:
 			menu = '''
     Menu :
 (TASK ALREADY STARTED : SOME OPTIONS IS NOT AVAILABLE!)
-5- Change list row
-6- Lock/Unlock task
-7- Erase task
-8- Copy task
+2- Change list row
+3- Lock/Unlock task
+4- Erase task
+5- Copy task
 9- See Rendering Log
 0- Quit and save
 
@@ -100,10 +100,10 @@ class Task:
 			menu = '''
     Menu :
 1- Change scene
-5- Change list row
-6- Lock/Unlock task
-7- Erase task
-8- Copy task
+2- Change list row
+3- Lock/Unlock task
+4- Erase task
+5- Copy task
 0- Quit and save
 
 '''
@@ -129,14 +129,14 @@ class Task:
 					log.write('  only active scene of task n°'+str(index)+' will be rendered.')
 				change = True
 				
-			elif choice == '5':
+			elif choice == '2':
 				
 				confirm, select = tasks.move(log, [index])
 				if confirm:
 					change = True
 					index = select[0]
 				
-			elif choice == '6':
+			elif choice == '3':
 				
 				if self.status in ['ready', 'pause']:
 					self.status = 'pendinglock'
@@ -158,14 +158,14 @@ class Task:
 					log.error('Task n°'+str(index)+' is not lockable/unlockable')
 				
 				
-			elif choice == '7':
+			elif choice == '4':
 				
 				if tasks.remove(log, [index]):
 					log.menuOut()
 					log.write('Task n°'+str(index)+' removed')
 					return True
 				
-			elif choice == '8':
+			elif choice == '5':
 				
 				new = self.copy()
 				new.status = 'waiting'
