@@ -56,16 +56,19 @@ class Log:
 	
 	
 	def error(self, err, log = True):
-		'''Display a error message and add it to the log'''
+		'''Display and log error message'''
+		# write error message in red
 		err = '\033[31mError : '+err+'\033[0m\n'
-		
 		self.menuIn('Error Message')
 		self.print()
-		print('\n\n'+err+'Press enter to continue')
-		input()
+		
+		# wait user confirmation
+		input('\n\n'+err+'Press enter to continue')
 		self.menuOut()
+		
+		# repport error in log
 		if log:
-			self.write(err, '')
+			self.log += err
 	
 	
 	
