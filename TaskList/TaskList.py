@@ -979,7 +979,6 @@ Quit : q or quit
 			elif choice in ['h', 'help']:
 				# use help as remaining message on user demand
 				log.runMenu = '''wait for all rendering to be done or
-(option starting by # are not yet implement)
 type:           for:
 h        display this help
 t        to stop rendering after the current task
