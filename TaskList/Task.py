@@ -287,7 +287,11 @@ action : ''').strip().lower()
 			copy.path = preferences.output.path+'source/'+self.name+'.blend'
 		copy.name = tasks.getUnusedTaskName( copy.name, preferences )
 		
-		
+		#copy original file
+		shutil.copy(\
+				copy.path,\
+				preferences.output.path+'source/'+copy.name+'.blend'\
+					)
 		
 		return copy
 	
