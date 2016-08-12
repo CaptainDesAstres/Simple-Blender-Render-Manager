@@ -348,12 +348,14 @@ Quit : q or quit
 			log.menuOut()
 			return False
 		
-		# add the task
-		self.tasks.append( Task(
-							path = path,
+		# create the task
+		task = Task(		path = path,
 							scene = scene,
 							fileInfo = info
-							) )
+							)
+		
+		# add the task
+		self.tasks.append( task )
 		log.write('  add task «'+path+'»')
 		
 		log.menuOut()
