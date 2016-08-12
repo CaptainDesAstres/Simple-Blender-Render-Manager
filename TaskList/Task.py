@@ -193,14 +193,16 @@ class Task:
 	
 	
 	def menuArchive(self, log, index, tasks):
-		'''method to edit task settings'''
+		'''Display task archived menu'''
 		log.menuIn('Archived Task n°'+str(index))
 		change = False
+		
 		while True:
 			log.print()
-			
 			print('\n        Task n°'+str(index)+' Log :')
 			self.print()
+			
+			# display menu and get user choice
 			choice = input('''
     Menu :
 1- See Rendering Log
@@ -212,12 +214,16 @@ class Task:
 action : ''').strip().lower()
 			
 			if choice in ['0', 'q', 'quit', 'cancel']:
+				# Quit menu (return to archive list menu)
 				log.menuOut()
 				return change
-			elif choice == '1':
+			
+			if choice == '1':
+				# Display task rendering log
 				self.log.menu(log, index)
-			elif choice == '2':
 				
+			elif choice == '2':
+				# create a new rendering task, copy of this one
 				new = self.copy()
 				new.status = 'waiting'
 				new.log = None
@@ -226,12 +232,13 @@ action : ''').strip().lower()
 				change = True
 				
 			elif choice == '3':
-				conf = input('\n\nThe task gone be definitly erased. Confirm action (y) :').strip().lower()
-				if conf in ['y', 'yes']:
+				# erase task archive after confirmation
+				if input('\n\nThe task gone be definitly erased. Confirm action (y) :').strip().lower() in ['y', 'yes']:
 					tasks.archive.pop(index)
 					log.write('The archived task n°'+str(index)+' have been erased.')
 					log.menuOut()
 					return True
+				
 			else:
 				log.error('Unknow request!', False)
 	
