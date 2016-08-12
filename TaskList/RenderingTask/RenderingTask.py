@@ -99,7 +99,7 @@ def run(task, sceneLog, socket, preferences ):
 	
 	# get scene output path
 	scPath = preferences.output.path+'render/'\
-								+task.log.name+'/'\
+								+task.name+'/'\
 								+scene.name+'/'
 	
 	for scene.frame_current in range(scene.frame_start, scene.frame_end+1):
@@ -119,7 +119,7 @@ def run(task, sceneLog, socket, preferences ):
 		try:
 			bpy.ops.render.render( write_still=True )
 		except Exception as e:
-			socket.sendall( (task.uid+' debugMsg('+str(e)+'[file «'+task.log.name\
+			socket.sendall( (task.uid+' debugMsg('+str(e)+'[file «'+task.name\
 						+'» scene «'+scene.name+'»  frame '\
 						+str(scene.frame_current)+']) EOS').encode() )
 			break
