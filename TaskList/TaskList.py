@@ -371,7 +371,7 @@ Quit : q or quit
 	
 	
 	
-	def checkTaskName(self, name):
+	def checkTaskName(self, name, preferences):
 		'''Check if task name is free for use'''
 		# check if the name is already used by a pending task
 		for t in self.tasks:
@@ -382,6 +382,12 @@ Quit : q or quit
 		for t in self.archive:
 			if t.name == name:
 				return False
+		
+		# Check if there is a source name with this name
+		if os.path.exists(preferences.output.path+'source/'+name+'.blend'):
+			return False
+		
+		return True
 	
 	
 	
