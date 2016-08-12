@@ -405,12 +405,22 @@ Quit : q or quit
 		if self.isTaskNameFree(new, preferences):
 			return new
 		
+		if not new[-1].isdigit():
+			i = 1
+		else:
+			# get original name index
+			i=''
+			while new[-1].isdigit():
+				i = new[-1]+i
+				new = new[0:-1]
+			new.strip()
+			i = int(i)
+		
 		# generate a new name if needed
-		i = 1
 		while(not self.isTaskNameFree(new+' '+str(i), preferences)):
 			i+=1
 		
-		log.error('Task name already used. task name changed to '+new+' '+str(i)+'')
+		log.error('Task name already used. task name changed to «'+new+' '+str(i)+'»')
 		return new+' '+str(i)
 		
 	
