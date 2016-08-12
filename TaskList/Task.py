@@ -27,6 +27,12 @@ class Task:
 	def defaultInit(self, path, scene, fileInfo):
 		'''load new Task settings'''
 		self.path = path # path to the blender file
+		
+		# task name
+		self.name = path.split('/').pop()
+		self.name.split('.').pop()
+		self.name = '.'join(self.name)
+		
 		self.scene = scene # False = render only active scene, True = render all scene
 		self.info = fileInfo # FileInfo object, contain blender file information
 		self.uid = uuid.uuid4().hex # unique ident
@@ -47,6 +53,7 @@ class Task:
 	def fromXml(self, xml):
 		'''Load Task settings from xml'''
 		self.path = xml.get('path')
+		self.name = xml.get('name')
 		self.scene = xml.get('scene')
 		self.uid = xml.get('uid', uuid.uuid4().hex)
 		self.status = xml.get('status')
@@ -62,7 +69,7 @@ class Task:
 	
 	def toXml(self):
 		'''export in xml'''
-		xml = '<task path="'+XML.encode(self.path)+'" scene="'+str(self.scene)\
+		xml = '<task name="'+XML.encode(self.name)+'" path="'+XML.encode(self.path)+'" scene="'+str(self.scene)\
 				+'" uid="'+self.uid+'" status="'+self.status+'" >\n'\
 				+self.info.toXml()
 		
@@ -250,7 +257,7 @@ action : ''').strip().lower()
 		'''Display task information'''
 		print('\n\nStatus :        ' + self.status\
 				+'\nSPath :          ' + self.path\
-				+'\nSFile Name :     ' + self.path.split('/').pop()\
+				+'\nSName :     ' + self.name\
 				+'\nSScene :         ' + str(self.scene) + '\n'
 				)
 	
@@ -260,7 +267,7 @@ action : ''').strip().lower()
 	
 	def getRow(self):
 		'''return task row to display in a table'''
-		name = self.path.split('/').pop()
+		name = self.name
 		return columnLimit('  '+name, 25, 5)\
 				+columnLimit('  '+str(self.scene), 25, 5)\
 				+columnLimit('  '+self.status, 25, 5)
@@ -447,13 +454,7 @@ action : ''').strip().lower()
 	
 	def checkOutput(self, pref):
 		'''create output path if needed'''
-		path = pref.output.path+'render/'
-		
-		# get blender file name
-		name = self.path.split('/').pop().split('.')
-		name.pop()
-		name = '.'.join(name)
-		path += name+'/'
+		path = pref.output.path+'render/'+self.name+'/'
 		
 		scenes = self.log.scenes
 		for s in scenes:
