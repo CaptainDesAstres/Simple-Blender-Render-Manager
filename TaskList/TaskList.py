@@ -417,7 +417,7 @@ Quit : q or quit
 			while new[-1].isdigit():
 				i = new[-1]+i
 				new = new[0:-1]
-			new.strip()
+			new = new.strip()
 			i = int(i)+1
 		
 		# generate a new name if needed
