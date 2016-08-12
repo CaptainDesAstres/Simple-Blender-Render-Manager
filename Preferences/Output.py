@@ -131,6 +131,10 @@ class Output:
 			os.mkdir(self.path+'source/')
 			exist = False
 		
+		if not os.path.exists(self.path+'trash/'):
+			os.mkdir(self.path+'trash/')
+			exist = False
+		
 		return exist
 	
 	
