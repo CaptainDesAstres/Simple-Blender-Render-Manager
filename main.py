@@ -1,7 +1,7 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
 '''program for manage blender rendering task'''
-import os
+import os, traceback
 import xml.etree.ElementTree as xmlMod
 from log import *
 from save import *
@@ -112,6 +112,7 @@ except Exception as e:
 	log.print(False)
 	print('Blender-Render-Manager crash in menu : ')
 	log.printMenu()
-	print('Blender-Render-Manager encounter the exception : '+str(e))
+	print('Blender-Render-Manager encounter an exception')
+	traceback.print_exc()
 
 
