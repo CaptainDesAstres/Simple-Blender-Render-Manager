@@ -33,7 +33,7 @@ def columnLimit(value, limit, begin = True, sep = '|'):
 
 
 def indexPrintList(l):
-	'''a function to print a list with element index'''
+	'''Print a list and index'''
 	
 	for i, v in enumerate(l):
 		print(str(i)+'- '+str(v))

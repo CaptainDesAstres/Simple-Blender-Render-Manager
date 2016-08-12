@@ -169,32 +169,37 @@ Press enter to continue''')
 	
 	
 	def menuArchive(self, log):
-		'''Archive managing menu'''
+		'''Display Archive list'''
 		log.menuIn('Archived Task List')
 		page = 0
 		
 		while True:
 			log.print()
-			
+			# Display current page of archive list
 			self.print(page, archive = True)
+			choice= input('Action (h for help):').strip().lower()
 			
-			choice= input('action (h for help):').strip().lower()
 			if choice in ['q', 'quit']:
+				# Quit menu (return to main menu)
 				log.menuOut()
 				return
 			
 			if choice in ['d', '>', '']:
+				# Display next archive list page
 				if page < math.floor((len(self.archive)-1)/25):
 					page += 1
 				elif choice == '':
 					page = 0
+				
 			elif choice in ['u', '<']:
+				# Display previous archive list page
 				if page > 0:
 					page -= 1
+				
 			elif choice in ['h', 'help']:
+				# Display help
 				log.menuIn('Help')
 				log.print()
-				
 				print('''\n\n        \033[4mHELP :\033[0m
 
 Scroll up the list : u or <
@@ -206,20 +211,23 @@ Help : h or help
 Quit : q or quit
 
 ''')
-				
 				input('Press enter to continue')
 				log.menuOut()
+				
 			else:
+				# get archived task choice
 				try:
 					choice = int(choice)
 				except:
 					log.error('Unknow request!', False)
 					continue
 				
+				# if no task with this number
 				if choice < 0 or choice >= len(self.archive):
 					log.error('There is no archived task n°'+str(choice)+'!', False)
 					continue
 				
+				# display archived task menu
 				if(self.archive[choice].menuArchive(log, choice, self)):
 					self.save(preferences.output.path)
 	
