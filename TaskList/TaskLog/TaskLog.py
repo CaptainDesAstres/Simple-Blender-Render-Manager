@@ -22,12 +22,6 @@ class TaskLog:
 	
 	def defaultInit(self, task):
 		'''generate log from task settings'''
-		# get task file name
-		self.name = task.path.split('/').pop().split('.')
-		self.name.pop()
-		self.name = '.'.join(self.name)
-		
-		
 		self.scenes = []
 		if task.scene :
 			# load all scene info
@@ -50,8 +44,6 @@ class TaskLog:
 	
 	def fromXml(self, xml):
 		'''initialize Task log object with saved log'''
-		self.name = XML.decode(xml.get('name'))
-		
 		#load all scene info
 		self.scenes = []
 		for scene in xml.findall('scene'):
@@ -66,7 +58,7 @@ class TaskLog:
 	def toXml(self):
 		'''export in xml'''
 		#export task name
-		xml = '<log name="'+XML.encode(self.name)+'" >\n'
+		xml = '<log >\n'
 		
 		# export each scene
 		for scene in self.scenes:
