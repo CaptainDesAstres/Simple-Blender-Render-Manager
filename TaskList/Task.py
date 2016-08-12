@@ -54,7 +54,7 @@ class Task:
 		'''Load Task settings from xml'''
 		self.path = XML.decode(xml.get('path'))
 		self.name = XML.decode(xml.get('name'))
-		self.scene = xml.get('scene')
+		self.scene = bool(xml.get('scene'))
 		self.uid = xml.get('uid', uuid.uuid4().hex)
 		self.status = xml.get('status')
 		self.info = FileInfo( xml.find('fileInfo') )
