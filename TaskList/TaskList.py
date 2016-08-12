@@ -387,6 +387,10 @@ Quit : q or quit
 		if os.path.exists(preferences.output.path+'source/'+name+'.blend'):
 			return False
 		
+		# Check if there is a output dircetory with this name
+		if os.path.exists(preferences.output.path+'render/'+name+'/')
+			return False
+		
 		return True
 	
 	
