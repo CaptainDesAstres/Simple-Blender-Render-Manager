@@ -2,7 +2,7 @@
 # -*-coding:Utf-8 -*
 '''module to manage task settings'''
 import xml.etree.ElementTree as xmlMod
-import os, uuid, subprocess, shlex, time, datetime, threading
+import os, uuid, subprocess, shlex, time, datetime, threading, shutil
 from usefullFunctions import *
 from TaskList.FileInfo.FileInfo import *
 from TaskList.TaskLog.TaskLog import *
