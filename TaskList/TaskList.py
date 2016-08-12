@@ -371,6 +371,22 @@ Quit : q or quit
 	
 	
 	
+	def checkTaskName(self, name):
+		'''Check if task name is not already used'''
+		
+	
+	
+	
+	
+	
+	def getUnusedTaskName(self, name, log, preferences):
+		'''Check if task name is not already used'''
+		
+	
+	
+	
+	
+	
 	def save(self, output):
 		'''Save Tasks list'''
 		saveTasks(output, self)
