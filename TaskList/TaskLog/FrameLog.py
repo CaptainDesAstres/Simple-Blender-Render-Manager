@@ -1,20 +1,20 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
-'''module to manage task Frame log'''
-import xml.etree.ElementTree as xmlMod
+'''Frame rendering log'''
 import datetime
 from usefullFunctions import *
 
 
 class FrameLog:
-	'''class to manage task frame log'''
+	'''frame rendering log'''
 	
 	
 	def __init__(self, xml = None, 
 					frame = None,
 					date = None,
 					computingTime = None):
-		'''initialize task frame object'''
+		'''load frame info'''
+		
 		if xml is None:
 			self.defaultInit(frame, date, computingTime)
 		else:
@@ -25,17 +25,17 @@ class FrameLog:
 	
 	
 	def defaultInit(self, frame, date, computingTime):
-		'''initialize Task frame log object'''
-		self.frame = frame
-		self.date = date
-		self.computingTime = computingTime
+		'''load frame info'''
+		self.frame = frame # frame number
+		self.date = date # rendering date
+		self.computingTime = computingTime # rendering time
 	
 	
 	
 	
 	
 	def fromXml(self, xml):
-		'''initialize Task frame log object with saved log'''
+		'''load frame info from xml'''
 		self.frame = int(xml.get('frame'))
 		self.date = datetime.datetime.fromtimestamp(float(xml.get('date')))
 		self.computingTime = float(xml.get('computingTime'))
@@ -45,7 +45,7 @@ class FrameLog:
 	
 	
 	def toXml(self):
-		'''export task frame log into xml syntaxed string'''
+		'''export in xml'''
 		return '<frame frame="'+str(self.frame)\
 				+'" date="'+str(int(self.date.timestamp()))\
 				+'" computingTime="'+str(self.computingTime)+'" />'
@@ -56,7 +56,7 @@ class FrameLog:
 	
 	
 	def print(self):
-		'''A method to print task frame log'''
+		'''Display task frame rendering log'''
 		print(' ╚═ '+columnLimit((str(self.frame)), 9, sep = '')\
 			 +self.date.strftime('%d/%m/%Y at %H:%M')\
 			 +'            '+str(round(self.computingTime, 2)) )

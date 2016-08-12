@@ -1,20 +1,16 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
-'''module to manage preferences of the script'''
-import xml.etree.ElementTree as xmlMod
+'''module to manage preferences of Blender-Render-Manager'''
 from save import *
-from Preferences.VersionList import *
+from Preferences.Blender import *
 from Preferences.Output import *
-from Preferences.Tiles import *
-from Preferences.PresetList.PresetList import *
-import os
 
 class Preferences:
-	'''class dedicated to script preferences settings'''
+	'''class to manage Blender-Render-Manager preferences'''
 	
 	
 	def __init__(self, xml= None):
-		'''initialize preferences object with default value or values extracted from an xml object'''
+		'''load preferences object from XML or initialize default one'''
 		if xml is None:
 			self.defaultInit()
 		else:
@@ -25,29 +21,24 @@ class Preferences:
 	
 	
 	def defaultInit(self):
-		'''initialize preferences object with default value'''
+		'''initialize default preferences object'''
 		
-		self.blenderVersion = VersionList()
-		self.output = Output()
-		self.tiles = Tiles()
-		self.presets = PresetList()
-		self.port = 55814
-		self.archiveLimit = 1000
-		self.logLimit = 100
+		self.blender = Blender() # blender application path
+		self.output = Output() # working directory path
+		self.port = 55814 # socket port to communicate with blender thread
+		self.archiveLimit = 1000 # max number of task to keep in archive list
+		self.logLimit = 100 # max number of session log file to keep
 	
 	
 	
 	
 	
 	def fromXml(self, xml):
-		'''initialize preferences object with values extracted from an xml object'''
+		'''Load preferences from xml'''
 		
-		self.blenderVersion = VersionList( xml.find('versionsList') )
+		self.blender = Blender( xml.find('blender') )
 		self.output = Output( xml.find('output') )
-		self.tiles = Tiles(xml.find('tilesSet'))
-		self.presets = PresetList(xml.find('presetList'))
-		
-		self.port = int(xml.find('port').get('value'))
+		self.port = int(xml.get('port'))
 		self.archiveLimit = int(xml.get('archive'))
 		self.logLimit = int(xml.get('log'))
 	
@@ -55,32 +46,16 @@ class Preferences:
 	
 	
 	
-	def toXml(self, preset = True, head = True):
-		'''export preferences settings into xml syntaxed string'''
-		xml = ''
+	def toXml(self):
+		'''export to xml'''
+		xml= '<?xml version="1.0" encoding="UTF-8"?>\n'
 		
-		if head:
-			xml += '<?xml version="1.0" encoding="UTF-8"?>\n'
+		#export limit and socket port settings
+		xml+= '<preferences archive="'+str(self.archiveLimit)\
+				+'" log="'+str(self.logLimit)+'" port="'+str(self.port)+'">\n'
 		
-		xml += '<preferences archive="'+str(self.archiveLimit)\
-				+'" log="'+str(self.logLimit)+'" >\n'
-		
-		if preset:
-			# export blender version list
-			xml += self.blenderVersion.toXml()
-		
-		# export output path
-		xml+= self.output.toXml()
-		
-		# export tiles sizes
-		xml+= self.tiles.toXml()
-		
-		# export preset settings
-		xml+= self.presets.toXml(preset)
-		
-		xml+= '<port value="'+str(self.port)+'" />'
-		
-		xml += '</preferences>\n'
+		# export blender and output path
+		xml+= self.blender.toXml() + self.output.toXml() +'</preferences>\n'
 		
 		return xml
 	
@@ -89,7 +64,7 @@ class Preferences:
 	
 	
 	def menu(self, log, tasks):
-		'''method to see preferences settings and access edition menu'''
+		'''access function to set preferences'''
 		log.menuIn('Preferences')
 		change = False
 		
@@ -97,41 +72,37 @@ class Preferences:
 			log.print()
 			self.print()
 			
-			print('''\n    \033[4mPreferences Menu :\033[0m
-1- Blender versions
-2- Output Path
-3- Tiles
-4- Presets
-7- Change Log Limit
-8- Change Archive Size Limit
-9- Change Socket Port
+			choice = input('''\n    \033[4mPreferences Menu :\033[0m
+1- Edit Blender Path
+2- Edit Work Path
+3- Edit Log Limit
+4- Edit Archive Size Limit
+5- Edit Socket Port
 0- Save and quit
 
-''')
+menu choice?''').strip().lower()
 			
-			
-		
 			#treat available actions
-			choice= input('menu?').strip().lower()
-			if choice in ['0', 'q', 'quit', 'cancel']:
-				log.menuOut()# quit preferences menu
+			if choice in ['0', 'q', 'quit', 'cancel']:# quit preferences menu
+				log.menuOut()
 				return
-			elif choice == '1':
-				change = self.blenderVersion.menu(log, self)
-			elif choice == '2':
+				
+			elif choice == '1':# edit blender application path
+				change = self.blender.menu(log)
+				
+			elif choice == '2':# edit working directory path
 				change = self.output.menu(log)
-			elif choice == '3':
-				change = self.tiles.menu(log)
-			elif choice == '4':
-				change = self.presets.menu(log, self.blenderVersion, tasks)
-			elif choice in ['8', '7']:
-				change = self.editLimit(log, choice == '7' )
-			elif choice == '9':
+				
+			elif choice in ['3', '4']:# edit log or archive limit
+				change = self.editLimit(log, choice == '3' )
+				
+			elif choice == '5':# edit socket port for blender thread communication
 				change = self.editPort(log)
-			else:
+				
+			else:# bad choice
 				log.error('Unknow request!', False)
 			
-			if change:
+			if change:# save when preferences have been changed
 				change = False
 				savePreferences(self)
 				log.write('New preferences saved')
@@ -141,70 +112,63 @@ class Preferences:
 	
 	
 	def print(self):
-		'''a method to display preferences settings'''
-		print('Socket Port : '+str(self.port))
-		print('Session Log Limit : '+str(self.logLimit))
-		print('Archive Limit : '+str(self.archiveLimit))
+		'''display preference settings'''
+		print('Blender Path : '+self.blender.path,\
+				'Work Path : '+self.output.path,\
+				'Socket Port : '+str(self.port),\
+				'Session Log Limit : '+str(self.logLimit),\
+				'Archive Limit : '+str(self.archiveLimit),\
+				sep='\n'
+			)
 	
 	
 	
 	
 	
 	def editPort(self, log):
-		'''A method to change the net port to communicate with blender instance'''
+		'''Set blender communication socket port'''
 		log.menuIn('Edit Net Port')
+		
 		while True:
 			log.print()
+			choice = input('\n\n        Edit Net Port :\n\nCurrent port :'\
+						+str(self.port)\
+						+'\n\nType a number from 1024 to 65535 or h or q'\
+							).strip().lower()# get a new port choice
 			
-			choice = input('''
-
-        Edit Net Port :
-
-Current port :'''+str(self.port)+'''
-
-Type the wanted port between 1024 and 65535 or q to quit or h for help :''').strip().lower()
-			
-			if choice in ['q', 'quit', 'cancel']:
+			if choice in ['q', 'quit', 'cancel']:# quit port setting
 				log.menuOut()
 				return False
 			
-			if choice in ['h', 'help']:
+			if choice in ['h', 'help']:# display help information
 				log.menuIn('Help')
 				log.print()
-				input('''
-
-        Help :
-When Blender Render Manager is running blender to render a picture, it communicate with Blender via a web socket to stay informed of the status. This setting is the port that the script use for the socket. be sure to use a port who is not used by another process.
-
-enter to continue
-''')
+				input('\n\n        Help :\nWhen Blender Render Manager is running blender to render a picture, it communicate with Blender via a web socket to stay informed of the status. This setting is the port that the script use for the socket. be sure to use a port who is not used by another process.\n\nenter to continue\n')
 				log.menuOut()
 				continue
 			
 			try:
-				choice = int(choice)
+				choice = int(choice)# try to get an integer
 			except ValueError:
 				log.error('integer value expected!',False)
 				continue
 			
-			if choice < 1024 or choice > 65535:
-				log.error('the port value must be between 1024 and 65535!',False)
+			if choice < 1024 or choice > 65535:# ensure it's a valid port
+				log.error('the port must be between 1024 (exclude) and 65535 (exclude)!',False)
 				continue
 			
-			self.port = choice
+			self.port = choice # set the new port
 			log.write('the socket port is set to '+str(self.port))
 			log.menuOut()
-			return True
-			
-			
-			
+			return True# confirm change
 	
 	
 	
 	
 	
 	def editLimit(self, log, logLim):
-		'''edit log or archive limite'''
+		'''edit log or archive limit'''
+		# get gurrent limit and set good menu
 		if logLim:
 			log.menuIn('Edit Log Limit')
 			current = self.logLimit
@@ -214,30 +178,32 @@ enter to continue
 		
 		while True:
 			log.print()
-			
 			choice = input('\n\nCurrent limit : '+str(current)+'\n\nNew limit (0 for unlimited, q to quit) : ').strip().lower()
 			
-			if choice in ['q', 'quit', 'cancel']:
+			if choice in ['q', 'quit', 'cancel']:# quit mithout change anything
 				log.menuOut()
 				return False
 			
 			try:
-				choice = int(choice)
+				choice = int(choice)#try to get Int value
 			except ValueError:
 				log.error('Integer value expected!',False)
 				continue
 			
 			if choice >= 0:
-				if logLim:
+				if logLim:#set Log Limit
 					self.logLimit = choice
 					log.write('Log limit set to '+str(self.logLimit))
-				else:
+					
+				else:# set Archive Limit
 					self.archiveLimit = choice
-					log.write('Max archive size set to '+str(self.archiveLimit))
+					log.write('Archive size set to '+str(self.archiveLimit))
+					
 				log.menuOut()
-				return True
+				return True# quit menu and confirm change
+				
 			else:
-				log.error('Expect a positive value!')
+				log.error('Expect a positive Integer value!')
 	
 	
 	

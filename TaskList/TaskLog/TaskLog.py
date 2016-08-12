@@ -1,21 +1,18 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
-'''module to manage task running log'''
-import xml.etree.ElementTree as xmlMod
-from TaskList.TaskLog.GroupLog import *
-from Preferences.PresetList.Preset.Preset import *
-from Preferences.PresetList.Preset.Metapreset import *
+'''task rendering log'''
+from TaskList.TaskLog.SceneLog import *
 from usefullFunctions import XML
 
 
 class TaskLog:
-	'''class to manage task running log'''
+	'''task rendering log'''
 	
 	
-	def __init__(self, xml = None, pref = None, task = None):
-		'''initialize task log object'''
+	def __init__(self, xml = None, task = None):
+		'''load task log info'''
 		if xml is None:
-			self.defaultInit(pref, task)
+			self.defaultInit(task)
 		else:
 			self.fromXml(xml)
 	
@@ -23,40 +20,23 @@ class TaskLog:
 	
 	
 	
-	def defaultInit(self, preferences, task):
-		'''initialize Task log object by generating from the task settings'''
-		self.presetName = task.preset
-		if self.presetName == '[default]':
-			self.presetName = preferences.presets.default
-		self.preset = preferences.presets.getPreset(self.presetName).copy()
-		self.backup = 0
-		
-		fileName = task.path.split('/').pop()
-		fileName = fileName[0:fileName.rfind('.blend')]
-		self.path = preferences.output.getMainPath(fileName, task.scene, self.presetName)
-		
-		
-		if type(self.preset) is Preset:
-			self.groups = [GroupLog(groupName = '[main]', 
-									preferences = preferences, 
-									task = task)]
+	def defaultInit(self, task):
+		'''generate log from task settings'''
+		self.scenes = []
+		if task.scene :
+			# load all scene info
+			for scene in task.info.scenes.keys():
+				self.scenes.append(\
+								SceneLog(scene = scene, task = task)\
+								)
+			
 		else:
-			self.groups = []
-			
-			for g in self.preset.groups.keys():
-				group = preferences.presets.renderlayers.groups[g]
-				if group.isUsefull(task.info.scenes[task.scene]):
-					self.groups.append(GroupLog(groupName = g,
-												preferences = preferences, 
-												task = task))
-			
-			default = GroupLog(groupName = '[default]',
-												preferences = preferences, 
-												task = task)
-			if len(default.renderlayers) > 0:
-				self.groups.append(default)
+			# load active scene info
+			self.scenes.append(\
+								SceneLog(scene = task.info.active,\
+									task = task)\
+								)
 		
-		self.status = 'ready'
 	
 	
 	
@@ -64,35 +44,27 @@ class TaskLog:
 	
 	def fromXml(self, xml):
 		'''initialize Task log object with saved log'''
-		self.path = xml.get('path')
-		self.status = xml.get('status')
-		self.backup = int(xml.get('backup'))
-		
-		node = xml.find('preset')
-		if node is None:
-			node = xml.find('metapreset')
-			self.presetName = node.get('alias')
-			self.preset = Metapreset(xml = node)
-		else:
-			self.presetName = node.get('alias')
-			self.preset = Preset(xml = node)
-		
-		self.groups = []
-		for node in xml.findall('group'):
-			self.groups.append(GroupLog(xml = node))
+		#load all scene info
+		self.scenes = []
+		for scene in xml.findall('scene'):
+			self.scenes.append(\
+					SceneLog(xml = scene)\
+								)
 	
 	
 	
 	
 	
 	def toXml(self):
-		'''export task log into xml syntaxed string'''
-		xml = '<log path="'+XML.encode(self.path)+'" status="'+self.status\
-				+'" backup="'+str(self.backup)+'" >\n'
-		xml += self.preset.toXml(self.presetName)
-		for g in self.groups:
-			xml += g.toXml()
-		xml += '</log>'
+		'''export in xml'''
+		#export task name
+		xml = '<log >\n'
+		
+		# export each scene
+		for scene in self.scenes:
+			xml += scene.toXml()
+		
+		xml += '</log >'
 		return xml
 	
 	
@@ -100,29 +72,33 @@ class TaskLog:
 	
 	
 	def menu(self, log, index):
-		'''a method to display and browse into task rendering log'''
+		'''navigate inside rendering log'''
 		log.menuIn('Rendering Log')
+		
 		while True:
 			log.print()
 			print('\n\n        Rendering Log of task n°'+str(index)+' :\n')
 			self.print(True)
 			
-			choice = input('\n\ntype the index of a group to see more or q to quit :').strip().lower()
+			# get user instructions
+			choice = input('\n\nType scene index for details (q to quit) :').strip().lower()
 			
 			if choice in ['0', 'q', 'quit', 'cancel']:
+				# quit rendering log
 				log.menuOut()
 				return
 			
-			try:
-				choice = int(choice)-1
+			try:# try to get choose scene index
+				choice = int(choice) - 1
 			except:
 				log.error('Integer value expected!', False)
 				continue
 			
-			if choice >= 0 and choice < len(self.groups):
-				self.groups[choice].menu(log, self.getMainPath())
+			if choice >= 0 and choice < len(self.scenes):
+				# display scene rendering log
+				self.scenes[choice].menu(log)
 			else:
-				log.error('There is no group with this index!', False)
+				log.error('There is no scene with this index!', False)
 			
 	
 	
@@ -130,64 +106,38 @@ class TaskLog:
 	
 	
 	def print(self, index = False):
-		'''A method to print task log'''
-		print('The task have '+str(len(self.groups))+' group(s):')
+		'''Display task log info'''
+		print(''+str(len(self.scenes))+' scene(s) in this task:')
+		
 		ended, total = 0, 0
-		for i, group in enumerate(self.groups):
+		
+		for i, scene in enumerate(self.scenes):
+			# display each scene info
 			if index:
-				group.runMenuPrint(i+1)
+				scene.runMenuPrint(i+1)
 			else:
-				group.runMenuPrint()
+				scene.runMenuPrint()
 			
-			total += (group.end - group.start + 1)
-			ended += len(group.frames)
+			# compute total frame number and rendered frame number
+			total += (scene.end - scene.start + 1)
+			ended += len(scene.frames)
+		
+		# display task frame info resume
 		print('\n\n                  '+str(ended)+'/'+str(total)\
-							+'('+str(total-ended)+' remaining)')
-	
-	
-	
-	
-	
-	def getGroup(self, g):
-		'''a method to get a group by his name'''
-		for group in self.groups:
-			if g == group.name:
-				return group
-	
-	
-	
-	
-	
-	def getMainPath(self):
-		'''return the task main path'''
-		if self.backup == 0:
-			return self.path
-		else:
-			return self.path+'previous rendering '+str(self.backup)+'/'
+							+'(remain '+str(total-ended)+' frame(s))')
 	
 	
 	
 	
 	
 	def isComplete(self):
-		'''check if there is still frame waiting to be rendered'''
-		for group in self.groups:
-			if group.remaining()>0:
+		'''report if there is still unrendered frame'''
+		for scene in self.scenes:
+			if scene.remaining()>0:
 				return False
 		return True
 	
 	
 	
 	
-	
-	def checkFrames(self):
-		'''check for each frame that have been claimed as rendered if there is really a file corresponding to it'''
-		path = self.getMainPath()
-		for group in self.groups:
-			group.checkFrames(path)
-		
-		return self.isComplete()
-	
-	
-	
-	
+

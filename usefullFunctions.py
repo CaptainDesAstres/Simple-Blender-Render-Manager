@@ -1,25 +1,39 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
+import time
+
+
+
+def now(short = True):
+	'''return current date in short or long form (HH:MM:SS or DD.MM.AAAA-HH:MM:SS)'''
+	if short == True:
+		return time.strftime('%H:%M:%S')
+	else:
+		return time.strftime('%d.%m.%Y-%H:%M:%S')
+
+
 
 def columnLimit(value, limit, begin = True, sep = '|'):
-	'''function to make sure to have a good column size'''
+	'''make fix sized text column'''
 	if type(value) is not str:
 		value = str(value)
 	
 	if begin is True:
-		begin = limit
+		begin = limit# number of first caracter to display
 	
 	if len(value) > limit:
-		return value[0:begin-1]+'…'+value[len(value)-(limit-begin):]+sep
+		return (value[0:begin-1]+'…'# first caracter\
+				+value[len(value)-(limit-begin):]# last caracter\
+				+sep) # column seperator
 	else:
-		return value+(' '*(limit-len(value)))+sep
+		return value +  (' '*(limit-len(value)))  +sep# add space to match needed size
 
 
 
 
 
 def indexPrintList(l):
-	'''a function to print a list with element index'''
+	'''Print a list and index'''
 	
 	for i, v in enumerate(l):
 		print(str(i)+'- '+str(v))
@@ -44,8 +58,7 @@ class XML:
 	
 	
 	def encode(txt):
-		'''a method to replace XML entities by XML representation'''
-		
+		'''replace XML entities by XML representation'''
 		txt.replace('&', '&amp;')
 		
 		for entity, code in XML.entities.items():
@@ -58,8 +71,7 @@ class XML:
 	
 	
 	def decode(txt):
-		'''a method to replace XML representation of entities by the original entities'''
-		
+		'''XML representation by the original character'''
 		for entity, code in XML.entities.items():
 			txt.replace(code, entity)
 		

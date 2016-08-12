@@ -2,10 +2,8 @@
 # -*-coding:Utf-8 -*
 '''module to manage task settings'''
 import xml.etree.ElementTree as xmlMod
-import os, uuid, subprocess, shlex, time, datetime, threading
-from save import *
+import os, uuid, subprocess, shlex, time, datetime, threading, shutil
 from usefullFunctions import *
-from Preferences.PresetList.Preset.Preset import *
 from TaskList.FileInfo.FileInfo import *
 from TaskList.TaskLog.TaskLog import *
 
@@ -13,12 +11,12 @@ class Task:
 	'''class to manage task settings'''
 	
 	
-	def __init__(self, path = None, scene = None, preset = None,\
-					fileInfo = None, xml= None):
-		'''initialize task object with default settings or saved settings'''
-		self.running = False
+	def __init__(self, path = None, scene = None, fileInfo = None, xml= None):
+		'''load task settings'''
+		self.log = None # task rendering log
+		
 		if xml is None:
-			self.defaultInit(path, scene, preset, fileInfo)
+			self.defaultInit( path, scene, fileInfo )
 		else:
 			self.fromXml(xml)
 	
@@ -26,14 +24,18 @@ class Task:
 	
 	
 	
-	def defaultInit(self, path, scene, preset, fileInfo):
-		'''initialize Task object with default settings'''
-		self.path = path
-		self.scene = scene
-		self.preset = preset
-		self.info = fileInfo
-		self.uid = uuid.uuid4().hex
-		self.log = None
+	def defaultInit(self, path, scene, fileInfo):
+		'''load new Task settings'''
+		self.path = path # path to the original blender file
+		
+		# task name
+		self.name = path.split('/').pop().split('.')
+		self.name.pop()
+		self.name = '.'.join(self.name)
+		
+		self.scene = scene # False = render only active scene, True = render all scene
+		self.info = fileInfo # FileInfo object, contain blender file information
+		self.uid = uuid.uuid4().hex # unique ident
 		self.status = 'waiting'
 #		self.status possible values:
 #		waiting    > the task have been set and is waiting to be run
@@ -43,39 +45,39 @@ class Task:
 #		running    > the task is running
 #		pause      > the task have been started but is now waiting to be continued
 #		ended      > the task have been totaly rendered
-#		erased     > the task have been erased
 	
 	
 	
 	
 	
 	def fromXml(self, xml):
-		'''initialize Task object with savedd settings'''
-		self.path = xml.get('path')
-		self.scene = xml.get('scene')
-		self.preset = xml.get('preset')
+		'''Load Task settings from xml'''
+		self.path = XML.decode(xml.get('path'))
+		self.name = XML.decode(xml.get('name'))
+		self.scene = bool(xml.get('scene'))
 		self.uid = xml.get('uid', uuid.uuid4().hex)
 		self.status = xml.get('status')
-		self.info = FileInfo(xml.find('fileInfo'))
+		self.info = FileInfo( xml.find('fileInfo') )
 		
 		node = xml.find('log')
 		if node is not None:
 			self.log = TaskLog(xml = node)
-		else:
-			self.log = None
 	
 	
 	
 	
 	
 	def toXml(self):
-		'''export task settings into xml syntaxed string'''
-		xml = '<task path="'+XML.encode(self.path)+'" scene="'+XML.encode(self.scene)\
-				+'" preset="'+self.preset+'" uid="'+self.uid\
-				+'" status="'+self.status+'" >\n'\
+		'''export in xml'''
+		xml = '<task name="'+XML.encode(self.name)+'" path="'+XML.encode(self.path)\
+				+'" scene="'+str(self.scene)\
+				+'" uid="'+self.uid+'" status="'+self.status+'" >\n'\
 				+self.info.toXml()
+		
+		# export rendering task log
 		if self.log is not None:
 			xml += self.log.toXml()
+		
 		xml += '</task>\n'
 		return xml
 		
@@ -85,123 +87,113 @@ class Task:
 	
 	
 	def menu(self, log, index, tasks, preferences):
-		'''method to edit task settings'''
+		'''edit task settings'''
 		log.menuIn('Task n°'+str(index))
 		change = False
 		started = self.log is not None
-		if started:
+		
+		if started: # menu if task rendering started
 			menu = '''
     Menu :
 (TASK ALREADY STARTED : SOME OPTIONS IS NOT AVAILABLE!)
-5- Change list row
-6- Lock/Unlock task
-7- Erase task
-8- Copy task
+2- Change list row
+3- Lock/Unlock task
+4- Erase task
+5- Copy task
 9- See Rendering Log
 0- Quit and save
 
 '''
-		else:
+		else: # menu if task rendering never started
 			menu = '''
     Menu :
 1- Change scene
-2- Change preset
-3- Edit preset
-4- Active/desactive Renderlayer
-5- Change list row
-6- Lock/Unlock task
-7- Erase task
-8- Copy task
+2- Change list row
+3- Lock/Unlock task
+4- Erase task
+5- Copy task
 0- Quit and save
 
 '''
 		
 		while True:
 			log.print()
-			
 			print('\n        Edit Task n°'+str(index)+' :')
 			self.print()
-			print(menu)
+			# get user menu choice
+			choice= input(menu+'\nAction ? ').strip().lower()
 			
-			
-			choice= input('action : ').strip().lower()
 			if choice in ['0', 'q', 'quit', 'cancel']:
+				# confirm edit and quit
 				log.menuOut()
 				return change
+				
 			elif choice == '1' and not started:
+				# switch scene settings
+				self.scene = not self.scene
+				# repport change in log
+				if self.scene:
+					log.write('  all scene of task n°'+str(index)+' will be rendered.')
+				else:
+					log.write('  only active scene of task n°'+str(index)+' will be rendered.')
+				change = True
 				
-				scene = self.info.sceneChoice(log, allChoice = False)
-				if scene is not None:
-					self.scene = scene[0]
-					log.write('Task n°'+str(index)+' : Scene set to «'+self.scene+'»')
-					change = True
-				
-			elif choice == '2' and not started:
-				
-				preset = Task.presetChoice(log, preferences)
-				if preset is not None :
-					self.preset = preset
-					log.write('Task n°'+str(index)+' : Preset set to «'+self.preset+'»')
-					change = True
-				
-			elif choice == '3' and not started:
-				
-				self.editPreset(log, preferences)
-				
-			elif choice == '4' and not started:
-				
-				confirm = self.info.scenes[self.scene].renderlayerActivator(log)
-				if confirm:
-					log.write('change task n°'+str(index)+' active renderlayer')
-					change = True
-				
-			elif choice == '5':
-				
+			elif choice == '2':
+				# move task
 				confirm, select = tasks.move(log, [index])
 				if confirm:
 					change = True
 					index = select[0]
 				
-			elif choice == '6':
-				
+			elif choice == '3':
+				# switch to lock/unlock the task
 				if self.status in ['ready', 'pause']:
 					self.status = 'pendinglock'
 					change = True
 					log.write('Task n°'+str(index)+' locked')
+					
 				elif self.status == 'waiting':
 					self.status = 'lock'
 					change = True
 					log.write('Task n°'+str(index)+' locked')
+					
 				elif self.status == 'pendinglock':
 					self.status = 'pause'
 					change = True
 					log.write('Task n°'+str(index)+' unlocked')
+					
 				elif self.status == 'lock':
 					self.status = 'waiting'
 					change = True
 					log.write('Task n°'+str(index)+' unlocked')
+					
 				else:
 					log.error('Task n°'+str(index)+' is not lockable/unlockable')
 				
 				
-			elif choice == '7':
-				
-				if tasks.remove(log, [index]):
+			elif choice == '4':
+				# delete task
+				if tasks.remove(preferences, log, [index]):
 					log.menuOut()
 					log.write('Task n°'+str(index)+' removed')
 					return True
 				
-			elif choice == '8':
-				
-				new = self.copy()
-				new.status = 'waiting'
-				new.log = None
-				tasks.tasks.append(new)
-				log.write('a copy of the task n°'+str(index)+' have been added at the bottom of the task list')
-				change = True
+			elif choice == '5':
+				# made a copy of the task
+				if os.path.exists(preferences.output.path+'source/'+self.name+'.blend'):
+					tasks.tasks.append(self.copy(tasks, preferences, False))
+					# repport in log
+					log.write('The task n°'+str(index)\
+						+' have been copied and added to the list')
+					change = True
+				else:
+					log.error('Unable to copy of the pending task n°'+str(index)\
+						+': can\'t find the source blender file in the working directory.')
 				
 			elif choice == '9' and started:
+				# access the rendering log
 				self.log.menu(log, index)
+				
 			else:
 				log.error('Unknow request!', False)
 	
@@ -209,15 +201,17 @@ class Task:
 	
 	
 	
-	def menuArchive(self, log, index, tasks):
-		'''method to edit task settings'''
+	def menuArchive(self, log, index, tasks, preferences):
+		'''Display task archived menu'''
 		log.menuIn('Archived Task n°'+str(index))
 		change = False
+		
 		while True:
 			log.print()
-			
 			print('\n        Task n°'+str(index)+' Log :')
 			self.print()
+			
+			# display menu and get user choice
 			choice = input('''
     Menu :
 1- See Rendering Log
@@ -229,26 +223,35 @@ class Task:
 action : ''').strip().lower()
 			
 			if choice in ['0', 'q', 'quit', 'cancel']:
+				# Quit menu (return to archive list menu)
 				log.menuOut()
 				return change
-			elif choice == '1':
+			
+			if choice == '1':
+				# Display task rendering log
 				self.log.menu(log, index)
-			elif choice == '2':
 				
-				new = self.copy()
-				new.status = 'waiting'
-				new.log = None
-				tasks.tasks.append(new)
-				log.write('A copy of the archived task n°'+str(index)+' have been added at the bottom of the pending task list.')
-				change = True
+			elif choice == '2':
+				# check source file exists
+				if os.path.exists(preferences.output.path+'render/'\
+						+self.name+'/'+self.name+'.blend'):
+					# create a new rendering task, copy of this one
+					tasks.tasks.append(self.copy(tasks, preferences, True))
+					log.write('A copy of the archived task n°'+str(index)\
+						+' have been added at the bottom of the pending task list.')
+					change = True
+				else:
+					log.error('Unable to copy of the archived task n°'+str(index)\
+						+': can\'t find the archived blender file.')
 				
 			elif choice == '3':
-				conf = input('\n\nThe task gone be definitly erased. Confirm action (y) :').strip().lower()
-				if conf in ['y', 'yes']:
+				# erase task archive after confirmation
+				if input('\n\nThe task gone be definitly erased. Confirm action (y) :').strip().lower() in ['y', 'yes']:
 					tasks.archive.pop(index)
 					log.write('The archived task n°'+str(index)+' have been erased.')
 					log.menuOut()
 					return True
+				
 			else:
 				log.error('Unknow request!', False)
 	
@@ -257,100 +260,50 @@ action : ''').strip().lower()
 	
 	
 	def print(self):
-		'''A method to print task information'''
-		print('\n\nStatus :        '+self.status)
-		print('Path :          '+self.path)
-		print('File Name :     '+self.path.split('/').pop())
-		print('Scene :         '+self.scene)
-		print('Preset :        '+self.preset+'\n')
-		print('\033[4mActive Renderlayer :\033[0m')
-		self.info.scenes[self.scene].printActiveRenderlayer()
-		print('\n')
-	
-	
-	
-	
-	
-	def renamePreset(self, old, new):
-		'''a method to rename used preset'''
-		if self.preset == old:
-			self.preset = new
-	
-	
-	
-	
-	
-	
-	def erasePreset(self, preset):
-		'''a method to stop using preset'''
-		if self.preset == preset:
-			self.preset = '[default]'
+		'''Display task information'''
+		print('\n\nStatus :                 ' + self.status\
+				+'\nOriginal file path :     ' + self.path\
+				+'\nName :                   ' + self.name\
+				+'\nScene :                  ' + str(self.scene) + '\n'
+				)
 	
 	
 	
 	
 	
 	def getRow(self):
-		'''A method to get row to print task list'''
-		name = self.path.split('/').pop()
-		return columnLimit('  '+name, 25, 5)\
-				+columnLimit('  '+self.scene, 25, 5)\
-				+columnLimit('  '+self.preset, 25, 5)
+		'''return task row to display in a table'''
+		return columnLimit('  '+self.name, 25, 5)\
+				+columnLimit('  '+str(self.scene), 25, 5)\
+				+columnLimit('  '+self.status, 25, 5)
 	
 	
 	
 	
 	
-	def presetChoice(log, preferences):
-		'''A method to choose a preset'''
-		# preset choice
-		log.menuIn('Preset Choice')
-		log.print()
-		print('\n\n        \033[4mPreset Choice :\033[0m\n\n')
-		confirm = input('Use «'+preferences.presets.default+'» default preset? (type anything else that y or yes to choose another one)')
-		
-		
-		if confirm in ['', 'y', 'yes']:
-			log.menuOut()
-			return '[default]'
-		else:
-			preset = preferences.presets.choose(log)
-			log.menuOut()
-			return preset
-	
-	
-	
-	
-	
-	
-	def editPreset(self, log, preferences):
-		'''A method to edit the preset used by the task'''
-		log.error('Warning : all change made to the preset will be effective for all task that use it…')
-		
-		if self.preset == '[default]' :
-			name = preferences.presets.default
-			preset = preferences.presets.presets[name]
-		else:
-			name = self.preset
-			preset = preferences.presets.presets[name]
-		
-		if type(preset) is Preset:
-			confirm = preset.menu(log, name, preferences.blenderVersion)
-		else:
-			confirm = preset.menu(log, name, preferences.presets)
-		
-		if confirm:
-			savePreferences(preferences)
-	
-	
-	
-	
-	
-	def copy(self):
+	def copy(self, tasks, preferences, archived):
+		'''Return a full copy of self'''
+		# create the copy
 		xml = '<?xml version="1.0" encoding="UTF-8"?>\n'+self.toXml()
 		xml = xmlMod.fromstring(xml)
 		copy = Task(xml = xml)
+		
+		# init copy path, name, uid, status and log
 		copy.uid = uuid.uuid4().hex
+		copy.status = 'waiting'
+		copy.log = None
+		if archived:
+			copy.path = preferences.output.path+'render/'+self.name+'/'+self.name+'.blend'
+		else:
+			copy.path = preferences.output.path+'source/'+self.name+'.blend'
+		copy.name = tasks.getUnusedTaskName( copy.name, preferences )
+		
+		#copy original file
+		shutil.copy(\
+				copy.path,\
+				preferences.output.path+'source/'+copy.name+'.blend'\
+					)
+		
 		return copy
 	
 	
@@ -358,7 +311,7 @@ action : ''').strip().lower()
 	
 	
 	def printRunMenu(self, index, count, log):
-		'''print current runninge state'''
+		'''display run state'''
 		log.print()
 		print('\n\nRun task n°'+str(index)+' of '+str(count)+' :\n\n')
 		if self.log is not None:
@@ -369,61 +322,61 @@ action : ''').strip().lower()
 	
 	
 	
-	def run(self, index, taskList, scriptPath, log, preferences):
-		'''A method to execute the task'''
+	def run(self, taskList, scriptPath, log, preferences):
+		'''Render the task'''
+		index = taskList.current
 		log.menuIn('run Task '+str(index)+' from '+str(len(taskList.tasks)))
 		
+		# create task log on first running
 		if self.log is None:
-			# task never have been run before
-			self.log = TaskLog(pref = preferences, task = self)
-			preferences.output.checkAndCreate(self, preferences, taskList)
+			self.log = TaskLog(task = self)
 		
+		# ensure we can write in working directory
+		if not self.checkOutput(preferences):
+			log.error('You need permission to write in task output path!')
+			log.menuOut()
+			return True
+		
+		# refresh displaying
 		self.printRunMenu(index, len(taskList.tasks), log)
 		
-		metapreset = self.log.preset
-		if type(metapreset) is Preset:
-			if self.log.groups[0].remaining() > 0:
-				versions = { metapreset.engine.version : '[default]' }
-		else:
-			versions = {}
-			for group in self.log.groups:
-				if group.remaining() > 0:
-					if group.preset.engine.version in versions.keys():
-						versions[group.preset.engine.version].append(group.name)
-					else:
-						versions[group.preset.engine.version] = [group.name]
+		# create script for blender
+		script = self.createTaskScript(scriptPath, preferences)
 		
-		scripts = self.createTaskScript(scriptPath, preferences, versions, metapreset)
+		#results = ''
+		try:
+			# create a socket listener dedicated to the task blender thread
+			l = threading.Thread(target = self.socketAcceptClient,
+								args=(taskList, index, log))
+			l.start()
+			taskList.listenerThreads.append(l)
+			
+			# creat and launch the task blender thread 
+			path = preferences.output.path+'source/'+self.name+'.blend'
+			sub = subprocess.Popen(\
+						shlex.split(\
+							'\''+preferences.blender.path+'\' -b "'+path+'" -P "'\
+							+script+'"'),\
+						stdout = subprocess.PIPE,\
+						stdin = subprocess.PIPE,\
+						stderr = subprocess.PIPE)
+			taskList.renderingSubprocess.append(sub)
+			
+			# get blender thread terminal output
+			result = sub.communicate()
+			#results += result[0].decode()+result[1].decode()+'\n\n\n'
+			
+			# remove dead blender thread
+			taskList.renderingSubprocess.remove(sub)
+			
+		except FileNotFoundError:
+			# log and display all blender error
+			log.write('\033[31mTask n°'+str(index)+' : Blender call error! Try to verify the path of blender!\033[0m')
 		
-		results = ''
-		for version in versions.keys():
-			try:
-				l = threading.Thread(target = self.socketAcceptClient,
-									args=(taskList, index, log))
-				l.start()
-				taskList.listenerThreads.append(l)
-				
-				sub = subprocess.Popen(\
-							shlex.split(\
-								preferences.blenderVersion.getVersionPath(version)\
-								+' -b "'+self.path+'" -P "'\
-								+scripts[version]+'"'),\
-							stdout = subprocess.PIPE,\
-							stdin = subprocess.PIPE,\
-							stderr = subprocess.PIPE)
-				taskList.renderingSubprocess.append(sub)
-				
-				result = sub.communicate()
-				taskList.renderingSubprocess.remove(sub)
-				results += result[0].decode()+result[1].decode()+'\n\n\n'
-			except FileNotFoundError:
-				log.write('\033[31mTask n°'+str(index)+' : Blender version call error! Try to verify the path of «'+version+'» blender version!\033[0m')
-			if taskList.runningMode in [taskList.UNTIL_GROUP_END,\
-										taskList.UNTIL_FRAME_END,\
-										taskList.STOP_NOW,\
-										taskList.STOP_FORCED]:
-				break
-		self.eraseTaskScript(scripts)
+		# erase dedicated task script
+		os.remove(script)
+		
+		#log.write('###\n'+results+'###\n')# debuging output
 		
 		log.menuOut()
 		return True
@@ -433,7 +386,8 @@ action : ''').strip().lower()
 	
 	
 	def socketAcceptClient(self, taskList, index, log):
-		'''A method to manage client connexion when running'''
+		'''manage blender new connexion'''
+		# add new client connexion
 		client = taskList.socket.accept()[0]
 		taskList.listenerSockets.append( 
 										{
@@ -441,123 +395,130 @@ action : ''').strip().lower()
 									'uid':self.uid
 										} 
 										)
+		
 		msg = ''
-		while taskList.runningMode < taskList.STOP_NOW:
+		while taskList.runningMode < taskList.STOP_NOW:# while running mode continue
 			msg += client.recv(1024).decode()
-			if msg == '':
+			
+			if msg == '' or msg[-4:] != ' EOS':
 				time.sleep(1)
-			elif msg == self.uid+' VersionEnded EOS':
-				break
-			else:
-				msg = self.treatSocketMessage(msg, taskList, index, log)
-		client.close()
+				continue
+			
+			# split messages
+			messages = msg.split(' EOS')
+			messages.pop()# pop empty last element
+			
+			for m in messages:
+				if m != self.uid+' TaskEnded':# treat all other kind of signal
+					self.treatSocketMessage(m, taskList, index, log)
+				else:
+					# when task finished, close listener and erase from listener list
+					client.close()
+					for l in taskList.listenerSockets:
+						if l['uid'] == self.uid:
+							taskList.listenerSockets.remove(l)
+							return
+			
+			msg = ''# initialize for new message
 	
 	
 	
 	
 	
 	def treatSocketMessage(self, msg, taskList, index, log):
-		'''a method to interpret socket message'''
-		if msg[-4:] != ' EOS':
-			return msg
+		'''treat all blender socket message'''
+		# normally, the message is to confirm the rendering of a frame, it must follow this sytaxe:
+		#uid action(group,frame,date,computingTime) EOS
+		#fc9b9d6fd2af4e0fb3f09066f9902f90 ConfirmFrame(groupe1,15,10:09:2014:10:30:40,11111111111111) EOS
 		
-		messages = msg.split(' EOS')
-		messages.pop()
+		# parse message info
+		uid = msg[0:32]
+		action = msg[33:msg.find('(')]
+		info = msg[46:-1]
 		
-		for m in messages:
-			# normally, the message is to confirm the rendering of a frame, it must follow this sytaxe:
-			#uid action(group,frame,date,computingTime) EOS
-			#fc9b9d6fd2af4e0fb3f09066f9902f90 ConfirmFrame(groupe1,15,10:09:2014:10:30:40,11111111111111) EOS
-			uid = m[0:32]
-			action = m[33:m.find('(')]
-			info = m[46:-1]
-			if uid == self.uid and action == 'debugMsg':
-				log.write(info)
-			elif uid == self.uid and action == 'ConfirmFrame':
-				info = info.split(',')
-				group = info[0]
-				frame = int(info[1])
-				computingTime = float(info[3])
-				
-				date = info[2].split(':')
-				date = datetime.datetime(
-							year = int(date[2]),
-							month = int(date[1]),
-							day = int(date[0]),
-							hour = int(date[3]),
-							minute = int(date[4]),
-							second = int(date[5])
-										)
-				
-				self.log.getGroup(group).confirmFrame(frame, date, computingTime)
-				self.printRunMenu(index, len(taskList.tasks), log)
+		if uid == self.uid and action == 'debugMsg':# display debuging messages
+			log.write( msg[msg.find('(')+1 : -1] )
+			
+		elif uid == self.uid and action == 'ConfirmFrame':
+			# confirm a frame rendering
+			#get frame info
+			info = info.split(',')
+			scene = info[0]
+			frame = int(info[1])
+			computingTime = float(info[3])
+			
+			# get rendering datetime
+			date = info[2].split(':')
+			date = datetime.datetime(
+						year = int(date[2]),
+						month = int(date[1]),
+						day = int(date[0]),
+						hour = int(date[3]),
+						minute = int(date[4]),
+						second = int(date[5])
+									)
+			
+			# log the frame as finished in the corresponding scene log
+			for s in self.log.scenes:
+				if s.name == scene:
+					s.confirmFrame(frame, date, computingTime)
+			
+			# refresh displaying
+			self.printRunMenu(index, len(taskList.tasks), log)
 		
-		if messages[-1] == self.uid+' VersionEnded':
-			return messages[-1]+' EOS'
-		else:
-			return ''
 	
 	
 	
 	
 	
-	def createTaskScript(self, scriptPath, preferences, versions, preset):
-		'''create a script for each blender versions to run tfhe task'''
+	def checkOutput(self, pref):
+		'''create output path if needed'''
+		path = pref.output.path+'render/'+self.name+'/'
 		
-		start = '''#!/usr/bin/python3.4
+		scenes = self.log.scenes
+		for s in scenes:
+			p = path+s.name+'/'
+			
+			# creat output directory for each scene of the task
+			if not os.path.exists(p):
+				os.makedirs(p)
+			
+			# Ensure to have writing access permission
+			if not os.access( p, os.W_OK ):
+				return False
+		
+		return True
+	
+	
+	
+	
+	
+	def createTaskScript(self, scriptPath, preferences):
+		'''create a blender script file customize for the task'''
+		# script custom content
+		script = '''#!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
 ''\'module to manage metapreset''\'
 import sys
 sys.path.append("'''+scriptPath+'''")
 import xml.etree.ElementTree as xmlMod
 from Preferences.Preferences import *
-from Preferences.PresetList.Preset.Preset import *
-from Preferences.PresetList.Preset.Metapreset import *
 from TaskList.RenderingTask.RenderingTask import *
 from TaskList.Task import *
 
-preferences = Preferences( xml = xmlMod.fromstring(''\''''+preferences.toXml(False)+'''''\') )
-task = Task( xml = xmlMod.fromstring(''\'<?xml version="1.0" encoding="UTF-8"?>\n'''+self.toXml()+'''''\'))
-'''
+preferences = Preferences( xml = xmlMod.fromstring(''\''''+preferences.toXml()+'''''\') )
+task = Task( xml = xmlMod.fromstring(''\'<?xml version="1.0" encoding="UTF-8"?>
+'''+self.toXml()+'''''\'))
+
+RenderingTask(task, preferences)'''
 		
-		end = '\nRenderingTask(task, preferences, groups)'
+		# save script in a file
+		path = scriptPath+'/TaskList/RenderingTask/TaskScripts/'+self.uid+'.py'
+		with open(path,'w') as taskScriptFile:
+			taskScriptFile.write( script )
 		
-		paths = {}
-		for v, g in versions.items():
-			script = start\
-					+'groups = ["'+('", "'.join(g) )+'"]\n'\
-					+end
-			paths[v] = scriptPath+'/TaskList/RenderingTask/TaskScripts/'+self.uid+'-'+v+'.py'
-			with open(paths[v],'w') as taskScriptFile:
-				taskScriptFile.write( script )
-		
-		return paths
-	
-	
-	
-	
-	
-	def eraseTaskScript(self, scripts):
-		'''erase Task Script files'''
-		
-		for path in scripts.values():
-			os.remove(path)
-	
-	
-	
-	
-	def getUsefullGroup(self, groups, preferences):
-		'''return only usefull group from the list, excluding those who have no renderlayer in this task'''
-		renderlayers = self.info.scenes[self.scene].getActiveRenderlayers()
-		confirmed = []
-		for group in groups:
-			for RL in renderlayers:
-				if preferences.presets.renderlayers.groups[group].belongTo(RL.name):
-					confirmed.append(group)
-					break
-		return confirmed
-	
-	
+		# return custom script path
+		return path
 	
 	
 	

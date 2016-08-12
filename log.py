@@ -1,34 +1,28 @@
 #!/usr/bin/python3.4
 # -*-coding:Utf-8 -*
-'''module who manage the log of the script'''
+'''Manage script log'''
 import os
 
 class Log:
-	'''class who manage the log of the script
-there is to log: 
-	the file where is save the log at each new line,
-	the string who is print eache time that the standart output is erase'''
+	'''manage all script output (must be print to each new page).'''
 	
 	def __init__(self, start, init):
-		'''initialize the log object and open the log file'''
-		self.log = init
-		if not os.path.exists(os.getcwd()+'/log/session '+start+'.log'):
-			self.logFile = open(os.getcwd()+'/log/session '+start+'.log','w')
-		else:
-			self.logFile = open(os.getcwd()+'/log/session '+start+'.log','a')
+		'''initialize session log (object and file)'''
+		self.log = init # log text content
 		
+		self.logFile = open(os.getcwd()+'/log/session '+start+'.log','w')
 		self.logFile.write(self.log)
-		self.write('log creation\n')
+		
+		self.write('Log file created.\n')
 		
 		self.menu = []
-		
 		self.runMenu = None
 	
 	
 	
 	
 	def __del__(self):
-		'''close the log file when the object is deleted'''
+		'''close the log file before object destruction'''
 		self.logFile.close()
 		del(self.log)
 		del(self.logFile)
@@ -37,7 +31,7 @@ there is to log:
 	
 	
 	def __str__(self):
-		'''return string log'''
+		'''return all log in a string form'''
 		return self.log
 	
 	
@@ -45,16 +39,16 @@ there is to log:
 	
 	def print(self, menu = True):
 		'''print the log'''
-		os.system('clear')
-		print(self.log)
+		os.system('clear')# clear terminal output
+		print(self.log)# print log content
 		if menu :
-			self.printMenu()
+			self.printMenu()# print current menu location
 	
 	
 	
 	
 	def write(self, txt, sep = '\n'):
-		'''add lines to the log'''
+		'''add lines to the log text and the log file'''
 		self.logFile.write(txt+sep)
 		self.log += txt+sep
 	
@@ -62,23 +56,27 @@ there is to log:
 	
 	
 	def error(self, err, log = True):
-		'''Display a error message and add it to the log'''
+		'''Display and log error message'''
+		# write error message in red
 		err = '\033[31mError : '+err+'\033[0m\n'
-		
 		self.menuIn('Error Message')
 		self.print()
-		print('\n\n'+err+'Press enter to continue')
-		input()
+		
+		# wait user confirmation
+		input('\n\n'+err+'Press enter to continue')
 		self.menuOut()
+		
+		# repport error in log
 		if log:
-			self.write(err, '')
+			self.log += err
 	
 	
 	
 	
-	def iadd(self,txt):
-		'''redirect '+=' operator to the write()method'''
+	def __iadd__(self,txt):
+		'''overload '+=' operator toredirect it to write() method'''
 		self.write(txt);
+		return self
 	
 	
 	
@@ -98,27 +96,29 @@ there is to log:
 	
 	
 	def printMenu(self):
-		'''print three structure to current menu position'''
+		'''print three to the current menu position'''
 		bar = '=========================='
 		print(bar)
-		if len(self.menu) == 0 :
+		
+		if len(self.menu) == 0 :# undefine position!
 			print('⁻⁼=####MENU ERROR####=⁼⁻\n'+bar)
+			
 		else:
-			for i,m in enumerate(self.menu):
-				if i == 0:
-					prefix = ''
-				else:
+			prefix = ''
+			for i,m in enumerate(self.menu):# print each menu
+				if i!= 0:
 					i -= 1
 					prefix = '╚═ '
 				print(('  '*i)+prefix+m+' :')
-			print(bar)
+		
+		print(bar)
 	
 	
 	
 	
 	
 	def runPrint(self):
-		'''print th running menu'''
+		'''display run remaining message'''
 		if self.runMenu is not None:
 			print(self.runMenu)
 
