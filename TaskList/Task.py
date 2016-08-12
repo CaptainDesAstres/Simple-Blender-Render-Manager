@@ -180,10 +180,7 @@ class Task:
 				
 			elif choice == '5':
 				# made a copy of the task
-				new = self.copy()
-				new.status = 'waiting'
-				new.log = None
-				tasks.tasks.append(new)
+				tasks.tasks.append(self.copy(tasks))
 				
 				# repport in log
 				log.write('a copy of the task n°'+str(index)+' have been added at the bottom of the task list')
@@ -232,10 +229,7 @@ action : ''').strip().lower()
 				
 			elif choice == '2':
 				# create a new rendering task, copy of this one
-				new = self.copy()
-				new.status = 'waiting'
-				new.log = None
-				tasks.tasks.append(new)
+				tasks.tasks.append(self.copy(tasks))
 				log.write('A copy of the archived task n°'+str(index)+' have been added at the bottom of the pending task list.')
 				change = True
 				
@@ -283,8 +277,10 @@ action : ''').strip().lower()
 		xml = xmlMod.fromstring(xml)
 		copy = Task(xml = xml)
 		
-		# init copy uid
+		# init copy uid status and log
 		copy.uid = uuid.uuid4().hex
+		copy.status = 'waiting'
+		copy.log = None
 		
 		return copy
 	
