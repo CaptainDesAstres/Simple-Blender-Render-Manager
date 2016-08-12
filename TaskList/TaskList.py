@@ -392,7 +392,7 @@ Quit : q or quit
 			return False
 		
 		# Check if there is a output dircetory with this name
-		if os.path.exists(preferences.output.path+'render/'+name+'/')
+		if os.path.exists(preferences.output.path+'render/'+name+'/'):
 			return False
 		
 		return True
