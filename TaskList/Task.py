@@ -29,8 +29,8 @@ class Task:
 		self.path = path # path to the blender file
 		
 		# task name
-		self.name = path.split('/').pop()
-		self.name.split('.').pop()
+		self.name = path.split('/').pop().split('.')
+		self.name.pop()
 		self.name = '.'.join(self.name)
 		
 		self.scene = scene # False = render only active scene, True = render all scene
