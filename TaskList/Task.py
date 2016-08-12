@@ -180,11 +180,15 @@ class Task:
 				
 			elif choice == '5':
 				# made a copy of the task
-				tasks.tasks.append(self.copy(tasks, preferences, False))
-				
-				# repport in log
-				log.write('a copy of the task n°'+str(index)+' have been added at the bottom of the task list')
-				change = True
+				if os.path.exists(preferences.output.path+'source/'+self.name+'.blend'):
+					tasks.tasks.append(self.copy(tasks, preferences, False))
+					# repport in log
+					log.write('The task n°'+str(index)\
+						+' have been copied and added to the list')
+					change = True
+				else:
+					log.error('Unable to copy of the pending task n°'+str(index)\
+						+': can\'t find the source blender file in the working directory.')
 				
 			elif choice == '9' and started:
 				# access the rendering log
@@ -228,10 +232,17 @@ action : ''').strip().lower()
 				self.log.menu(log, index)
 				
 			elif choice == '2':
-				# create a new rendering task, copy of this one
-				tasks.tasks.append(self.copy(tasks, preferences, True))
-				log.write('A copy of the archived task n°'+str(index)+' have been added at the bottom of the pending task list.')
-				change = True
+				# check source file exists
+				if os.path.exists(preferences.output.path+'render/'\
+						+self.name+'/'+self.name+'.blend'):
+					# create a new rendering task, copy of this one
+					tasks.tasks.append(self.copy(tasks, preferences, True))
+					log.write('A copy of the archived task n°'+str(index)\
+						+' have been added at the bottom of the pending task list.')
+					change = True
+				else:
+					log.error('Unable to copy of the archived task n°'+str(index)\
+						+': can\'t find the archived blender file.')
 				
 			elif choice == '3':
 				# erase task archive after confirmation
