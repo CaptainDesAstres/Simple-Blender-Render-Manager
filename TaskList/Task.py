@@ -180,7 +180,7 @@ class Task:
 				
 			elif choice == '5':
 				# made a copy of the task
-				tasks.tasks.append(self.copy(tasks, preferences))
+				tasks.tasks.append(self.copy(tasks, preferences, False))
 				
 				# repport in log
 				log.write('a copy of the task n°'+str(index)+' have been added at the bottom of the task list')
@@ -229,7 +229,7 @@ action : ''').strip().lower()
 				
 			elif choice == '2':
 				# create a new rendering task, copy of this one
-				tasks.tasks.append(self.copy(tasks, preferences))
+				tasks.tasks.append(self.copy(tasks, preferences, True))
 				log.write('A copy of the archived task n°'+str(index)+' have been added at the bottom of the pending task list.')
 				change = True
 				
@@ -270,7 +270,7 @@ action : ''').strip().lower()
 	
 	
 	
-	def copy(self, tasks, preferences):
+	def copy(self, tasks, preferences, archived):
 		'''Return a full copy of self'''
 		# create the copy
 		xml = '<?xml version="1.0" encoding="UTF-8"?>\n'+self.toXml()
@@ -281,6 +281,11 @@ action : ''').strip().lower()
 		copy.uid = uuid.uuid4().hex
 		copy.status = 'waiting'
 		copy.log = None
+		if archived:
+			self.path = preferences.output.path+'render/'+self.name+'/'+self.name+'.blend'
+		else:
+			self.path = preferences.output.path+'source/'+self.name+'.blend'
+		
 		
 		return copy
 	
