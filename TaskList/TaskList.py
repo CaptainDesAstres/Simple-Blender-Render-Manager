@@ -915,14 +915,19 @@ Quit : q or quit
 		log.menuOut()
 		
 		# make a list of copy task
-		copies = []
+		index, copies = [], []
 		select.sort()
 		for i in select[:]:
 			if os.path.exists(preferences.output.path+'source/'+tasks[i].name+'.blend'):
 				copies.append(self.tasks[i].copy(self, preferences, False))
+				index.append(i)
 			else:
 				log.error('Can\'t copy task n°'+str(i)+': can\'t find blender source file corresponding to the task!')
-				select.remove(i)
+		
+		# quit if no task have been copied
+		if len(index) == 0:
+			log.menuOut()
+			return select, False
 		
 		if choice == '2':
 			# get new selection index
