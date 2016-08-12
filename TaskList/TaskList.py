@@ -355,7 +355,7 @@ Quit : q or quit
 							)
 		
 		# insure against name collision
-		task.name = self.getUnusedTaskName(task.name, log, preferences)
+		task.name = self.getUnusedTaskName(task.name, preferences, log )
 		
 		# copy file in task list directory
 		preferences.output.checkAndCreate()# check all output directory exists
@@ -401,7 +401,7 @@ Quit : q or quit
 	
 	
 	
-	def getUnusedTaskName(self, name, log, preferences):
+	def getUnusedTaskName(self, name, preferences, log = None ):
 		'''Return a free of use task name'''
 		new = name.strip()
 		
@@ -424,7 +424,10 @@ Quit : q or quit
 		while(not self.isTaskNameFree(new+' '+str(i), preferences)):
 			i+=1
 		
-		log.error('Task name already used. task name changed to «'+new+' '+str(i)+'»')
+		if log is not None:
+			log.error('Task name already used. task name changed to «'\
+						+new+' '+str(i)+'»')
+		
 		return new+' '+str(i)
 		
 	
