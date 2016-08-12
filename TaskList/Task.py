@@ -334,9 +334,10 @@ action : ''').strip().lower()
 			taskList.listenerThreads.append(l)
 			
 			# creat and launch the task blender thread 
+			path = preferences.output.path+'source/'+self.name+'.blend'
 			sub = subprocess.Popen(\
 						shlex.split(\
-							'\''+preferences.blender.path+'\' -b "'+self.path+'" -P "'\
+							'\''+preferences.blender.path+'\' -b "'+path+'" -P "'\
 							+script+'"'),\
 						stdout = subprocess.PIPE,\
 						stdin = subprocess.PIPE,\
