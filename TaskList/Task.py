@@ -26,7 +26,7 @@ class Task:
 	
 	def defaultInit(self, path, scene, fileInfo):
 		'''load new Task settings'''
-		self.path = path # path to the blender file
+		self.path = path # path to the original blender file
 		
 		# task name
 		self.name = path.split('/').pop().split('.')
