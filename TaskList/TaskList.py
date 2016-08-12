@@ -918,7 +918,10 @@ Quit : q or quit
 		copies = []
 		select.sort()
 		for i in select:
-			copies.append(self.tasks[i].copy(self, preferences, False))
+			if os.path.exists(preferences.output.path+'source/'+tasks[i].name+'.blend'):
+				copies.append(self.tasks[i].copy(self, preferences, False))
+			else:
+				log.error('Can\'t copy task n°'+str(i)+': can\'t find blender source file corresponding to the task!')
 		
 		if choice == '2':
 			# get new selection index
