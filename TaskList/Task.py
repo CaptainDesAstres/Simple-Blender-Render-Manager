@@ -201,7 +201,7 @@ class Task:
 	
 	
 	
-	def menuArchive(self, log, index, tasks):
+	def menuArchive(self, log, index, tasks, preferences):
 		'''Display task archived menu'''
 		log.menuIn('Archived Task n°'+str(index))
 		change = False

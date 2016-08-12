@@ -637,6 +637,8 @@ Press enter to continue
 				if confirm:
 					select = new
 					change = True
+					log.menuOut()
+					log.menuIn('Task n°'+','.join(str(x) for x in select))
 				
 			elif choice == '2':
 				# move selected tasks inside the list
