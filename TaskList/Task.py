@@ -31,7 +31,7 @@ class Task:
 		# task name
 		self.name = path.split('/').pop()
 		self.name.split('.').pop()
-		self.name = '.'join(self.name)
+		self.name = '.'.join(self.name)
 		
 		self.scene = scene # False = render only active scene, True = render all scene
 		self.info = fileInfo # FileInfo object, contain blender file information
