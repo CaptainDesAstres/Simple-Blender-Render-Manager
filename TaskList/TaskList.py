@@ -1018,7 +1018,7 @@ Quit : q or quit
 		
 		# archive fully rendered task
 		print('check frame after quiting the running mode')
-		self.checkAndArchive(preferences.archiveLimit)
+		self.checkAndArchive(preferences)
 		print('all done, press enter to continue!')
 		
 		# stop the thread who display the running mode menu and quit
@@ -1125,13 +1125,20 @@ What do you want to do? (type h for help)'''
 	
 	
 	
-	def checkAndArchive(self, limit):
+	def checkAndArchive(self, preferences):
 		'''Archive task after ensuring all frame rendering was finshed'''
+		limit = preferences.archiveLimit
 		for task in self.tasks[:]:
 			if ( task.log is not None and task.log.isComplete() )\
 					or task.status == 'erased':# archive all finished task
 				self.tasks.remove(task)
 				self.archive.append(task)
+				# archive source file
+				shutil.move(\
+						preferences.output.path+'source/'+task.name+'.blend',\
+						preferences.output.path+'render/'\
+							+task.name+'/'+task.name+'.blend'\
+							)
 		
 		while len(self.archive) > limit:# respect archive limit size
 			self.archive.pop(0)
