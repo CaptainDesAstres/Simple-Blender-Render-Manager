@@ -414,7 +414,7 @@ Quit : q or quit
 				i = new[-1]+i
 				new = new[0:-1]
 			new.strip()
-			i = int(i)
+			i = int(i)+1
 		
 		# generate a new name if needed
 		while(not self.isTaskNameFree(new+' '+str(i), preferences)):
