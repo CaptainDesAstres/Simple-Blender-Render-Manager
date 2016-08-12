@@ -354,6 +354,12 @@ Quit : q or quit
 							fileInfo = info
 							)
 		
+		# insure against name collision
+		task.name = self.getUnusedTaskName(task.name, log, preferences)
+		
+		# copy file in task list directory
+		######INCOMING######
+		
 		# add the task
 		self.tasks.append( task )
 		log.write('  add task «'+path+'»')
