@@ -372,15 +372,23 @@ Quit : q or quit
 	
 	
 	def checkTaskName(self, name):
-		'''Check if task name is not already used'''
+		'''Check if task name is free for use'''
+		# check if the name is already used by a pending task
+		for t in self.tasks:
+			if t.name == name:
+				return False
 		
+		# check if the name is already used by an archived task
+		for t in self.archive:
+			if t.name == name:
+				return False
 	
 	
 	
 	
 	
 	def getUnusedTaskName(self, name, log, preferences):
-		'''Check if task name is not already used'''
+		'''Return a free of use task name '''
 		
 	
 	
