@@ -256,10 +256,10 @@ action : ''').strip().lower()
 	
 	def print(self):
 		'''Display task information'''
-		print('\n\nStatus :        ' + self.status\
-				+'\nSPath :          ' + self.path\
-				+'\nSName :     ' + self.name\
-				+'\nSScene :         ' + str(self.scene) + '\n'
+		print('\n\nStatus :                 ' + self.status\
+				+'\nOriginal file path :     ' + self.path\
+				+'\nName :                   ' + self.name\
+				+'\nScene :                  ' + str(self.scene) + '\n'
 				)
 	
 	
