@@ -2,7 +2,7 @@
 # -*-coding:Utf-8 -*
 '''module to manage task list'''
 import xml.etree.ElementTree as xmlMod
-import os, re, math, threading, socket, time
+import os, re, math, threading, socket, time, shutil
 from usefullFunctions import *
 from save import *
 from TaskList.Task import *
@@ -358,7 +358,11 @@ Quit : q or quit
 		task.name = self.getUnusedTaskName(task.name, log, preferences)
 		
 		# copy file in task list directory
-		######INCOMING######
+		preferences.output.checkAndCreate()# check all output directory exists
+		shutil.copy(\
+				task.path,\
+				preferences.output.path+'source/'+task.name+'.blend'\
+					)
 		
 		# add the task
 		self.tasks.append( task )
