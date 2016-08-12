@@ -282,9 +282,11 @@ action : ''').strip().lower()
 		copy.status = 'waiting'
 		copy.log = None
 		if archived:
-			self.path = preferences.output.path+'render/'+self.name+'/'+self.name+'.blend'
+			copy.path = preferences.output.path+'render/'+self.name+'/'+self.name+'.blend'
 		else:
-			self.path = preferences.output.path+'source/'+self.name+'.blend'
+			copy.path = preferences.output.path+'source/'+self.name+'.blend'
+		copy.name = tasks.getUnusedTaskName( copy.name, preferences )
+		
 		
 		
 		return copy
