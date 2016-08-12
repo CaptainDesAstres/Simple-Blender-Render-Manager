@@ -75,7 +75,7 @@ class Output:
 			try:
 				os.makedirs(path)
 			except Exception as e:
-				log.error('Unable to find or create a disectory with this path!')
+				log.error('Unable to find or create a directory with this path!')
 				return False
 		
 		# check path is a directory
@@ -106,6 +106,9 @@ class Output:
 			
 		else:# content ignore
 			log.write('«'+old+'» content haven\'t been moved!')
+		
+		if not os.path.exists(path+'source/'):
+			os.mkdir(path+'source/')
 		
 		return True# confirm change
 	

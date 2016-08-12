@@ -87,7 +87,7 @@ try:
 	# check working directory
 	if not os.path.exists(preferences.output.path):
 		log.write('Can\'t find working directory. Try to create it:','')
-		os.makedirs(preferences.output.path)
+		os.makedirs(preferences.output.path+'source/')
 		log += 'done'
 	
 	
