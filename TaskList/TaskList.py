@@ -123,7 +123,7 @@ class TaskList:
 					self.save(preferences.output.path)
 				
 			elif choice in ['l', 'log']:# display archived task
-				self.menuArchive(log)
+				self.menuArchive(log, preferences)
 				
 			elif choice in ['h', 'help']:# display menu help
 				log.menuIn('Help')
@@ -168,7 +168,7 @@ Press enter to continue''')
 	
 	
 	
-	def menuArchive(self, log):
+	def menuArchive(self, log, preferences):
 		'''Display Archive list'''
 		log.menuIn('Archived Task List')
 		page = 0
