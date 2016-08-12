@@ -949,7 +949,7 @@ Quit : q or quit
 			
 			newSelect = []
 			gap = 0
-			for i in select:
+			for i in index:
 				# new selection index
 				newSelect.append(i+1+gap)
 				gap += 1
