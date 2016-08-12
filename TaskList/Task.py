@@ -86,7 +86,7 @@ class Task:
 	
 	
 	
-	def menu(self, log, index, tasks):
+	def menu(self, log, index, tasks, preferences):
 		'''edit task settings'''
 		log.menuIn('Task n°'+str(index))
 		change = False
@@ -180,7 +180,7 @@ class Task:
 				
 			elif choice == '5':
 				# made a copy of the task
-				tasks.tasks.append(self.copy(tasks))
+				tasks.tasks.append(self.copy(tasks, preferences))
 				
 				# repport in log
 				log.write('a copy of the task n°'+str(index)+' have been added at the bottom of the task list')
@@ -229,7 +229,7 @@ action : ''').strip().lower()
 				
 			elif choice == '2':
 				# create a new rendering task, copy of this one
-				tasks.tasks.append(self.copy(tasks))
+				tasks.tasks.append(self.copy(tasks, preferences))
 				log.write('A copy of the archived task n°'+str(index)+' have been added at the bottom of the pending task list.')
 				change = True
 				
@@ -270,14 +270,14 @@ action : ''').strip().lower()
 	
 	
 	
-	def copy(self):
+	def copy(self, tasks, preferences):
 		'''Return a full copy of self'''
 		# create the copy
 		xml = '<?xml version="1.0" encoding="UTF-8"?>\n'+self.toXml()
 		xml = xmlMod.fromstring(xml)
 		copy = Task(xml = xml)
 		
-		# init copy uid status and log
+		# init copy path, name, uid, status and log
 		copy.uid = uuid.uuid4().hex
 		copy.status = 'waiting'
 		copy.log = None

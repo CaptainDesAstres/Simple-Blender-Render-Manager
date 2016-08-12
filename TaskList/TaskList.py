@@ -161,7 +161,7 @@ Press enter to continue''')
 					continue
 				
 				# edit selected task
-				if(self.tasks[choice].menu(log, choice, self)):
+				if(self.tasks[choice].menu(log, choice, self, preferences)):
 					self.save(preferences.output.path)
 	
 	
@@ -228,7 +228,7 @@ Quit : q or quit
 					continue
 				
 				# display archived task menu
-				if(self.archive[choice].menuArchive(log, choice, self)):
+				if(self.archive[choice].menuArchive(log, choice, self, preferences)):
 					self.save(preferences.output.path)
 	
 	
