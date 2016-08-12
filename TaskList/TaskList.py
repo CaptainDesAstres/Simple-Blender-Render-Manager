@@ -918,12 +918,7 @@ Quit : q or quit
 		copies = []
 		select.sort()
 		for i in select:
-			copies.append(self.tasks[i].copy())
-		
-		# init some copy attribute
-		for t in copies:
-			t.status = 'waiting'
-			t.log = None
+			copies.append(self.tasks[i].copy(self, preferences, False))
 		
 		if choice == '2':
 			# get new selection index
