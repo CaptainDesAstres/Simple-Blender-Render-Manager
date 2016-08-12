@@ -116,6 +116,20 @@ class Output:
 	
 	
 	
+	def checkAndCreate(self):
+		'''ensure all working directories exists'''
+		if not os.path.exists(self.path):
+			os.makedirs(self.path)
+		
+		if not os.path.exists(self.path+'render/'):
+			os.mkdir(self.path+'render/')
+		
+		if not os.path.exists(self.path+'source/'):
+			os.mkdir(self.path+'source/')
+	
+	
+	
+	
 	
 	
 	
