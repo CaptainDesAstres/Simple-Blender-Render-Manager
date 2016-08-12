@@ -444,7 +444,7 @@ Quit : q or quit
 	
 	
 	
-	def remove(self, log, selected):
+	def remove(self,preferences, log, selected):
 		'''remove task after confirmation'''
 		log.menuIn('Task(s) Removing')
 		log.print()
@@ -456,10 +456,21 @@ Quit : q or quit
 		
 		log.menuOut()
 		if confirm == 'y':
-			# remove selected task
+			# create output path for security
+			preferences.output.checkAndCreate()
 			selected.sort(reverse = True)
+			# remove selected task
 			for i in selected:
-				self.tasks.pop(i)
+				# remove task from the list
+				t = self.tasks.pop(i)
+				
+				# move task file to trash directory
+				if os.path.exists(preferences.output.path+'source/'+t.name+'.blend'):
+					shutil.move(\
+						preferences.output.path+'source/'+t.name+'.blend',\
+						preferences.output.path+'trash/'+t.name+'.blend'
+						)
+			
 			return True
 		else:
 			# quit without task removing
@@ -648,7 +659,7 @@ Press enter to continue
 				
 			elif choice == '3':
 				# delete selected tasks
-				if self.remove(log, select):
+				if self.remove(preferences, log, select):
 					log.menuOut()
 					log.menuOut()
 					return True

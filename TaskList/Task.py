@@ -173,7 +173,7 @@ class Task:
 				
 			elif choice == '4':
 				# delete task
-				if tasks.remove(log, [index]):
+				if tasks.remove(preferences, log, [index]):
 					log.menuOut()
 					log.write('Task n°'+str(index)+' removed')
 					return True
