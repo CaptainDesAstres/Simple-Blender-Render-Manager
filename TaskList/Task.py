@@ -52,8 +52,8 @@ class Task:
 	
 	def fromXml(self, xml):
 		'''Load Task settings from xml'''
-		self.path = xml.get('path')
-		self.name = xml.get('name')
+		self.path = XML.decode(xml.get('path'))
+		self.name = XML.decode(xml.get('name'))
 		self.scene = xml.get('scene')
 		self.uid = xml.get('uid', uuid.uuid4().hex)
 		self.status = xml.get('status')
@@ -69,7 +69,8 @@ class Task:
 	
 	def toXml(self):
 		'''export in xml'''
-		xml = '<task name="'+XML.encode(self.name)+'" path="'+XML.encode(self.path)+'" scene="'+str(self.scene)\
+		xml = '<task name="'+XML.encode(self.name)+'" path="'+XML.encode(self.path)\
+				+'" scene="'+str(self.scene)\
 				+'" uid="'+self.uid+'" status="'+self.status+'" >\n'\
 				+self.info.toXml()
 		
