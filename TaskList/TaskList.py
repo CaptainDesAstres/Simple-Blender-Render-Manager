@@ -918,7 +918,7 @@ Quit : q or quit
 		index, copies = [], []
 		select.sort()
 		for i in select[:]:
-			if os.path.exists(preferences.output.path+'source/'+tasks[i].name+'.blend'):
+			if os.path.exists(preferences.output.path+'source/'+self.tasks[i].name+'.blend'):
 				copies.append(self.tasks[i].copy(self, preferences, False))
 				index.append(i)
 			else:
