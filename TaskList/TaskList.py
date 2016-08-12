@@ -371,7 +371,7 @@ Quit : q or quit
 	
 	
 	
-	def checkTaskName(self, name, preferences):
+	def isTaskNameFree(self, name, preferences):
 		'''Check if task name is free for use'''
 		# check if the name is already used by a pending task
 		for t in self.tasks:
@@ -398,7 +398,20 @@ Quit : q or quit
 	
 	
 	def getUnusedTaskName(self, name, log, preferences):
-		'''Return a free of use task name '''
+		'''Return a free of use task name'''
+		new = name.strip()
+		
+		# return original name if unused
+		if self.isTaskNameFree(new, preferences):
+			return new
+		
+		# generate a new name if needed
+		i = 1
+		while(not self.isTaskNameFree(new+' '+str(i), preferences)):
+			i+=1
+		
+		log.error('Task name already used. task name changed to '+new+' '+str(i)+'')
+		return new+' '+str(i)
 		
 	
 	
