@@ -44,6 +44,17 @@ class FileInfo:
 			log.error('  no scene in this file… Abort')
 			return None
 		
+		# count only scene with camera
+		scenesWithCam = 0
+		for s in self.scenes:
+			if s.camera:
+				scenesWithCam+=1
+		
+		# display a error message if no scene have camera
+		if scenesWithCam == 0:
+			log.error('  The scene(s) of this file have no camera to render from! Abort!')
+			return None
+		
 		# no need to choose if there is only one scene in the file
 		if scenes == 1:
 			log.write('  Only one scene to render in file.')
