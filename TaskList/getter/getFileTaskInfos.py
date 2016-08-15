@@ -13,6 +13,7 @@ for name in bpy.data.scenes.keys():
 	scene = bpy.data.scenes[name]
 	#export all scene name, starting and ending frame
 	print('  <scene name="'+XML.encode(name)+'" start="'+str(scene.frame_start)\
-			+'" end="'+str(scene.frame_end)+'" fps="'+str(scene.render.fps)+'" />')
+			+'" end="'+str(scene.frame_end)+'" fps="'+str(scene.render.fps)\
+			+'" camera="'+str(scene.camera is not None)+'" />')
 
 print('</fileInfo>')
