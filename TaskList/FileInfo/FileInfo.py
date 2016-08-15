@@ -83,8 +83,12 @@ class FileInfo:
 			# quit and render only active scene
 			if choice == '2':
 				log.menuOut()
-				log.write('  Set to render task active scene only')
-				return False
+				if self.getActive().camera:
+					log.write('  Set to render task active scene only')
+					return False
+				else:
+					Log.error('  Impossible to render the active scene: no camera set! Abort!')
+					return None
 			
 			log.error('unvalid choice')
 			
