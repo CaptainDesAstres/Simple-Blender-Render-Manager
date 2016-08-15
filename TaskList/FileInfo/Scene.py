@@ -12,7 +12,7 @@ class Scene:
 		self.start = int(xml.get('start'))
 		self.end = int(xml.get('end'))
 		self.fps = int(xml.get('fps'))
-		
+		self.camera = bool(xml.get('camera'))
 	
 	
 	
@@ -21,7 +21,8 @@ class Scene:
 	def toXml(self):
 		'''export blender scene info in xml'''
 		return '    <scene name="'+XML.encode(self.name)+'" start="'+str(self.start)\
-			+'" end="'+str(self.end)+'" fps="'+str(self.fps)+'" />\n'
+			+'" end="'+str(self.end)+'" fps="'+str(self.fps)\
+			+'" camera="'+str(self.camera)+'" />\n'
 	
 	
 	
