@@ -26,9 +26,10 @@ class TaskLog:
 		if task.scene :
 			# load all scene info
 			for scene in task.info.scenes.keys():
-				self.scenes.append(\
-								SceneLog(scene = scene, task = task)\
-								)
+				if task.info.scenes[scene].camera:
+					self.scenes.append(\
+									SceneLog(scene = scene, task = task)\
+									)
 			
 		else:
 			# load active scene info
