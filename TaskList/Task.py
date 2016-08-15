@@ -351,7 +351,7 @@ action : ''').strip().lower()
 			l.start()
 			taskList.listenerThreads.append(l)
 			
-			# creat and launch the task blender thread 
+			# create and launch the task blender thread 
 			path = preferences.output.path+'source/'+self.name+'.blend'
 			sub = subprocess.Popen(\
 						shlex.split(\

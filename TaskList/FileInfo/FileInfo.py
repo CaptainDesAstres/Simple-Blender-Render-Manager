@@ -56,15 +56,18 @@ class FileInfo:
 			return None
 		
 		# no need to choose if there is only one scene in the file
-		if scenes == 1:
+		if scenesWithCam == 1:
 			log.write('  Only one scene to render in file.')
 			return True
 		
 		# get user choice
 		log.menuIn('Scene Choice')
 		while True:
-			choice = input('there is '+str(scenes)+''' scenes in this file. Do you want to:
-	1- Render all scenes
+			if scenesWithCam == scenes:
+				print('There is '+str(scenes)+' scenes in this file. Do you want to:')
+			else:
+				print('There is '+str(scenes)+' scenes in this file but only '+str(scenesWithCam)+' have a camera set. Scene without camera will be ignore. Do you want to:')
+			choice = input('''	1- Render all scenes
 	2- Render active scene «'''+self.active+'''»
 	0- Abort''').strip().lower()
 			
