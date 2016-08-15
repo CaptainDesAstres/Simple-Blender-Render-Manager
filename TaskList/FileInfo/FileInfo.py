@@ -88,7 +88,17 @@ class FileInfo:
 			
 			log.error('unvalid choice')
 			
-		
+	
+	
+	
+	
+	
+	def getActive(self):
+		'''return active scene'''
+		for s in self.scenes:
+			if s.name = self.active:
+				return s
+		return self.scenes[0]
 	
 	
 	
