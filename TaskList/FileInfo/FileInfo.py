@@ -83,7 +83,7 @@ class FileInfo:
 			# quit and render only active scene
 			if choice == '2':
 				log.menuOut()
-				if self.getActive().camera:
+				if self.scenes[self.active].camera:
 					log.write('  Set to render task active scene only')
 					return False
 				else:
@@ -92,17 +92,6 @@ class FileInfo:
 			
 			log.error('unvalid choice')
 			
-	
-	
-	
-	
-	
-	def getActive(self):
-		'''return active scene'''
-		for s in self.scenes:
-			if s.name = self.active:
-				return s
-		return self.scenes[0]
 	
 	
 	
