@@ -42,7 +42,7 @@ class Preferences:
 		self.port = int(xml.get('port'))
 		self.archiveLimit = int(xml.get('archive'))
 		self.logLimit = int(xml.get('log'))
-		self.percentOW = xml.get('percentOW', 'always')
+		self.percentOW = xml.get('percentOW')
 	
 	
 	
@@ -121,6 +121,7 @@ menu choice?''').strip().lower()
 				'Socket Port : '+str(self.port),\
 				'Session Log Limit : '+str(self.logLimit),\
 				'Archive Limit : '+str(self.archiveLimit),\
+				'Force 100% resolution : '+self.percentOW,\
 				sep='\n'
 			)
 	
