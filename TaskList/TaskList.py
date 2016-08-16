@@ -705,7 +705,7 @@ Press enter to continue
 					else:
 						unmodified.append(i)
 				
-				# log output text
+				# log output variable part
 				if choice == '6':
 					txt = 'render all scenes'
 				elif choice == '6*':
@@ -714,6 +714,12 @@ Press enter to continue
 					txt = 'use 100% resolution settings'
 				elif choice == '7*':
 					txt = 'use file resolution percentage'
+				
+				# log report
+				if( len(modified)>0 ):
+					log.write('Task n°«'+','.join(str(x) for x in modified)+'» have been set to '+txt+'.')
+				if( len(unmodified)>0 ):
+					log.write('Task n°«'+','.join(str(x) for x in unmodified)+'» are already started and can\'t be change.')
 				
 			elif choice == '9':
 				# change selection
