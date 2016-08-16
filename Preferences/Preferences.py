@@ -176,7 +176,7 @@ menu choice?''').strip().lower()
 	
 	def editLimit(self, log, logLim):
 		'''edit log or archive limit'''
-		# get gurrent limit and set good menu
+		# get current limit and set good menu
 		if logLim:
 			log.menuIn('Edit Log Limit')
 			current = self.logLimit
@@ -188,18 +188,18 @@ menu choice?''').strip().lower()
 			log.print()
 			choice = input('\n\nCurrent limit : '+str(current)+'\n\nNew limit (0 for unlimited, q to quit) : ').strip().lower()
 			
-			if choice in ['q', 'quit', 'cancel']:# quit mithout change anything
+			if choice in ['q', 'quit', 'cancel']:# quit without change anything
 				log.menuOut()
 				return False
 			
 			try:
-				choice = int(choice)#try to get Int value
+				choice = int(choice)# try to get Int value
 			except ValueError:
 				log.error('Integer value expected!',False)
 				continue
 			
 			if choice >= 0:
-				if logLim:#set Log Limit
+				if logLim:# set Log Limit
 					self.logLimit = choice
 					log.write('Log limit set to '+str(self.logLimit))
 					
@@ -219,6 +219,41 @@ menu choice?''').strip().lower()
 	
 	def editPOW(self, log):
 		'''Edit file resolution percentage overwriting default preferences'''
+		log.menuIn('Percent Overwriting Preferences')
+		while True:
+			log.print()
+			self.print()
+			# get user preferences
+			choice = input('''\n\nDo you want to automatically set new task resolution to 100% : 
+	1- Always
+	2- Never
+	3- Demand anytime
+	0- keep setting and leave
+	
+Your choice : ''').strip().lower()
+			
+			if choice in ['0', 'q', 'quit', 'cancel']:# quit without change anything
+				log.menuOut()
+				return False
+			
+			if choice in[ '1', '2', '3']:
+				if choice == '1':
+					self.percentOW = 'always'
+					log.write('Preferences set to always set 100% resolution on new task.')
+					
+				elif choice == '2':
+					self.percentOW = 'never'
+					log.write('Preferences set to always use original file resolution of new task.')
+					
+				elif choice == '3':
+					self.percentOW = 'ondemand'
+					log.write('Preferences set to always ask user preferences when a task is added with a file containing scene with a rendering resolution percentage different from 100%.')
+				
+				log.menuOut()
+				return True# quit menu and confirm change
+				
+			else:
+				log.error('Unvalid choice! Type 1, 2, 3 or 0!')
 	
 	
 	
