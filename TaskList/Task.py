@@ -266,7 +266,8 @@ action : ''').strip().lower()
 		print('\n\nStatus :                 ' + self.status\
 				+'\nOriginal file path :     ' + self.path\
 				+'\nName :                   ' + self.name\
-				+'\nScene :                  ' + str(self.scene) + '\n'
+				+'\nRender All Scene :       ' + str(self.scene)\
+				+'\n100% Resolution :        ' + str(self.percentOW) + '\n'
 				)
 	
 	
