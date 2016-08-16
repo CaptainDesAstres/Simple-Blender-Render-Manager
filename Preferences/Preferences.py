@@ -28,6 +28,7 @@ class Preferences:
 		self.port = 55814 # socket port to communicate with blender thread
 		self.archiveLimit = 1000 # max number of task to keep in archive list
 		self.logLimit = 100 # max number of session log file to keep
+		self.percentOW = 'always'
 	
 	
 	
@@ -41,6 +42,7 @@ class Preferences:
 		self.port = int(xml.get('port'))
 		self.archiveLimit = int(xml.get('archive'))
 		self.logLimit = int(xml.get('log'))
+		self.percentOW = xml.get('percentOW', 'always')
 	
 	
 	
@@ -52,7 +54,8 @@ class Preferences:
 		
 		#export limit and socket port settings
 		xml+= '<preferences archive="'+str(self.archiveLimit)\
-				+'" log="'+str(self.logLimit)+'" port="'+str(self.port)+'">\n'
+				+'" log="'+str(self.logLimit)+'" port="'+str(self.port)\
+				+'" percentOW="'+self.percentOW+'" >\n'
 		
 		# export blender and output path
 		xml+= self.blender.toXml() + self.output.toXml() +'</preferences>\n'
