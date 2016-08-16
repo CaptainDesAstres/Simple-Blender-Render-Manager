@@ -1198,14 +1198,20 @@ What do you want to do? (type h for help)'''
 		for task in self.tasks[:]:
 			if ( task.log is not None and task.log.isComplete() )\
 					or task.status == 'erased':# archive all finished task
+				# move task from pending task list to archived task list
 				self.tasks.remove(task)
 				self.archive.append(task)
+				
 				# archive source file
 				shutil.move(\
 						preferences.output.path+'source/'+task.name+'.blend',\
 						preferences.output.path+'render/'\
 							+task.name+'/'+task.name+'.blend'\
 							)
+				
+				# save the rendering log
+				with open(preferences.output.path+'render/'+task.name+'/log','w') as logFile:
+					logFile.write(task.log.toXml())
 		
 		while len(self.archive) > limit:# respect archive limit size
 			self.archive.pop(0)
