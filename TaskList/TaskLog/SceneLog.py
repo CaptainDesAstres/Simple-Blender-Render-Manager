@@ -147,27 +147,45 @@ press enter to continue''')
 	
 	def print(self, page = 0):
 		'''Display scene rendering log'''
+		print(self.saveOutput(page))
+	
+	
+	
+	
+	
+	def saveOutput(self, page = None):
+		'''Output to save in final rendering log file'''
 		total = self.end - self.start + 1
 		remain = total - len(self.frames)
 		
-		# display resume info
-		print('Status          : '+self.status)
-		print('Rendered / total (remaining) : '+str(len(self.frames))+' / '\
-				+str(total)+'     ( remain '+str(remain)+' frames )')
-		print('Average rendering time : '+str(self.average())+' sec')
+		# write resume info
+		txt = 'Status          : '+self.status\
+			+'\nRendered / total (remaining) : '+str(len(self.frames))\
+			+' / '+str(total)+'     ( remain '+str(remain)+' frames )'\
+			+'\nAverage rendering time : '+str(self.average())+' sec'
 		
 		if len(self.frames) > 0:
-			# print table header 
-			print('Extract ('+str(page*self.pageSize+1)+' to '\
-				+str((page+1)*self.pageSize)+' of '+str(len(self.frames))+') : ')
-			print('Frame n°     rendering Date                 rendering time in seconds')
-			
-			# print frames extract
-			for fr in self.frames[page*self.pageSize:(page+1)*self.pageSize]:
-				fr.print()
+			if page is None:
+				# write table header 
+				txt+= 'Frame n°     rendering Date                 rendering time in seconds'
+				
+				# write frames extract
+				for fr in self.frames:
+					txt+= fr.saveOutput()
+				
+			else:
+				# write table header 
+				txt+='Extract ('+str(page*self.pageSize+1)+' to '\
+					+str((page+1)*self.pageSize)+' of '+str(len(self.frames))+') : '\
+					+'\nFrame n°     rendering Date                 rendering time in seconds'
+				
+				# write frames extract
+				for fr in self.frames[page*self.pageSize:(page+1)*self.pageSize]:
+					txt+= fr.saveOutput()
 			
 		else:
-			print('\n        No rendered frame')
+			txt+= '\n        No rendered frame'
+		return txt
 	
 	
 	
