@@ -20,6 +20,10 @@ def RenderingTask(task, preferences):
 		scene = bpy.data.scenes[sceneLog.name]
 		bpy.context.screen.scene = scene
 		
+		# overwrite resolution percentage settings if needed
+		if task.percentOW:
+			scene.render.resolution_percentage = 100
+		
 		# active all stamp info
 		scene.render.use_stamp_time = True
 		scene.render.use_stamp_date = True
