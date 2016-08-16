@@ -4,7 +4,7 @@
 import os, re
 
 
-def savePreferences(s, l):
+def savePreferences(s):
 	'''Save preferences file'''
 	with open(os.getcwd()+'/preferences','w') as prefFile:
 		prefFile.write(s.toXml())
