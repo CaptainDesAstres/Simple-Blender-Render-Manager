@@ -13,6 +13,7 @@ class Scene:
 		self.end = int(xml.get('end'))
 		self.fps = int(xml.get('fps'))
 		self.camera = bool(xml.get('camera'))
+		self.percent = int(xml.get('pencent'))
 	
 	
 	
@@ -22,7 +23,7 @@ class Scene:
 		'''export blender scene info in xml'''
 		return '    <scene name="'+XML.encode(self.name)+'" start="'+str(self.start)\
 			+'" end="'+str(self.end)+'" fps="'+str(self.fps)\
-			+'" camera="'+str(self.camera)+'" />\n'
+			+'" camera="'+str(self.camera)+'" percent="'+str(self.percent)+'"/>\n'
 	
 	
 	

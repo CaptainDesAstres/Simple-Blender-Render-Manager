@@ -14,6 +14,6 @@ for name in bpy.data.scenes.keys():
 	#export all scene name, starting and ending frame
 	print('  <scene name="'+XML.encode(name)+'" start="'+str(scene.frame_start)\
 			+'" end="'+str(scene.frame_end)+'" fps="'+str(scene.render.fps)\
-			+'" camera="'+str(scene.camera is not None)+'" />')
+			+'" camera="'+str(scene.camera is not None)+'" percent="'+str(scene.render.resolution_percentage)+'"/>')
 
 print('</fileInfo>')
