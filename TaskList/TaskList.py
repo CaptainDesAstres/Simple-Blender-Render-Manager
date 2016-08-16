@@ -351,6 +351,7 @@ Quit : q or quit
 		# create the task
 		task = Task(		path = path,
 							scene = scene,
+							percentOW= percentOW,
 							fileInfo = info
 							)
 		
