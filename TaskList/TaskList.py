@@ -705,6 +705,16 @@ Press enter to continue
 					else:
 						unmodified.append(i)
 				
+				# log output text
+				if choice == '6':
+					txt = 'render all scenes'
+				elif choice == '6*':
+					txt = 'only render active scene'
+				elif choice == '7':
+					txt = 'use 100% resolution settings'
+				elif choice == '7*':
+					txt = 'use file resolution percentage'
+				
 			elif choice == '9':
 				# change selection
 				log.menuOut()
