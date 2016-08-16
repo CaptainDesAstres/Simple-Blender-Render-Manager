@@ -159,7 +159,7 @@ press enter to continue''')
 		remain = total - len(self.frames)
 		
 		# write resume info
-		txt = 'Status          : '+self.status\
+		txt = 'Scene Name      : '+self.name\
 			+'\nRendered / total (remaining) : '+str(len(self.frames))\
 			+' / '+str(total)+'     ( remain '+str(remain)+' frames )'\
 			+'\nAverage rendering time : '+str(self.average())+' sec'
@@ -167,7 +167,7 @@ press enter to continue''')
 		if len(self.frames) > 0:
 			if page is None:
 				# write table header 
-				txt+= 'Frame n°     rendering Date                 rendering time in seconds'
+				txt+= '\n\nFrame n°     rendering Date                 rendering time in seconds'
 				
 				# write frames extract
 				for fr in self.frames:
@@ -175,7 +175,7 @@ press enter to continue''')
 				
 			else:
 				# write table header 
-				txt+='Extract ('+str(page*self.pageSize+1)+' to '\
+				txt+='\n\nExtract ('+str(page*self.pageSize+1)+' to '\
 					+str((page+1)*self.pageSize)+' of '+str(len(self.frames))+') : '\
 					+'\nFrame n°     rendering Date                 rendering time in seconds'
 				
