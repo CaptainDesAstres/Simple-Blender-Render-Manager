@@ -628,11 +628,15 @@ Press enter to continue
 			self.print(0, select)
 			
 			choice = input('''\nMenu :
-1- Copy
-2- Regroup And Move
-3- Remove
-4- Lock
-5- Unlock
+1-  Copy
+2-  Regroup And Move
+3-  Remove
+4-  Lock
+5-  Unlock
+6-  Enable «render all scene» option
+6*- Disable «render all scene» option
+7-  Enable resolution percentage overwriting
+7*- Disable resolution percentage overwriting
 9- Change Selection
 0- Quit
 ''')
