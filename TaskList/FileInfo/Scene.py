@@ -12,7 +12,7 @@ class Scene:
 		self.start = int(xml.get('start'))
 		self.end = int(xml.get('end'))
 		self.fps = int(xml.get('fps'))
-		self.camera = bool(xml.get('camera'))
+		self.camera = (xml.get('camera')=='True')
 		self.percent = int(xml.get('percent'))
 	
 	

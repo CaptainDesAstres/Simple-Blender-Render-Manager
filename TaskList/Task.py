@@ -55,8 +55,8 @@ class Task:
 		'''Load Task settings from xml'''
 		self.path = XML.decode(xml.get('path'))
 		self.name = XML.decode(xml.get('name'))
-		self.scene = bool(xml.get('scene'))
-		self.percentOW = bool(xml.get('percentOW'))
+		self.scene = (xml.get('scene') == 'True' )
+		self.percentOW = (xml.get('percentOW') == 'True' )
 		self.uid = xml.get('uid', uuid.uuid4().hex)
 		self.status = xml.get('status')
 		self.info = FileInfo( xml.find('fileInfo') )
@@ -139,6 +139,16 @@ class Task:
 					log.write('  all scene of task n°'+str(index)+' will be rendered.')
 				else:
 					log.write('  only active scene of task n°'+str(index)+' will be rendered.')
+				change = True
+				
+			elif choice == '2' and not started:
+				# switch resolution percentage overwrite setting settings
+				self.percentOW = not self.percentOW
+				# repport change in log
+				if self.percentOW:
+					log.write('  task n°'+str(index)+' will be rendered with 100% resolution settings.')
+				else:
+					log.write('  task n°'+str(index)+' will be rendered with file resolution percentage settings.')
 				change = True
 				
 			elif choice == '3':
