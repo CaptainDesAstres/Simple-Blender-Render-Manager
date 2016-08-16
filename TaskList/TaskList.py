@@ -750,7 +750,7 @@ Press enter to continue
 			task = self.tasks[i]
 			
 			# lock selected tasks
-			if task.status in ['ready', 'pause']:
+			if task.status == 'started':
 				task.status = 'pendinglock'
 				modified.append(i)
 				
@@ -782,7 +782,7 @@ Press enter to continue
 			
 			# unlock selected tasks
 			if task.status == 'pendinglock':
-				task.status = 'pause'
+				task.status = 'started'
 				modified.append(i)
 				
 			elif task.status == 'lock':

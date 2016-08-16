@@ -160,7 +160,7 @@ class Task:
 				
 			elif choice == '4':
 				# switch to lock/unlock the task
-				if self.status in ['ready', 'pause']:
+				if self.status == 'started':
 					self.status = 'pendinglock'
 					change = True
 					log.write('Task n°'+str(index)+' locked')
@@ -171,7 +171,7 @@ class Task:
 					log.write('Task n°'+str(index)+' locked')
 					
 				elif self.status == 'pendinglock':
-					self.status = 'pause'
+					self.status = 'started'
 					change = True
 					log.write('Task n°'+str(index)+' unlocked')
 					
@@ -345,6 +345,7 @@ action : ''').strip().lower()
 		# create task log on first running
 		if self.log is None:
 			self.log = TaskLog(task = self)
+		self.status = 'started'
 		
 		# ensure we can write in working directory
 		if not self.checkOutput(preferences):
