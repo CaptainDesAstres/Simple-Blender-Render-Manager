@@ -99,7 +99,31 @@ class FileInfo:
 				
 				log.error('unvalid choice')
 		
+		if sceneOW == 0:
+			# resolution percentage overwriting is useless
+			OWSet = False
+		elif sceneSet or self.scenes[self.active].percent != 100 :
+			log.menuIn('Resolution percentage overwriting choice')
+			while True:
+				choice = input('''All scene render resolution percentage is not 100%. Do you want to overwrite them with 100% settings? (y/n)''').strip().lower()
+				
+				# render all scene
+				if choice in ['y','yes']:
+					log.menuOut()
+					log.write('  Overwrite resolution percentage')
+					OWSet= True
+					break
+				
+				# render only active scene
+				if choice in ['n', 'no']:
+					log.menuOut()
+					log.write('  Keep file resolution percentage setting')
+					OWSet = False
+					break
+				
+				log.error('unvalid choice')
 		
+		return sceneSet, OWSet
 	
 	
 	
