@@ -690,12 +690,16 @@ Press enter to continue
 						# free to change settings
 						if choice == '6':
 							# Enable «render all scene» option
+							task.scene = True
 						elif choice == '6*':
 							# Disable «render all scene» option
+							task.scene = False
 						elif choice == '7':
 							# Enable resolution percentage overwriting
+							task.percentOW = True
 						elif choice == '7*':
 							# Disable resolution percentage overwriting
+							task.percentOW = False
 						modified.append(i)
 						
 					else:
