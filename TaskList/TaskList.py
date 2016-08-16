@@ -679,6 +679,26 @@ Press enter to continue
 				self.unlock(select, log)
 				change = True
 				
+			elif choice == '6':
+				# Enable «render all scene» option
+				
+				change = True
+				
+			elif choice == '6*':
+				# Disable «render all scene» option
+				
+				change = True
+				
+			elif choice == '7':
+				# Enable resolution percentage overwriting
+				
+				change = True
+				
+			elif choice == '7*':
+				# Disable resolution percentage overwriting
+				
+				change = True
+				
 			elif choice == '9':
 				# change selection
 				log.menuOut()
