@@ -98,10 +98,10 @@ class Task:
 			menu = '''
     Menu :
 (TASK ALREADY STARTED : SOME OPTIONS IS NOT AVAILABLE!)
-2- Change list row
-3- Lock/Unlock task
-4- Erase task
-5- Copy task
+3- Change list row
+4- Lock/Unlock task
+5- Erase task
+6- Copy task
 9- See Rendering Log
 0- Quit and save
 
@@ -109,11 +109,12 @@ class Task:
 		else: # menu if task rendering never started
 			menu = '''
     Menu :
-1- Change scene
-2- Change list row
-3- Lock/Unlock task
-4- Erase task
-5- Copy task
+1- Switch render All/Active scene(s)
+2- Switch force 100% resolution
+3- Change list row
+4- Lock/Unlock task
+5- Erase task
+6- Copy task
 0- Quit and save
 
 '''
@@ -140,14 +141,14 @@ class Task:
 					log.write('  only active scene of task n°'+str(index)+' will be rendered.')
 				change = True
 				
-			elif choice == '2':
+			elif choice == '3':
 				# move task
 				confirm, select = tasks.move(log, [index])
 				if confirm:
 					change = True
 					index = select[0]
 				
-			elif choice == '3':
+			elif choice == '4':
 				# switch to lock/unlock the task
 				if self.status in ['ready', 'pause']:
 					self.status = 'pendinglock'
@@ -173,14 +174,14 @@ class Task:
 					log.error('Task n°'+str(index)+' is not lockable/unlockable')
 				
 				
-			elif choice == '4':
+			elif choice == '5':
 				# delete task
 				if tasks.remove(preferences, log, [index]):
 					log.menuOut()
 					log.write('Task n°'+str(index)+' removed')
 					return True
 				
-			elif choice == '5':
+			elif choice == '6':
 				# made a copy of the task
 				if os.path.exists(preferences.output.path+'source/'+self.name+'.blend'):
 					tasks.tasks.append(self.copy(tasks, preferences, False))
