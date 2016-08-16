@@ -100,8 +100,8 @@ class FileInfo:
 				log.error('unvalid choice')
 		
 		if sceneOW == 0:
-			# resolution percentage overwriting is useless
-			OWSet = False
+			# all resolution percentage already set to 100%
+			OWSet = True
 			
 		elif sceneSet or self.scenes[self.active].percent != 100 :
 			log.menuIn('Resolution percentage overwriting choice')
