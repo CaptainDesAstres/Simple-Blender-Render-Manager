@@ -688,9 +688,13 @@ Press enter to continue
 					
 					if task.status in [ 'waiting', 'lock' ]:
 						# free to change settings
+						if choice == '6':
 							# Enable «render all scene» option
+						elif choice == '6*':
 							# Disable «render all scene» option
+						elif choice == '7':
 							# Enable resolution percentage overwriting
+						elif choice == '7*':
 							# Disable resolution percentage overwriting
 						modified.append(i)
 						
