@@ -241,9 +241,9 @@ Quit : q or quit
 		
 		# print page header
 		print('''
-\033[4mID |  File Name              |  Render All Scene |  Status                 |\033[0m''')
+\033[4mID |  File Name              |  Render All Scene |  Status     |\033[0m''')
 		if page > 0:
-			print('▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|')
+			print('▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲|▲▲▲▲▲▲▲▲▲▲▲▲▲|')
 		
 		if archive:# get archived task to display
 			selected = self.archive[page*Psize:(page+1)*Psize]
@@ -274,7 +274,7 @@ Quit : q or quit
 										or\
 					( archive and (page+1)*Psize <= len(self.archive) )\
 										):
-			print('▼▼▼|▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼|▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼|▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼|')
+			print('▼▼▼|▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼|▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼|▼▼▼▼▼▼▼▼▼▼▼▼▼|')
 	
 	
 	

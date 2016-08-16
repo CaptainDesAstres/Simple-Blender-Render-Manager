@@ -277,7 +277,7 @@ action : ''').strip().lower()
 		'''return task row to display in a table'''
 		return columnLimit('  '+self.name, 25, 5)\
 				+columnLimit('  '+str(self.scene), 19, 5)\
-				+columnLimit('  '+self.status, 25, 5)
+				+columnLimit('  '+self.status, 13, 5)
 	
 	
 	
