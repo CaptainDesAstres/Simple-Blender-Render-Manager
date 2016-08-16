@@ -342,8 +342,8 @@ Quit : q or quit
 		info = xmlMod.fromstring(info)
 		info = FileInfo(info)
 		
-		# scene choice
-		scene = info.sceneChoice(log)
+		# render all scene and resolution percentage overwriting choice
+		scene, percentOW = info.setChoice(log)
 		if scene is None:
 			log.menuOut()
 			return False
