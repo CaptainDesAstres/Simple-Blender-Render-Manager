@@ -45,8 +45,8 @@ class FileInfo:
 			return None, None
 		
 		# count only scene with camera and scene without 100% resolution setting
-		scenesOW, scenesWithCam = 0, 0
-		for s in self.scenes:
+		sceneOW, scenesWithCam = 0, 0
+		for s in self.scenes.values():
 			if s.camera:
 				scenesWithCam+=1
 			if s.percent != 100:
