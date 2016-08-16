@@ -57,7 +57,15 @@ class FrameLog:
 	
 	def print(self):
 		'''Display task frame rendering log'''
-		print(' ╚═ '+columnLimit((str(self.frame)), 9, sep = '')\
+		print(self.saveOutput())
+	
+	
+	
+	
+	
+	def saveOutput(self):
+		'''Output to save in final rendering log file'''
+		return (' ╚═ '+columnLimit((str(self.frame)), 9, sep = '')\
 			 +self.date.strftime('%d/%m/%Y at %H:%M')\
 			 +'            '+str(round(self.computingTime, 2)) )
 	
