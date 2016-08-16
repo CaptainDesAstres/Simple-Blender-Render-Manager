@@ -34,7 +34,7 @@ class Task:
 		self.name = '.'.join(self.name)
 		
 		self.scene = scene # False = render only active scene, True = render all scene
-		self.percentOW = percent # OverWrite file resolution pourcent setting if True
+		self.percentOW = percentOW # OverWrite file resolution pourcent setting if True
 		self.info = fileInfo # FileInfo object, contain blender file information
 		self.uid = uuid.uuid4().hex # unique ident
 		self.status = 'waiting'
