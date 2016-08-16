@@ -42,7 +42,7 @@ class FileInfo:
 		# can't add empty task file
 		if scenes == 0:
 			log.error('  no scene in this file… Abort')
-			return None
+			return None, None
 		
 		# count only scene with camera and scene without 100% resolution setting
 		scenesOW, scenesWithCam = 0, 0
@@ -55,48 +55,51 @@ class FileInfo:
 		# display a error message if no scene have camera
 		if scenesWithCam == 0:
 			log.error('  The scene(s) of this file have no camera to render from! Abort!')
-			return None
+			return None, None
 		
 		# no need to choose if there is only one scene in the file
 		if scenesWithCam == 1:
 			log.write('  Only one scene to render in file.')
-			return True
-		
-		# get user choice
-		log.menuIn('Scene Choice')
-		while True:
-			if scenesWithCam == scenes:
-				print('There is '+str(scenes)+' scenes in this file. Do you want to:')
-			else:
-				print('There is '+str(scenes)+' scenes in this file but only '+str(scenesWithCam)+' have a camera set. Scene without camera will be ignore. Do you want to:')
-			choice = input('''	1- Render all scenes
+			sceneSet = True
+		else:
+			# get user choice
+			log.menuIn('Scene Choice')
+			while True:
+				if scenesWithCam == scenes:
+					print('There is '+str(scenes)+' scenes in this file. Do you want to:')
+				else:
+					print('There is '+str(scenes)+' scenes in this file but only '+str(scenesWithCam)+' have a camera set. Scene without camera will be ignore. Do you want to:')
+				choice = input('''	1- Render all scenes
 	2- Render active scene «'''+self.active+'''»
 	0- Abort''').strip().lower()
-			
-			# quit and abort task adding
-			if choice in [ '', 'q', '0' ]:
-				log.menuOut()
-				log.write('  Abort task adding')
-				return None
-			
-			# quit and render all scene
-			if choice == '1':
-				log.menuOut()
-				log.write('  Set to render all task scene')
-				return True
-			
-			# quit and render only active scene
-			if choice == '2':
-				log.menuOut()
-				if self.scenes[self.active].camera:
-					log.write('  Set to render task active scene only')
-					return False
-				else:
-					Log.error('  Impossible to render the active scene: no camera set! Abort!')
-					return None
-			
-			log.error('unvalid choice')
-			
+				
+				# quit and abort task adding
+				if choice in [ '', 'q', '0' ]:
+					log.menuOut()
+					log.write('  Abort task adding')
+					return None, None
+				
+				# render all scene
+				if choice == '1':
+					log.menuOut()
+					log.write('  Set to render all task scene')
+					sceneSet= True
+					break
+				
+				# render only active scene
+				if choice == '2':
+					log.menuOut()
+					if self.scenes[self.active].camera:
+						log.write('  Set to render task active scene only')
+						sceneSet = False
+						break
+					else:
+						Log.error('  Impossible to render the active scene: no camera set! Abort!')
+						return None,None
+				
+				log.error('unvalid choice')
+		
+		
 	
 	
 	
