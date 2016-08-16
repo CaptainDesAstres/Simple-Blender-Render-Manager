@@ -4,9 +4,9 @@
 import os, re
 
 
-def savePreferences(s):
+def savePreferences(s, l):
 	'''Save preferences file'''
-	with open(os.getcwd()+'preferences','w') as prefFile:
+	with open(os.getcwd()+'/preferences','w') as prefFile:
 		prefFile.write(s.toXml())
 
 def saveTasks(output, t):
