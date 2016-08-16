@@ -81,6 +81,7 @@ class Preferences:
 3- Edit Log Limit
 4- Edit Archive Size Limit
 5- Edit Socket Port
+6- Edit Percentage Overwriting Preferences
 0- Save and quit
 
 menu choice?''').strip().lower()
@@ -101,6 +102,9 @@ menu choice?''').strip().lower()
 				
 			elif choice == '5':# edit socket port for blender thread communication
 				change = self.editPort(log)
+				
+			elif choice == '6':# Edit Percentage Overwriting Preferences
+				change = self.editPOW(log)
 				
 			else:# bad choice
 				log.error('Unknow request!', False)
@@ -208,6 +212,13 @@ menu choice?''').strip().lower()
 				
 			else:
 				log.error('Expect a positive Integer value!')
+	
+	
+	
+	
+	
+	def editPOW(self, log):
+		'''Edit file resolution percentage overwriting default preferences'''
 	
 	
 	
