@@ -686,7 +686,7 @@ Press enter to continue
 				for i in select:
 					task = self.tasks[i]
 					
-					if task.status in [ 'waiting', 'lock' ]:
+					if task.log is None:
 						# free to change settings
 						if choice == '6':
 							# Enable «render all scene» option
