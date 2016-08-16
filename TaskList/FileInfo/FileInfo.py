@@ -35,8 +35,8 @@ class FileInfo:
 	
 	
 	
-	def sceneChoice(self, log):
-		'''choose between render the active scene or all the scene'''
+	def setChoice(self, log):
+		'''choose between render the active scene or all the scene and between respect file resolution percentage or overwrite it'''
 		scenes = len(self.scenes)
 		
 		# can't add empty task file
@@ -44,11 +44,13 @@ class FileInfo:
 			log.error('  no scene in this file… Abort')
 			return None
 		
-		# count only scene with camera
-		scenesWithCam = 0
+		# count only scene with camera and scene without 100% resolution setting
+		scenesOW, scenesWithCam = 0, 0
 		for s in self.scenes:
 			if s.camera:
 				scenesWithCam+=1
+			if s.percent != 100:
+				sceneOW+= 1
 		
 		# display a error message if no scene have camera
 		if scenesWithCam == 0:
