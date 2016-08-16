@@ -108,7 +108,7 @@ class TaskLog:
 	
 	def print(self, index = False):
 		'''Display task log info'''
-		print(''+str(len(self.scenes))+' scene(s) in this task:')
+		print(str(len(self.scenes))+' scene(s) in this task:')
 		
 		ended, total = 0, 0
 		
@@ -138,6 +138,19 @@ class TaskLog:
 				return False
 		return True
 	
+	
+	
+	
+	
+	def saveOutput(self):
+		'''Output to save in final rendering log file'''
+		txt= str(len(self.scenes))+' scene(s) rendered for this task:'
+		
+		for i, scene in enumerate(self.scenes):
+			# write each scene log
+			txt+= '\n\n\n\n'+scene.saveOutput()
+		
+		return txt
 	
 	
 	
