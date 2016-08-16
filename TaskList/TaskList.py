@@ -679,25 +679,23 @@ Press enter to continue
 				self.unlock(select, log)
 				change = True
 				
-			elif choice == '6':
-				# Enable «render all scene» option
-				
+			elif choice in [ '6', '6*', '7', '7*' ]:
 				change = True
-				
-			elif choice == '6*':
-				# Disable «render all scene» option
-				
-				change = True
-				
-			elif choice == '7':
-				# Enable resolution percentage overwriting
-				
-				change = True
-				
-			elif choice == '7*':
-				# Disable resolution percentage overwriting
-				
-				change = True
+				unmodified, modified = [], []
+				# edit all selected task
+				for i in select:
+					task = self.tasks[i]
+					
+					if task.status in [ 'waiting', 'lock' ]:
+						# free to change settings
+							# Enable «render all scene» option
+							# Disable «render all scene» option
+							# Enable resolution percentage overwriting
+							# Disable resolution percentage overwriting
+						modified.append(i)
+						
+					else:
+						unmodified.append(i)
 				
 			elif choice == '9':
 				# change selection
