@@ -1211,7 +1211,7 @@ What do you want to do? (type h for help)'''
 				
 				# save the rendering log
 				with open(preferences.output.path+'render/'+task.name+'/log','w') as logFile:
-					logFile.write(task.log.toXml())
+					logFile.write(task.log.saveOutput())
 		
 		while len(self.archive) > limit:# respect archive limit size
 			self.archive.pop(0)
