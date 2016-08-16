@@ -11,12 +11,12 @@ class Task:
 	'''class to manage task settings'''
 	
 	
-	def __init__(self, path = None, scene = None, fileInfo = None, xml= None):
+	def __init__(self, path = None, scene = None, percentOW = None, fileInfo = None, xml= None):
 		'''load task settings'''
 		self.log = None # task rendering log
 		
 		if xml is None:
-			self.defaultInit( path, scene, fileInfo )
+			self.defaultInit( path, scene, percentOW, fileInfo )
 		else:
 			self.fromXml(xml)
 	
@@ -24,7 +24,7 @@ class Task:
 	
 	
 	
-	def defaultInit(self, path, scene, fileInfo):
+	def defaultInit(self, path, scene, percentOW, fileInfo):
 		'''load new Task settings'''
 		self.path = path # path to the original blender file
 		
@@ -34,6 +34,7 @@ class Task:
 		self.name = '.'.join(self.name)
 		
 		self.scene = scene # False = render only active scene, True = render all scene
+		self.percentOW = percent # OverWrite file resolution pourcent setting if True
 		self.info = fileInfo # FileInfo object, contain blender file information
 		self.uid = uuid.uuid4().hex # unique ident
 		self.status = 'waiting'
@@ -55,6 +56,7 @@ class Task:
 		self.path = XML.decode(xml.get('path'))
 		self.name = XML.decode(xml.get('name'))
 		self.scene = bool(xml.get('scene'))
+		self.percentOW = bool(xml.get('percentOW'))
 		self.uid = xml.get('uid', uuid.uuid4().hex)
 		self.status = xml.get('status')
 		self.info = FileInfo( xml.find('fileInfo') )
@@ -71,7 +73,7 @@ class Task:
 		'''export in xml'''
 		xml = '<task name="'+XML.encode(self.name)+'" path="'+XML.encode(self.path)\
 				+'" scene="'+str(self.scene)\
-				+'" uid="'+self.uid+'" status="'+self.status+'" >\n'\
+				+'" uid="'+self.uid+'" status="'+self.status+'" percentOW="'+str(self.percentOW)+'" >\n'\
 				+self.info.toXml()
 		
 		# export rendering task log
