@@ -276,7 +276,7 @@ action : ''').strip().lower()
 	def getRow(self):
 		'''return task row to display in a table'''
 		return columnLimit('  '+self.name, 25, 5)\
-				+columnLimit('  '+str(self.scene), 25, 5)\
+				+columnLimit('  '+str(self.scene), 19, 5)\
 				+columnLimit('  '+self.status, 25, 5)
 	
 	
