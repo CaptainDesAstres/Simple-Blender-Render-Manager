@@ -99,9 +99,13 @@ class FileInfo:
 				
 				log.error('unvalid choice')
 		
-		if sceneOW == 0:
-			# all resolution percentage already set to 100%
+		if preferences.pourcentOW == 'always' or sceneOW == 0:
+			# automatically force 100% resolution
 			OWSet = True
+			
+		elif preferences.pourcentOW == 'never':
+			# # automatically use file render resolution percentage
+			OWSet = False
 			
 		elif sceneSet or self.scenes[self.active].percent != 100 :
 			log.menuIn('Resolution percentage overwriting choice')
