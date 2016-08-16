@@ -102,10 +102,12 @@ class FileInfo:
 		if preferences.pourcentOW == 'always' or sceneOW == 0:
 			# automatically force 100% resolution
 			OWSet = True
+			log.write('  Automatically overwrite file resolution percentage')
 			
 		elif preferences.pourcentOW == 'never':
-			# # automatically use file render resolution percentage
+			# automatically use file render resolution percentage
 			OWSet = False
+			log.write('  Automatically keep file resolution percentage setting')
 			
 		elif sceneSet or self.scenes[self.active].percent != 100 :
 			log.menuIn('Resolution percentage overwriting choice')
@@ -117,7 +119,7 @@ class FileInfo:
 				# overwrite file settings
 				if choice in ['y','yes']:
 					log.menuOut()
-					log.write('  Overwrite resolution percentage')
+					log.write('  Overwrite file resolution percentage')
 					OWSet= True
 					break
 				
