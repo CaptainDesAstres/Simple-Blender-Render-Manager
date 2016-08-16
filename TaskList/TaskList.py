@@ -343,7 +343,7 @@ Quit : q or quit
 		info = FileInfo(info)
 		
 		# render all scene and resolution percentage overwriting choice
-		scene, percentOW = info.setChoice(log)
+		scene, percentOW = info.setChoice(log, preferences)
 		if scene is None:
 			log.menuOut()
 			return False

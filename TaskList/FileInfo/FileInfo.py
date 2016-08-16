@@ -35,7 +35,7 @@ class FileInfo:
 	
 	
 	
-	def setChoice(self, log):
+	def setChoice(self, log, preferences):
 		'''choose between render the active scene or all the scene and between respect file resolution percentage or overwrite it'''
 		scenes = len(self.scenes)
 		
