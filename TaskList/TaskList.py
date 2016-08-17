@@ -437,6 +437,8 @@ Quit : q or quit
 			print('0- Abort and quit')
 			
 			# get user confirmation or demand
+			choice = input('\n\nPress enter to continue, or 0 to abort, or a number between 1 and 4 to switch mode : ').strip().lower()
+			
 			# follow user quit order
 			# follow user switch command
 			# follow user confirmation order
