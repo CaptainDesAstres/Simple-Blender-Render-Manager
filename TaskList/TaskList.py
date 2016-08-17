@@ -408,6 +408,8 @@ Quit : q or quit
 		while True:
 			log.print()
 			
+			print('\t\t\tDirectory task add mode:\n\n')
+			
 			# print recursive mode
 			if recursive:
 				print('1- Search in subfolder')
@@ -427,6 +429,13 @@ Quit : q or quit
 				print('3- Only render active scenes of each files')
 			
 			# print percent overwriting mode
+			if percentOW:
+				print('4- Force to render with 100% resolution')
+			else:
+				print('4- Respect files resolution percentage settings')
+			
+			print('0- Abort and quit')
+			
 			# get user confirmation or demand
 			# follow user quit order
 			# follow user switch command
