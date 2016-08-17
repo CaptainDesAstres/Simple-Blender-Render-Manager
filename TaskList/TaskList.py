@@ -393,6 +393,13 @@ Quit : q or quit
 	
 	def addDirectory(self, log, preferences, path):
 		'''Add a task for each blender file of a directory'''
+		# Set default recursive method, backup method, scene mode
+		recursive = False
+		backup = False
+		allScene = True
+		
+		# get default resolution overwriting settings
+		percentOW = preferences.percentOW
 		
 	
 	
