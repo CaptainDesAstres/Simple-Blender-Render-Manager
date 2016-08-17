@@ -483,6 +483,10 @@ Quit : q or quit
 	
 	def getTasksPaths( self, path, recursive, backup ):
 		'''return a list of paths to blender files inside a directory'''
+		# ensure path end by /
+		if path[-1] != '/':
+			path += '/'
+		
 		# get directory content
 		content = os.listdir(path).sort()
 		
