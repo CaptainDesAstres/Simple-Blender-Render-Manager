@@ -473,7 +473,11 @@ Quit : q or quit
 		# add a task for each path
 		for p in paths:
 			# try to open file and get scene infos
-			
+			command = '("'+preferences.blender.path\
+							+'" -b "'+p+'" -P "'+os.path.realpath(__file__+'/..')\
+							+'/getter/getFileTaskInfos.py")'\
+							+' || echo \'BlenderVersionError\' '
+			info = os.popen(command).read()
 			
 			# treat blender running error
 			
