@@ -421,6 +421,11 @@ Quit : q or quit
 				print('2- Only add «.blend» files')
 			
 			# print scene mode
+			if allScene:
+				print('3- Render all scenes of each files')
+			else:
+				print('3- Only render active scenes of each files')
+			
 			# print percent overwriting mode
 			# get user confirmation or demand
 			# follow user quit order
