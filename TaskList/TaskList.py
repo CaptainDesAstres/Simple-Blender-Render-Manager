@@ -451,7 +451,21 @@ Quit : q or quit
 				break
 			
 			# follow user switch command
-			# reject unvalid order
+			if choice == '1':
+				recursive = not recursive
+				
+			elif choice == '2':
+				backup = not backup
+				
+			elif choice == '3':
+				allScene = not allScene
+				
+			elif choice == '4':
+				percentOW = not percentOW
+				
+			else:
+				# reject unvalid order
+				log.error('Unvalid operation')
 			
 		
 		log.menuOut()
