@@ -322,7 +322,11 @@ Quit : q or quit
 			log.menuOut()
 			break
 		
-		confirm = self.addFile(log, preferences, path)
+		if os.path.isfile(path):
+			confirm = self.addFile(log, preferences, path)
+		else:
+			confirm = self.addDirectory(log, preferences, path)
+		
 		log.menuOut()
 		return confirm
 	
@@ -382,6 +386,14 @@ Quit : q or quit
 		log.write('  add task «'+path+'»')
 		
 		return True
+	
+	
+	
+	
+	
+	def addDirectory(self, log, preferences, path):
+		'''Add a task for each blender file of a directory'''
+		
 	
 	
 	
