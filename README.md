@@ -1,8 +1,5 @@
 # Blender-Render-Manager
-A Python script to manage multiple blender rendering tasks on Linux
+A Python script to manage a list of blender rendering tasks on Linux
 
 
-Still in developpment 
-
-
-(Write in approximative english by a french approximative english speaker! Be indulgent!)
+(Write in approximative english by a french approximative english speaker! Be forgiving!)
