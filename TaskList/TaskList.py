@@ -499,7 +499,7 @@ Quit : q or quit
 								)
 			
 			# insure against name collision
-			task.name = self.getUnusedTaskName( task.name, preferences, log )
+			task.name = self.getUnusedTaskName( task.name, preferences )
 			
 			# copy file in task list directory
 			shutil.copy(\
