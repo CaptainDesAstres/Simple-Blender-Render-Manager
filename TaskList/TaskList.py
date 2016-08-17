@@ -409,6 +409,11 @@ Quit : q or quit
 			log.print()
 			
 			# print recursive mode
+			if recursive:
+				print('1- Search in subfolder')
+			else:
+				print('1- Ignore subfolder')
+			
 			# print backup mode
 			# print scene mode
 			# print percent overwriting mode
