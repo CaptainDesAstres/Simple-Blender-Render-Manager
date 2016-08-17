@@ -401,6 +401,13 @@ Quit : q or quit
 		# get default resolution overwriting mode
 		percentOW = (preferences.percentOW == 'always')
 		
+		log.menuIn('Add directory task(s) content')
+		log.menuIn('Add mode')
+		
+		# get user choice:
+		
+		
+		log.menuOut()
 	
 	
 	
