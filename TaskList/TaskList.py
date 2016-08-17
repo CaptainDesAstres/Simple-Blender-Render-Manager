@@ -307,9 +307,9 @@ Quit : q or quit
 			
 			# check if the file exist
 			if not os.path.exists(path) \
-					or not os.path.isfile(path) \
+					or (not os.path.isfile(path) and not os.path.isdir(path) )\
 					or not os.access(path, os.R_OK):
-				log.error('"'+path+'" didn\'t exist, is not a file or is not readable!')
+				log.error('"'+path+'" didn\'t exist or you don\'t have the permission to read it')
 				continue
 			
 			# check if path point to a .blend file
