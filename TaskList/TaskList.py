@@ -313,8 +313,9 @@ Quit : q or quit
 				continue
 			
 			# check if path point to a .blend file
-			if len(path) < 7 or re.search(r'.blend\d{0,10}$', path) is None:
-				log.error('"'+path+'" path don\'t seemed to be a blender file (need .blend extension).')
+			if os.path.isfile(path) and \
+					(len(path) < 7 or re.search(r'.blend\d{0,10}$', path) is None):
+				log.error('"'+path+'" path don\'t seemed to be a blender file (need a .blend extension) nor a directory.')
 				continue
 			
 			# accept path
