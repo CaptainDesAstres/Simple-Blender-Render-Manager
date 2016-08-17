@@ -440,8 +440,13 @@ Quit : q or quit
 			choice = input('\n\nPress enter to continue, or 0 to abort, or a number between 1 and 4 to switch mode : ').strip().lower()
 			
 			# follow user quit order
-			# follow user switch command
+			if choice in ['0', 'q', 'quit', 'cancel', 'abort']:
+				log.menuOut()
+				log.menuOut()
+				return False
+			
 			# follow user confirmation order
+			# follow user switch command
 			# reject unvalid order
 			
 		
