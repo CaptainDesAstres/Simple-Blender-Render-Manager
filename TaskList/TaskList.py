@@ -508,7 +508,8 @@ Quit : q or quit
 						)
 			
 			# add the task and confirm in log
-			
+			self.tasks.append( task )
+			log.write('  add «'+p+'», task name is «'+task.name+'» (task n°'+str(len(self.tasks))+')')
 		
 		# confirm and quit
 		log.menuOut()
