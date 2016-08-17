@@ -486,7 +486,9 @@ Quit : q or quit
 				continue
 			
 			# parse file information
-			
+			info = re.search(r'<\?xml(.|\n)*</fileInfo>',info).group(0)
+			info = xmlMod.fromstring(info)
+			info = FileInfo(info)
 			
 			# create the task
 			
