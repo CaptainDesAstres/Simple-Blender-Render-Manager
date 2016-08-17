@@ -321,6 +321,17 @@ Quit : q or quit
 			# accept path
 			log.menuOut()
 			break
+		
+		confirm = self.addFile(log, preferences, path)
+		log.menuOut()
+		return confirm
+	
+	
+	
+	
+	
+	def addFile(self, log, preferences, path):
+		'''Add a task from a path'''
 		log.write('Try to add "'+path+'" task:')
 		
 		# try to open file and get scene infos
@@ -370,7 +381,6 @@ Quit : q or quit
 		self.tasks.append( task )
 		log.write('  add task «'+path+'»')
 		
-		log.menuOut()
 		return True
 	
 	
