@@ -466,9 +466,24 @@ Quit : q or quit
 			else:
 				# reject unvalid order
 				log.error('Unvalid operation')
-			
 		
+		# get task paths
+		paths = self.getTasksPaths( path, recursive, backup )
+		
+		# create and add a task for each path
+		
+		
+		# confirm and quit
 		log.menuOut()
+		return True
+	
+	
+	
+	
+	
+	def getTasksPaths( self, path, recursive, backup ):
+		'''return a list of paths to blender files inside a directory'''
+		
 	
 	
 	
