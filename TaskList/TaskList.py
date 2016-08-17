@@ -446,6 +446,10 @@ Quit : q or quit
 				return False
 			
 			# follow user confirmation order
+			if choice in ['', 'confirm', 'yes', 'y', 'ok', 'continue']:
+				log.menuOut()
+				break
+			
 			# follow user switch command
 			# reject unvalid order
 			
