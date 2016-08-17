@@ -491,6 +491,11 @@ Quit : q or quit
 			info = FileInfo(info)
 			
 			# create the task
+			task = Task(		path = p,
+								scene = allScene,
+								percentOW= percentOW,
+								fileInfo = info
+								)
 			
 			
 			# insure against name collision
