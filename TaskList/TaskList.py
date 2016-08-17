@@ -283,12 +283,12 @@ Quit : q or quit
 	def add(self, log, preferences):
 		'''Add task to the list'''
 		log.menuIn('Add Task')
-		log.menuIn('File Path')
+		log.menuIn('Task(s) Path')
 		
 		while True:
 			# get path to the new file
 			log.print()
-			path = input("\n\n        Add File :\n\n\nWhat's the absolute path of the file to add (empty input to quit)").strip()
+			path = input("\n\n        Add Task(s) :\n\n\nGive the path of a blender file (or the path of a directory containing multiple blender file to add them all, or empty input to quit) :").strip()
 			
 			if path.lower() in ['', 'cancel', 'quit', 'q']:
 				# quit without adding any task
