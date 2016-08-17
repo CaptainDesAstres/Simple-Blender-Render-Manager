@@ -470,7 +470,28 @@ Quit : q or quit
 		# get task paths
 		paths = self.getTasksPaths( path, recursive, backup )
 		
-		# create and add a task for each path
+		# add a task for each path
+		
+		
+		# try to open file and get scene infos
+		
+		
+		# treat blender running error
+		
+		
+		# parse file information
+		
+		
+		# create the task
+		
+		
+		# insure against name collision
+		
+		
+		# copy file in task list directory
+		
+		
+		# add the task and confirm in log
 		
 		
 		# confirm and quit
