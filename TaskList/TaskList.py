@@ -537,7 +537,8 @@ Quit : q or quit
 			path += '/'
 		
 		# get directory content
-		content = os.listdir(path).sort()
+		content = os.listdir(path)
+		content.sort()
 		
 		#init path and subdirectory list
 		paths = []
