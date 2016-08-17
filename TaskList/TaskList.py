@@ -490,6 +490,10 @@ Quit : q or quit
 		# get directory content
 		content = os.listdir(path).sort()
 		
+		#init path and subdirectory list
+		paths = []
+		subdirectory = []
+		
 		# get all blender file path (including backup file)
 		
 		# get all blender file path (excluding backup file)
