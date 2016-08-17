@@ -513,6 +513,10 @@ Quit : q or quit
 					subdirectory.append(path+f)
 		
 		# get all blender file in sub folder
+		for s in subdirectory:
+			paths += self.getTasksPaths( path+s, recursive, backup )
+		
+		return paths
 	
 	
 	
