@@ -499,10 +499,18 @@ Quit : q or quit
 			for f in content:
 				if os.path.isfile(path+f) and  re.search(r'.blend\d{0,10}$', f) is not None):
 					paths.append(path+f)
+					
 				elif os.path.isdir(path+f):
 					subdirectory.append(path+f)
+			
 		else:
 			# get all blender file path (excluding backup file)
+			for f in content:
+				if os.path.isfile(path+f) and len(f) > 6 and f[-6:] == '.blend':
+					paths.append(path+f)
+					
+				elif os.path.isdir(path+f):
+					subdirectory.append(path+f)
 		
 		# get all blender file in sub folder
 	
