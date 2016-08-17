@@ -511,6 +511,17 @@ Quit : q or quit
 			self.tasks.append( task )
 			log.write('  add «'+p+'», task name is «'+task.name+'» (task n°'+str(len(self.tasks))+')')
 		
+		# report in log
+		if recursive and backup:
+			mode = 'including subfolders content and backup files'
+		elif not recursive and not backup:
+			mode = 'excluding subfolders content and backup files'
+		elif not recursive and backup:
+			mode = 'including backup files and excluding subfolders content'
+		else:
+			mode = 'including subfolder content and excluding backup files'
+		log.write('  all blender file of «'+path+'» have been added ('+mode+').')
+		
 		# confirm and quit
 		log.menuOut()
 		return True
