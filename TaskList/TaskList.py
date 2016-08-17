@@ -471,6 +471,7 @@ Quit : q or quit
 		paths = self.getTasksPaths( path, recursive, backup )
 		
 		# add a task for each path
+		log.write('\nBegin to add all blender file of «'+path+'».\n')
 		preferences.output.checkAndCreate()# check all output directory exists
 		for p in paths:
 			# try to open file and get scene infos
@@ -483,7 +484,8 @@ Quit : q or quit
 			# treat blender running error
 			if info.count('BlenderVersionError') != 0:
 				# treat blender running error
-				log.error('Blender launch error while trying to add «'+p+'»! Can\'t add this task!')
+				log.error('Blender launch error while trying to add «'+p\
+							+'»! Can\'t add this task!')
 				continue
 			
 			# parse file information
@@ -509,7 +511,8 @@ Quit : q or quit
 			
 			# add the task and confirm in log
 			self.tasks.append( task )
-			log.write('  add «'+p+'», task name is «'+task.name+'» (task n°'+str(len(self.tasks))+')')
+			log.write('    ╚═  add «'+p+'», task name is «'+task.name\
+					+'» (task n°'+str(len(self.tasks))+')')
 		
 		# report in log
 		if recursive and backup:
@@ -520,7 +523,7 @@ Quit : q or quit
 			mode = 'including backup files and excluding subfolders content'
 		else:
 			mode = 'including subfolder content and excluding backup files'
-		log.write('  all blender file of «'+path+'» have been added ('+mode+').')
+		log.write('\n\nAll blender file of «'+path+'» have been added ('+mode+').\n\n')
 		
 		# confirm and quit
 		log.menuOut()
