@@ -546,7 +546,7 @@ Quit : q or quit
 		if backup:
 			# get all blender file path (including backup file)
 			for f in content:
-				if os.path.isfile(path+f) and  re.search(r'.blend\d{0,10}$', f) is not None):
+				if os.path.isfile(path+f) and  re.search(r'.blend\d{0,10}$', f) is not None:
 					paths.append(path+f)
 					
 				elif os.path.isdir(path+f):
