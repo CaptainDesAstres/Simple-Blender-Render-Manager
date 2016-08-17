@@ -483,7 +483,14 @@ Quit : q or quit
 	
 	def getTasksPaths( self, path, recursive, backup ):
 		'''return a list of paths to blender files inside a directory'''
+		# get directory content
+		content = os.listdir(path).sort()
 		
+		# get all blender file path (including backup file)
+		
+		# get all blender file path (excluding backup file)
+		
+		# get all blender file in sub folder
 	
 	
 	
