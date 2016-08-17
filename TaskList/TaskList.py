@@ -497,9 +497,8 @@ Quit : q or quit
 								fileInfo = info
 								)
 			
-			
 			# insure against name collision
-			
+			task.name = self.getUnusedTaskName( task.name, preferences, log )
 			
 			# copy file in task list directory
 			
