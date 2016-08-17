@@ -405,7 +405,19 @@ Quit : q or quit
 		log.menuIn('Add mode')
 		
 		# get user choice:
-		
+		while True:
+			log.print()
+			
+			# print recursive mode
+			# print backup mode
+			# print scene mode
+			# print percent overwriting mode
+			# get user confirmation or demand
+			# follow user quit order
+			# follow user switch command
+			# follow user confirmation order
+			# reject unvalid order
+			
 		
 		log.menuOut()
 	
