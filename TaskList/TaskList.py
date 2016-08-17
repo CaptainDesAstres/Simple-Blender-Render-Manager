@@ -471,6 +471,7 @@ Quit : q or quit
 		paths = self.getTasksPaths( path, recursive, backup )
 		
 		# add a task for each path
+		preferences.output.checkAndCreate()# check all output directory exists
 		for p in paths:
 			# try to open file and get scene infos
 			command = '("'+preferences.blender.path\
@@ -501,7 +502,10 @@ Quit : q or quit
 			task.name = self.getUnusedTaskName( task.name, preferences, log )
 			
 			# copy file in task list directory
-			
+			shutil.copy(\
+					task.path,\
+					preferences.output.path+'source/'+task.name+'.blend'\
+						)
 			
 			# add the task and confirm in log
 			
