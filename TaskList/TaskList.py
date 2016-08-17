@@ -480,7 +480,10 @@ Quit : q or quit
 			info = os.popen(command).read()
 			
 			# treat blender running error
-			
+			if info.count('BlenderVersionError') != 0:
+				# treat blender running error
+				log.error('Blender launch error while trying to add «'+p+'»! Can\'t add this task!')
+				continue
 			
 			# parse file information
 			
