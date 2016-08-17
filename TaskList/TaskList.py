@@ -415,6 +415,11 @@ Quit : q or quit
 				print('1- Ignore subfolder')
 			
 			# print backup mode
+			if backup:
+				print('2- Add blender backup files too («.blend1», «.blend2», etc…)')
+			else:
+				print('2- Only add «.blend» files')
+			
 			# print scene mode
 			# print percent overwriting mode
 			# get user confirmation or demand
